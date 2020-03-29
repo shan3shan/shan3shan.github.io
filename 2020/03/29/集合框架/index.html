@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>集合框架 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="集合框架集合接口 数组和集合的区别 数组定长，集合变长，可自动扩容。 数组元素固定，集合元素可以不同。  Collection接口和Map接口 Collection是高度抽象出来的集合，包含了集合的基本特性。 派生出了 Set  List Queue Map派生出了各种Map接口。   详细List ArrayList  是一个动态数组 允许任何合法的元素包括null。 添加元素时会有容量检测，自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集合框架">
+<meta property="og:url" content="http://yoursite.com/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="集合框架集合接口 数组和集合的区别 数组定长，集合变长，可自动扩容。 数组元素固定，集合元素可以不同。  Collection接口和Map接口 Collection是高度抽象出来的集合，包含了集合的基本特性。 派生出了 Set  List Queue Map派生出了各种Map接口。   详细List ArrayList  是一个动态数组 允许任何合法的元素包括null。 添加元素时会有容量检测，自">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-29T14:24:19.843Z">
+<meta property="article:modified_time" content="2020-02-25T01:41:55.562Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-集合框架" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      集合框架
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="集合框架"><a href="#集合框架" class="headerlink" title="集合框架"></a>集合框架</h1><h4 id="集合接口"><a href="#集合接口" class="headerlink" title="集合接口"></a>集合接口</h4><ul>
+<li><p>数组和集合的区别</p>
+<p>数组定长，集合变长，可自动扩容。</p>
+<p>数组元素固定，集合元素可以不同。</p>
+</li>
+<li><p>Collection接口和Map接口</p>
+<p>Collection是高度抽象出来的集合，包含了集合的基本特性。</p>
+<p>派生出了 Set  List Queue</p>
+<p>Map派生出了各种Map接口。</p>
+</li>
+</ul>
+<h4 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h4><h5 id="List"><a href="#List" class="headerlink" title="List"></a>List</h5><ul>
+<li><p>ArrayList</p>
+<ul>
+<li>是一个动态数组</li>
+<li>允许任何合法的元素包括null。</li>
+<li>添加元素时会有容量检测，自动扩充。</li>
+<li>再明确的情况下尽量给予初始值。</li>
+<li>擅长随机访问。</li>
+<li>方法： size、isEmpty、get、set、iterator 和 listIterator  </li>
+<li>查找快，增删慢</li>
+</ul>
+</li>
+<li><p>LinkedList</p>
+<pre><code>* 双向链表
+      * 不能随机访问
+* 提供了get，remove，insert方法在LinkedList的首部和尾部。
+   * 非同步的。
+   * 查找慢，增删快</code></pre></li>
+<li><p>Vector </p>
+<ul>
+<li>和ArrayList几乎一样，区别是Vector是线程安全的。</li>
+</ul>
+</li>
+<li><p>Stack</p>
+<ul>
+<li>继承自Vector，实现后进先出的下压栈</li>
+<li>push，pop，peek（得到栈顶元素），empty，search（检测元素在栈中的位置）</li>
+</ul>
+</li>
+</ul>
+<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><p>set是一种不包括重复元素的Collection，允许存在null值但只可以存在一个。</p>
+<ul>
+<li><p>HashSet</p>
+<ul>
+<li>HashSet是由HashMap实现的，key保存hashcode，value保存值。</li>
+<li>使用hash算法存储元素，因此查找和存取的性能不错。</li>
+</ul>
+</li>
+<li><p>LinkedHashSet</p>
+<ul>
+<li>继承自HashSet，基于LinkedHashMap实现的，有序，非同步。</li>
+<li>使用hashcode值来决定元素的存储位置，同时使用链表维护元素的次序。</li>
+</ul>
+</li>
+<li><p>TreeSet</p>
+<ul>
+<li>TreeSet是SortedSet接口的唯一实现类，TreeSet可以确保集合元素处于排序状态。TreeSet支持两种排序方式，自然排序和定制排序，其中自然排序为默认的排序方式。向TreeSet中加入的应该是同一个类的对象。<br> TreeSet判断两个对象不相等的方式是两个对象通过equals方法返回false，或者通过CompareTo方法比较没有返回0。<br>自然排序<br> 自然排序使用要排序元素的CompareTo（Object obj）方法来比较元素之间大小关系，然后将元素按照升序排列。<br> Java提供了一个Comparable接口，该接口里定义了一个compareTo(Object obj)方法，该方法返回一个整数值，实现了该接口的对象就可以比较大小。obj1.compareTo(obj2)方法如果返回0，则说明被比较的两个对象相等，如果返回一个正数，则表明obj1大于obj2，如果是负数，则表明obj1小于obj2。如果我们将两个对象的equals方法总是返回true，则这两个对象的compareTo方法返回应该返回0。<br>定制排序<br> 自然排序是根据集合元素的大小，以升序排列，如果要定制排序，应该使用Comparator接口，实现 int compare(T o1,T o2)方法。 </li>
+</ul>
+</li>
+</ul>
+<p>Map</p>
+<ul>
+<li><p>HashMap</p>
+<p> 以哈希表数据结构实现，查找对象时通过哈希函数计算其位置，它是为快速查询而设计的，其内部定义了一个hash表数组（Entry[] table），元素会通过哈希转换函数将元素的哈希地址转换成数组中存放的索引，如果有冲突，则使用散列链表的形式将所有相同哈希地址的元素串起来，可能通过查看HashMap.Entry的源码它是一个单链表结构。 </p>
+<ul>
+<li><p>HashMap的存取流程</p>
+<p>put：</p>
+<p>1.对key的hashcode()做hash运算，计算出index</p>
+<p>2.如果没有碰撞就放入对应的位置。</p>
+<p>3.如果有碰撞就以链表的形式放入</p>
+<p>4.如果链表长度大于8，就变为红黑树</p>
+<p>5.如果已经存在oldvalue就将其替换</p>
+<p>6.如果链表或者树满了就要进行resize</p>
+<p>get：</p>
+<p>1.使用key的hash定位，链表中的第一个节点，直接命中</p>
+<p>2.如果为树，则进行Key.equals(k),复杂度为logn;</p>
+<p>3.如果为链表，key.equals(k)，复杂度为n</p>
+</li>
+</ul>
+</li>
+<li><p><strong>LinkedHashMap</strong> </p>
+<p>LinkedHashMap是HashMap的一个子类，它保留<strong>插入的顺序</strong>，如果需要输出的顺序和输入时的相同，那么就选用LinkedHashMap。<br>  LinkedHashMap是Map接口的哈希表和链接列表实现，具有可预知的迭代顺序。此实现提供所有可选的映射操作，并<strong>允许使用null值和null键</strong>。此类不保证映射的顺序，特别是它<strong>不保证该顺序恒久不变</strong>。<br>  LinkedHashMap实现与HashMap的不同之处在于，后者维护着一个运行于所有条目的双重链接列表。此链接列表定义了迭代顺序，该迭代顺序可以是<strong>插入顺序或者是访问顺序</strong>。<br>  根据链表中元素的顺序可以分为：按插入顺序的链表，和按访问顺序(调用get方法)的链表。<strong>默认是按插入顺序排序</strong>，如果指定按访问顺序排序，那么调用get方法后，会将这次访问的元素移至链表尾部，不断访问可以形成按访问顺序排序的链表。<br>  注意，此实现<strong>不是同步的</strong>。如果多个线程同时访问链接的哈希映射，而其中至少一个线程从结构上修改了该映射，则它必须保持外部同步。<br>  由于LinkedHashMap需要维护元素的插入顺序，因此性能略低于HashMap的性能，但在迭代访问Map里的全部元素时将有很好的性能，因为它以链表来维护内部顺序。 </p>
+</li>
+<li><p><strong>TreeMap</strong> </p>
+<p>TreeMap 是一个<strong>有序的</strong>key-value集合，<strong>非同步</strong>，<strong>基于红黑树（Red-Black tree）实现</strong>，每一个key-value节点作为红黑树的一个节点。TreeMap存储时会进行排序的，会根据<strong>key</strong>来对key-value键值对进行排序，其中排序方式也是分为两种，一种是<strong>自然排序</strong>，一种是<strong>定制排序</strong>，具体取决于使用的构造方法。</p>
+<p>自然排序：TreeMap中所有的key<strong>必须实现Comparable接口</strong>，并且所有的key都应该是<strong>同一个类的对象</strong>，否则会报ClassCastException异常。</p>
+<p>定制排序：定义TreeMap时，创建一个<strong>comparator对象</strong>，该对象对所有的treeMap中所有的key值进行排序，采用定制排序的时候不需要TreeMap中所有的key必须实现Comparable接口。</p>
+<p>TreeMap判断两个元素相等的标准：两个key通过compareTo()方法返回0，则认为这两个key相等。</p>
+<p>如果使用自定义的类来作为TreeMap中的key值，且想让TreeMap能够良好的工作，则<strong>必须重写自定义类中的equals()方法</strong>，TreeMap中判断相等的标准是：两个key通过equals()方法返回为true，并且通过compareTo()方法比较应该返回为0。</p>
+</li>
+</ul>
+<h5 id="Iterator-与-ListIterator详解"><a href="#Iterator-与-ListIterator详解" class="headerlink" title="Iterator 与 ListIterator详解"></a><strong>Iterator 与 ListIterator详解</strong></h5><ul>
+<li><p>Iterator</p>
+<p>Iterator是一个接口，它是集合的迭代器。集合可以通过Iterator去遍历集合中的元素。Iterator提供的API接口如下：</p>
+<p>boolean hasNext()：判断集合里是否存在下一个元素。如果有，hasNext()方法返回 true。<br>Object next()：返回集合里下一个元素。<br>void remove()：删除集合里上一次next方法返回的元素。</p>
+</li>
+<li><p><strong>ListIterator</strong> </p>
+<p>ListIterator是一个功能更加强大的迭代器, 它继承于Iterator接口,只能用于各种List类型的访问。可以通过调用listIterator()方法产生一个指向List开始处的ListIterator, 还可以调用listIterator(n)方法创建一个一开始就指向列表索引为n的元素处的ListIterator. </p>
+<p>(1)双向移动（向前/向后遍历）.</p>
+<p>(2)产生相对于迭代器在列表中指向的当前位置的前一个和后一个元素的索引.</p>
+<p>(3)可以使用set()方法替换它访问过的最后一个元素.</p>
+<p>(4)可以使用add()方法在next()方法返回的元素之前或previous()方法返回的元素之后插入一个元素.</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" data-id="ck8d4z8kk0008u4woeobzclmj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/03/29/%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          其他问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/03/29/%E5%9F%BA%E7%A1%80/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基础</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/03/29/MySQL/">MySQL</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Redis/">Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/">MD文档编写帮助</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">Oracle数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">二期数据库相关操作</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>二期数据库相关操作 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="西郊二期数据库新增索引 create index IDX_CREATDATE on SELLERSELLMANAGEBILL(CREATE_DATE) &lt;!--￼0--&gt;  CREATE INDEX IDX_BUYERTRADEMANAGEBILL on BUYERTRADEMANAGEBILL(CREATE_DATE) &lt;!--￼1--&gt;    视图 CREATE MAT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二期数据库相关操作">
+<meta property="og:url" content="http://yoursite.com/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="西郊二期数据库新增索引 create index IDX_CREATDATE on SELLERSELLMANAGEBILL(CREATE_DATE) &lt;!--￼0--&gt;  CREATE INDEX IDX_BUYERTRADEMANAGEBILL on BUYERTRADEMANAGEBILL(CREATE_DATE) &lt;!--￼1--&gt;    视图 CREATE MAT">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-29T14:24:19.843Z">
+<meta property="article:modified_time" content="2019-12-11T05:38:55.131Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-二期数据库相关操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      二期数据库相关操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="西郊二期数据库新增"><a href="#西郊二期数据库新增" class="headerlink" title="西郊二期数据库新增"></a>西郊二期数据库新增</h1><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ol>
+<li><pre><code class="sql"><span class="keyword">create</span> <span class="keyword">index</span> IDX_CREATDATE <span class="keyword">on</span> SELLERSELLMANAGEBILL(CREATE_DATE)
+&lt;!<span class="comment">--￼0--&gt;</span></code></pre>
+</li>
+<li><pre><code class="sql"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> IDX_BUYERTRADEMANAGEBILL <span class="keyword">on</span> BUYERTRADEMANAGEBILL(CREATE_DATE)
+&lt;!<span class="comment">--￼1--&gt;</span></code></pre>
+</li>
+<li></li>
+</ol>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><ol>
+<li><pre><code class="sql"><span class="keyword">CREATE</span> <span class="keyword">MATERIALIZED</span> <span class="keyword">VIEW</span> facilitytrade_view <span class="keyword">REFRESH</span> <span class="keyword">FORCE</span> <span class="keyword">ON</span> <span class="keyword">DEMAND</span> <span class="keyword">START</span> <span class="keyword">WITH</span> <span class="keyword">SYSDATE</span> <span class="keyword">NEXT</span> <span class="keyword">SYSDATE</span> + <span class="number">1</span> <span class="keyword">AS</span> <span class="keyword">SELECT</span>
+B.CODE,
+T.COSTOBJECTNAME,
+T.PRODUCTWEIGHT <span class="keyword">AS</span> PRODUCTWEIGHT,
+( T.MONEYQTY1 + T.MONEYQTY2 ) <span class="keyword">AS</span> MONEYQTY,
+C.NAME,
+E.CORPNAME,
+F.BILLSTATUS,
+H.TRADETIME,
+T.NOTETYPE,
+T.ISTRADEREVERSE,
+B.TRADINGHALLID,
+D.ISOUTTRADE 
+<span class="keyword">FROM</span>
+    COSTITEM T <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> INVENTORYPRODUCT A <span class="keyword">ON</span> T.INVENTORYPRODUCTID = A.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> SELLERTRADEMANAGEBILL D <span class="keyword">ON</span> T.SELLERTRADEMANAGEBILLID = D.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> FACILITYSTALL B <span class="keyword">ON</span> D.FACILITYID = B.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> TRADINGHALL C <span class="keyword">ON</span> b.TRADINGHALLID = C.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> <span class="keyword">MEMBER</span> E <span class="keyword">ON</span> T.COSTOBJECTID = E.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> FACILITYSTALLHIRERECORD F <span class="keyword">ON</span> B.ID = F.FACILITYSTALLID 
+    <span class="keyword">AND</span> T.COSTOBJECTMEMBERACCOUNT = F.HIRERCODE 
+    <span class="keyword">AND</span> F.HIRESTARTTIME &lt; <span class="keyword">SYSDATE</span> 
+    <span class="keyword">AND</span> F.HIREENDTIME &gt;= <span class="keyword">SYSDATE</span> <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> SELLERSELLPRODUCT G <span class="keyword">ON</span> T.SELLERSELLPRODUCTID = G.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> SELLERSELLMANAGEBILL H <span class="keyword">ON</span> G.SELLERSELLMANAGEBILLID = H.ID 
+<span class="keyword">ORDER</span> <span class="keyword">BY</span>
+    b.CODE</code></pre>
+</li>
+<li></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" data-id="ck8d4z8ki0005u4wo3wrj8bp6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Oracle数据库
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Springboot 学习相关</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/03/29/MySQL/">MySQL</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Redis/">Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/">MD文档编写帮助</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">Oracle数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">二期数据库相关操作</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

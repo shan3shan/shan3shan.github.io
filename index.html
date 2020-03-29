@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-MySQL" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/MySQL/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/MySQL/">MySQL</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>除MySQL自带的客户端工具外，我们还可以使用第三方客户端工具。这里介绍一下如何解决当用Navicat Premium连接MySQL数据库时报的2059错误，如下图所示：</p>
+<p>这个错误出现的原因是在mysql8之前的版本中加密规则为mysql_native_password，而在mysql8以后的加密规则为caching_sha2_password。为解决这个问题，可以将MySQL用户登录的加密规则修改为mysql_native_password：</p>
+<p>成功连接MySQL数据库服务器后，依次输入如下语句：</p>
+<p>对于用户root：</p>
+<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;# 设置密码永不过期&#96; &#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER;&#96; &#96;# 修改加密规则，并设置新的用户密码&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; &#96; &#96;#刷新权限&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;;&#96;</span><br></pre></td></tr></table></figure>
+
+<p>对于新创建的用户yahui：</p>
+<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER; # @后的%表示任何主机&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; # @后的%表示任何主机&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;; #刷新权限&#96;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/MySQL/" data-id="ck8d4z8ke0001u4wo2sxmfxhm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/Redis/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/Redis/">Redis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Redis是一个高性能的Key-Value数据库。</p>
+<p>个人理解：对我我们使用者来说，就是可以把一部分常用的数据从硬盘转到内存中，从而提高读写速度。（缓存）</p>
+<p>特点：</p>
+<ul>
+<li>支持数据的持久化。</li>
+<li>支持多种数据结构的储存。</li>
+<li>支持数据备份。</li>
+</ul>
+<p>优势：</p>
+<ul>
+<li>性能极高。</li>
+<li>原子性操作。</li>
+<li>丰富的特征。</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>下载压缩包，解压到文件夹，在文件夹下打开cmd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server.exe redis.windows.conf</span><br></pre></td></tr></table></figure>
+
+<p>启动，如果要方便，可以配置环境变量，可以省略掉redis.windows.conf</p>
+<p>接下来启动另外一个cmd窗口，注意原来的不要关闭</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli.exe -h <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span> -p <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+
+<p>一个测试用例：</p>
+<p>设置值：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> XXX(键) xxx(值)</span><br></pre></td></tr></table></figure>
+
+<p>取值：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get xxx(键)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Config-配置"><a href="#Config-配置" class="headerlink" title="Config 配置"></a>Config 配置</h3><p>Redis Config命令格式如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; CONFIG GET xxx（配置名）</span><br></pre></td></tr></table></figure>
+
+<p>获取所有配置使用 config get *</p>
+<p>通过config set 来设置参数</p>
+<p>例:</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; CONFIG <span class="built_in">SET</span> xxx(配置名) xxx(设置)</span><br></pre></td></tr></table></figure>
+
+<h4 id="String"><a href="#String" class="headerlink" title="String"></a>String</h4><ul>
+<li>String是Redis最基础的数据类型</li>
+<li>是二进制安全的，一个key对应一个value</li>
+<li>最大可以储存512m，可以包含任何数据，比如jpg图片或者序列化对象。</li>
+</ul>
+<p>命令：</p>
+<ul>
+<li>GET                 获取存储在给定键中的值</li>
+<li>SET                  设置存储在给定键中的值</li>
+<li>DEL                  删除存储在给定键中的值</li>
+</ul>
+<p>Hash（哈希）</p>
+<ul>
+<li>hash是一个键值对集合</li>
+<li>hash是以一个String类型的field和value的映射表，hash特别适合用于存储对象。</li>
+<li>每个hash可以存储40多亿个键值对</li>
+</ul>
+<p>命令:</p>
+<ul>
+<li>HSET            在散列里关联起给定的键值对</li>
+<li>HGET            获取指定散列键的值</li>
+<li>HGETALL     获取散列包含的所有键值对</li>
+<li>HDEL             如果给定键值对存在于散列中，则将其删除</li>
+</ul>
+<p>例：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hmset person name "leiguodong" age "<span class="number">23</span>"</span><br><span class="line">OK</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hget person name</span><br><span class="line">"leiguodong"</span><br></pre></td></tr></table></figure>
+
+<h4 id="List（列表）"><a href="#List（列表）" class="headerlink" title="List（列表）"></a>List（列表）</h4><ul>
+<li>列表是最简单的字符串列表，按照插入顺序排序，你可以添加一个元素到列表的头部（左边）或者尾部（右边）。</li>
+<li>每个列表可以储存40多亿个元素</li>
+</ul>
+<p>命令：</p>
+<ul>
+<li>LPUSH/RPUSH             将给定值推入列表的左侧或者右侧</li>
+<li>LPOP/RPOP                   从列表左侧/右侧弹出一个值，并返回</li>
+<li>LRANGE                         获取在给定范围的所有值（0  -1 为所有值）</li>
+<li>LINDEX                           获取指定位置的单个元素</li>
+</ul>
+<p>例：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; lpush string1 hello</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; lpush string1 word</span><br><span class="line">(integer) <span class="number">2</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; LRANGE string1 <span class="number">0</span> <span class="number">3</span></span><br><span class="line"><span class="number">1</span>) "word"</span><br><span class="line"><span class="number">2</span>) "hello"</span><br></pre></td></tr></table></figure>
+
+<h4 id="Set-集合"><a href="#Set-集合" class="headerlink" title="Set(集合)"></a>Set(集合)</h4><ul>
+<li>set是String类型的无序集合</li>
+<li>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O（1）</li>
+<li>添加一个String元素到key对应的set集合中，成功返回1，如果已经存在返回0</li>
+<li>每个集合可以存40多亿个成员</li>
+</ul>
+<p>命令：</p>
+<ul>
+<li>SADD             将给定元素添加到集合</li>
+<li>SMEMBERS          返回集合中所有元素</li>
+<li>SISMEMBER         检查元素是否在集合中</li>
+<li>SREM             如果给定 元素在集合中，则将其移除</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sadd sett hello</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sadd sett hello</span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sadd sett word</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; smembers sett</span><br><span class="line"><span class="number">1</span>) "word"</span><br><span class="line"><span class="number">2</span>) "hello"</span><br></pre></td></tr></table></figure>
+
+<h4 id="zset-有序集合"><a href="#zset-有序集合" class="headerlink" title="zset(有序集合)"></a>zset(有序集合)</h4><ul>
+<li>String类型元素集合。</li>
+<li>每个元素都对应一个double类型的权重值，通过权重值排序。</li>
+<li>元素不可以重复，但是权重值可以重复。</li>
+</ul>
+<p>命令</p>
+<ul>
+<li>ZADD            将一个带有分值的成员添加到有序集合</li>
+<li>ZRANGE       根据元素所处的位置，从有序集合中获取多个元素</li>
+<li>ZRANGEBYSCORE       获取有序集合中给定分值的所有元素</li>
+<li>ZREM             如果给定成员存在于有序集合，则移除这个元素</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">0</span> hello</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">1</span> hello</span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">0</span> word</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">1</span> !</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; ZRANGEBYSCORE seet <span class="number">0</span> <span class="number">3</span></span><br><span class="line"><span class="number">1</span>) "word"</span><br><span class="line"><span class="number">2</span>) "!"</span><br><span class="line"><span class="number">3</span>) "hello"</span><br></pre></td></tr></table></figure>
+
+<p>​                </p>
+<h4 id="特殊操作"><a href="#特殊操作" class="headerlink" title="特殊操作"></a>特殊操作</h4><ul>
+<li><p>排序</p>
+<p>SORT 默认为根据升序排序</p>
+</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; rpush sortin <span class="number">23</span> <span class="number">15</span> <span class="number">110</span> <span class="number">7</span></span><br><span class="line">(integer) <span class="number">4</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin  //默认排序</span><br><span class="line"><span class="number">1</span>) "<span class="number">7</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">15</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">23</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">110</span>"</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin alpha //根据字母表顺序排序</span><br><span class="line"><span class="number">1</span>) "<span class="number">110</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">15</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">23</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">7</span>"</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">7</span> field <span class="number">5</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">15</span> field <span class="number">1</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">23</span> field <span class="number">9</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">110</span> field <span class="number">3</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin by d-*-&gt;field//将散列的域用作权重，对列表进行排序</span><br><span class="line"><span class="number">1</span>) "<span class="number">15</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">110</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">7</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">23</span>"</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin by d-*-&gt;field get d-*-&gt;field</span><br><span class="line">//获取外部数据，并将他们用作命令的返回值</span><br><span class="line"><span class="number">1</span>) "<span class="number">1</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">3</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">5</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">9</span>"</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>基本redis 的事务</li>
+</ul>
+<p>Redis 的事务需要用到MULTI和EXEC关键字命令，这种事务可以让一个客户端在不被其他客户端打断的情况下执行 多哥命令。和关系数据库那种可以在执行过程中回滚的事务不同，在Redis里，别MULTI命令和EXEC命令包围的所有命令会一个接着一个的执行。直到所有命令都执行完成。当一个事务执行完毕之后，Redis才会处理其他客户端的命令。·</p>
+<ul>
+<li>键的过期时间</li>
+</ul>
+<p>PERSIST  key  移除键的过期时间</p>
+<p>TTL  key  看给定键离过期还有多久</p>
+<p>EXPIRE key seconds   让给定键在指定的秒数后过期</p>
+<p>EXPOREAT key timestamp  将给定键的过期时间设置为时间戳</p>
+<p>PTTL  key  查看给定键距离过期时间还有多少毫秒‘</p>
+<p>PEXPIRE  key milliseconds  让给定键在指定的毫秒数后过期</p>
+<p>PEXPIREAT key timestamp-milliseconds  将一个毫秒级精度的时间戳设置为给定键的过期时间</p>
+<h4 id="持久化选项"><a href="#持久化选项" class="headerlink" title="持久化选项"></a>持久化选项</h4><p>Redis提供了两种持久化方法来将数据存储到硬盘中</p>
+<ul>
+<li>快照</li>
+<li>只追加文件AOF</li>
+</ul>
+<p><img src="D:%5CMD%E7%AC%94%E8%AE%B0%5Cimages%5Ctu8.png" alt="image-20200227164051152"></p>
+<p>以上是一些对持久化操作的设置</p>
+<p>快照：个人理解就是对Redis数据进行了复制并存在本地或者指定的其他地方。快照的内容和快照开始的那一刻redis内存中的数据相同。</p>
+<p>创建快照的方法:</p>
+<ul>
+<li>客户端向Redis发送BGSAVE命令来创建快照。（Windows不支持BGSAVE命令）Redis会调用fork来创建一个子进程，然后子进程负责将快照写入硬盘，而父进程则继续处理请求。’</li>
+<li>客户端还可以向Redis发送SAVE命令来创建快照，接到SAVE命令的Redis服务器在快照创建完毕之前将不在相应其他任何命令。因此SAVE命令不常用，只会在内存不足以运行 BGSAVE命令的情况下，又或者及时等待持久化完毕也无所谓的情况下，才会使用这个命令。</li>
+<li>如果用户设置了save配置选项，比如save   60  10000，那么从Redis最近一次创建框招之后开始算起，当“60秒内有10000次写入”这个条件被满足时，Redis就会自动触发BGSAVE命令，如果用户设置了多个save配置选项，那么当任意一个条件满足时，都会触发一次BGSAVE</li>
+<li>当一个Redis服务器连接另外一个Redis服务器，并向对方发送SYNC命令来开始一次复制操作时，如果主服务器目前没有在执行BGSAVE操作，或者主服务器并非刚刚执行完BGSAVE操作，那么主服务器就会执行BGSAVE命令。</li>
+</ul>
+<p>只使用快照持久化来保存数据时，如果系统真的发生崩溃，用户将丢失最近一次生成快照后更改的所有数据，所以是由适用场景的。</p>
+<p>AOF持久化：AOF持久化会将被执行的写命令写到AOF文件的末尾，以此来记录数据发生的变化。因此，Redis只要从头到尾重新执行一次AOF文件包含的所有写命令，就可以恢复AOF文件所记录的数据集。AOF持久化可以通过设置appendonly yes配置选项来打开。appendfsync配置选项对AOF文件同步频率的影响。</p>
+<ul>
+<li>always   每个写命令都要同步写入硬盘，会严重降低速度</li>
+<li>everysec 每秒执行一次同步，显示地将多个写命令同步到硬盘</li>
+<li>no 让操作系统决定应该何时来进行同步</li>
+</ul>
+<p>如果用户使用appendfsync always选项的话，那么每个redis写命令都会被写入硬盘，从而将发生系统崩溃时数据丢失减少到最少。不过遗憾的是这种同步策略需要对硬盘进行大量的写入，因此redis处理命令的速度会受到硬盘性能的限制。普通硬盘每秒只能处理大约200个写操作，而固态硬盘每秒也只能写入处理几万个命令。但是固态硬盘用户也要谨慎使用，因为appendfsync always会让redis每次只写入一个命令，可能会引起严重的写入放大问题，会严重 降低硬盘寿命。</p>
+<p>一般推荐使用everysec，no一般不用，因为首先对数据的保护不够，其次很容易影响redis的性能。</p>
+<ul>
+<li>重写/压缩AOF文件</li>
+</ul>
+<p>BGREWRITAOF  类似BGSAVE，创建子进程对AOF文件进行重写。</p>
+<p>auto-aof-rewrite-percentage 和 auto-aof-rewrite-min-size  类似save命令可以根据参数使bgrewriteaof自动操作</p>
+<p>auto-aof-rewrite-percentage 100 AOF文件超过上次重写之后大了100%后执行重写操作</p>
+<p>auto-aof-rewrite-min-size 64MB  AOF文件超过64MB时进行重回写操作</p>
+<h4 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h4><p>复制可以让其他服务器拥有一个不断地更新的数据副本，从而使得拥有数据副本的服务器可以用于处理客户端发送的读请求。</p>
+<p>如果一个redis服务器启动时包含配置文件slaveof host port ，那么该服务器是host port运行的服务器的从服务器。</p>
+<p>正在运行的服务器可以发送salveof no one来终止从服务器的的复制操作。也可以发送slaveof host port 命令来让服务器开始复制一个新的主服务器。</p>
+<ul>
+<li><p>复制的启动过程（主从）</p>
+<p>第一步：</p>
+<ul>
+<li>等待命令</li>
+<li>联接主服务器，发送sync命令</li>
+</ul>
+<p>第二步：</p>
+<ul>
+<li>开始执行bgsave，并使用缓冲区记录下bgsave之后执行的所有写命令。</li>
+<li>根据配置选项来决定是继续使用现有的数据来处理客户端的请求命令还是返回错误。</li>
+</ul>
+<p>第三步：</p>
+<ul>
+<li>bgsave执行完毕，向从服务器发送快照文件，并在发送期间继续使用缓冲区记录被执行的写命令。</li>
+<li>丢弃所有旧数据，开始载入主服务器发送来的快照文件。</li>
+</ul>
+<p>第四步：</p>
+<ul>
+<li>快照文件发送完毕，开始向从服务器发送储存在缓冲区里面的写命令 。</li>
+<li>完成对快照文件的操作解释，像往常一样开始接受命令请求。</li>
+</ul>
+<p>第五步：</p>
+<ul>
+<li>缓冲区存储的写命令发送完毕；从现在开始，每执行一个写命令，就向从服务器发送相同的写命令。</li>
+<li>执行从服务器发来的所有存储在缓冲区里面的写命令，并从现在开始，接受并执行主服务器传来的每个写命令。</li>
+</ul>
+<h4 id="主从链"><a href="#主从链" class="headerlink" title="主从链"></a>主从链</h4><p>当读的命令明显高于写的命令时，并且请求的数量远远超出一台redis服务器可以处理的范围，用户就需要添加新的从服务器来处理请求。随着负载的不断上升 ，主服务器可能会无法快速的更新所有的从服务器，或者因为重新连接和重新同步从服务器而导致系统超载。为了缓解这个问题，用户可以创建一个由redis主从节点组成的中间层来分担主服务器的复制工作。</p>
+<h4 id="处理系统故障"><a href="#处理系统故障" class="headerlink" title="处理系统故障"></a>处理系统故障</h4><p>验证快照文件和AOF文件</p>
+<p>redis提供了两个命令行程序redis-check-aof 和redis-check-dump</p>
+<h4 id="更换故障主服务器"><a href="#更换故障主服务器" class="headerlink" title="更换故障主服务器"></a>更换故障主服务器</h4><p>假设A，B两台机器都运行这redis，其中机器A为主服务器，B为从服务器。现在因为A不能工作，要将C替换为主服务器。</p>
+<p>首先向机器B发送一个save命令，让他创建一个新的快照文件，接着将这个快照文件发送给C，并在机器C上面启动redis，最后，让机器B成为C的从服务器。</p>
+<h4 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h4><p>Redis的事务和传统数据库的事务并不相同。在关系数据库中，用户首先向数据库服务器发送begin，然后执行各个相互一致的写操作和都操作，最后，用户可以选择发送commit来确认之前所做的修改，或者发送rollbacj来放弃那些修改。</p>
+<p>redis的事务以特殊命令multi为开始，之后跟着用户传入 的多个命令，最后以exec为结束。但是由于这种简单的事务在exec命令被调用之前不会执行任何实际操作，所以用户将没办法根据读取到的数据来做决定。</p>
+<h4 id="非事务型流水线"><a href="#非事务型流水线" class="headerlink" title="非事务型流水线"></a>非事务型流水线</h4><p>被multi和exec包裹的命令在执行时不会被其他客户端打扰，但是性能相比不被包裹的命令（非事务型流水线）更好。</p>
+<p>可以在不使用事务的情况下，提升redis提升性能。</p>
+<h4 id="性能方面注意事项"><a href="#性能方面注意事项" class="headerlink" title="性能方面注意事项"></a>性能方面注意事项</h4><p>性能调优首先要知道各种命令在计算机中能跑多快</p>
+<p>redis-benchmark的运行结果会返回一些常用的eredis命令在1秒可以执行的次数。</p>
+<p>常见问题可能原因：</p>
+<p>性能只有redis-benchmark的50 - 60%：这是不使用流水线时的预期性能。</p>
+<p>性能只有redis-benchmark的25-30%：对于每个命令或者命令组都创建了新连接。</p>
+<p>返回：cannot assign requested address：同上</p>
+</li>
+</ul>
+<h3 id="Redis的锁"><a href="#Redis的锁" class="headerlink" title="Redis的锁"></a>Redis的锁</h3><h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p>使用watch，multi，exec组成事务，完成乐观锁。</p>
+<p>在被锁数据发生改变时，watch会有反馈，因而由multi和exec包裹起来的事务会重新执行。</p>
+<h4 id="使用redis构建锁"><a href="#使用redis构建锁" class="headerlink" title="使用redis构建锁"></a>使用redis构建锁</h4><p>setnx命令：在键不存在的时候为键设置值（返回1，否则返回0），而锁要做的是将一个随机生成的128位的UUID设置位键的值，并使用这个值来防止锁被其他进程获得（一般通过返回值来确定是否加锁，根据返回值判断是否执行操作来实现锁的功能。）</p>
+<p>加锁步骤：</p>
+<p>1.生成uuid</p>
+<p>2.使用setnx尝试获取锁，根据返回值判断，一般要加上尝试时间。</p>
+<p>3.返回获取结果</p>
+<p>释放锁：在这里释放锁就是清空setnx赋的值，一般来说要进行锁的校验（使用watch）。</p>
+<p>释放锁步骤：</p>
+<p>1.检查进程是否仍然持有锁。</p>
+<p>2.释放锁（清空锁的值）</p>
+<p>3.如果由其他客户端修改了锁（当前客户端不持有锁），重试</p>
+<p>4.返回解锁结果</p>
+<h4 id="细粒度锁"><a href="#细粒度锁" class="headerlink" title="细粒度锁"></a>细粒度锁</h4><p>加锁的时候可以尽量减少锁的范围，可以提高效率。</p>
+<h4 id="计数信号量（实现的一种锁）"><a href="#计数信号量（实现的一种锁）" class="headerlink" title="计数信号量（实现的一种锁）"></a>计数信号量（实现的一种锁）</h4><p>就是限制最多由多少个进程可以同时访问一个资源。</p>
+<p>构建基本的技术信号量（一般有两种方法）：</p>
+<p>一种是使用expire</p>
+<p>一种是使用有序集合</p>
+<p>使用有序集合：</p>
+<p>为每个尝试获取信号量的进程生成一个唯一标识，并将这个标识符用作有序集合的成员，而成员对应的分值则是尝试获取信号量的时间戳。</p>
+<p>程序在获取信号量后，会检查自己在有序集合里边的排名，如果低于可获取的信号量的总数，则表明获取到信号。反之，则表示未能获取到信号量，必须从有序集合中移除自己的标识符。并且为了处理过期信号量，程序会在加入新的请求之前先清理过期的信号标识符。</p>
+<p>步骤：</p>
+<p>1.随机生成128为随机表示符。</p>
+<p>2.清理过期的信号量持有者。</p>
+<p>3.尝试获取信号量。</p>
+<p>4.检查是否成功获取了信号量。</p>
+<p>5.获取信号量失败，删除之前所添加的标识符。</p>
+<p>存在问题：假设有系统A和B，如果A系统的时间要比B系统的时间快10ms，那么当A取得一个信号量时，B只需要在10ms获取到信号量，就能在A系统不知情的情况下偷走信号量。由此可见是不公平的信号量。</p>
+<h4 id="公平信号量"><a href="#公平信号量" class="headerlink" title="公平信号量"></a>公平信号量</h4><p>为了避免系统时间对信号量获取产生的影响，我们需要给信号量实现增加一个计数器以及一个有序集合。首先，计数器能通过持续的执行自增操作，常见出一种类似计时器的机制，确保最先对计数器执行自增操作的客户端能获取到信号量。为了满足最先对计数器进行自增的客户端能过去信号量，程序会将计数器生成的值作为分值，储存到信号量拥有者的有序集合中。然后通过检车客户端生成的标识符在有序集合中的排名来判断客户端是否取得了信号量。</p>
+<p>公平信号量和之前介绍的基本信号量一样，都是通过从系统时间有序集合里面移除过期元素来清理过期信号量的，另外，公平信号量实现还会通过zinterstore命令以及该命令的weights参数，将信号量的超时时间传递给新的信号量拥有者有序集合。</p>
+<p>步骤：</p>
+<p>1.生成随机128位随机标识符。</p>
+<p>2.删除超时信号量。</p>
+<p>3.对计数器执行自增操作，并获取计数器在执行自增操作之后的值。</p>
+<p>4.尝试获取信号量。</p>
+<p>5.通过检查排名来判断客户端是否取得了信号量。</p>
+<p>6.客户端未能取得信号量，清理无用数据。</p>
+<p>首先清除已超时的信号量，接着更新信号量拥有者有序集合并获取计数器生成新的ID值，之后，函数会将客户端的当前时间戳添加到过期时间有序集合里面，并将计数器生成的ID值添加到信号量拥有者的有序集合里面，这样就可以检查标识符在有序集合里面的排名是否足够低了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/Redis/" data-id="ck8d4z8kg0002u4wo2at66v8v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MD文档编写帮助" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/">MD文档编写帮助</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1><p>菜鸟教程 &lt; <a href="https://www.runoob.com/markdown/md-paragraph.html" target="_blank" rel="noopener">https://www.runoob.com/markdown/md-paragraph.html</a> &gt;</p>
+<p><a href="https://www.runoob.com/markdown/md-paragraph.html" target="_blank" rel="noopener">菜鸟教程</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/" data-id="ck8d4z8kg0003u4woe5ladjgx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Oracle数据库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">Oracle数据库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h1><h2 id="1-查询表的索引"><a href="#1-查询表的索引" class="headerlink" title="1.查询表的索引"></a>1.查询表的索引</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.*,i.index_type <span class="keyword">from</span> user_ind_columns t,user_indexes i <span class="keyword">where</span> t.index_name = i.index_name <span class="keyword">and</span></span><br><span class="line">t.table_name=<span class="string">'NODE'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建普通索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> 索引名 <span class="keyword">on</span> 表名(列名)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>创建唯一索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> 索引名 <span class="keyword">on</span> 表名(列名)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建普通组合索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> 索引名 <span class="keyword">ON</span> (列名<span class="number">1</span>，列名<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建唯一组合索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> 索引名 <span class="keyword">ON</span> (列名<span class="number">1</span>，列名<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过修改表结构创建索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">ADD</span> <span class="keyword">INDEX</span> 索引名(列名)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建表时直接创建索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table_name (</span><br><span class="line">    <span class="keyword">ID</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,列名 <span class="built_in">VARCHAR</span> (<span class="number">16</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,<span class="keyword">INDEX</span> 索引名 (列名)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接删除索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> 索引名 <span class="keyword">ON</span> 表名</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改表结构删除索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">DROP</span> <span class="keyword">INDEX</span> 索引名</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="2-sql执行计划"><a href="#2-sql执行计划" class="headerlink" title="2.sql执行计划"></a>2.sql执行计划</h2><h4 id="（1）生成执行计划"><a href="#（1）生成执行计划" class="headerlink" title="（1）生成执行计划"></a>（1）生成执行计划</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> plan <span class="keyword">for</span></span><br><span class="line">你的<span class="keyword">sql</span></span><br></pre></td></tr></table></figure>
+
+<p> 备注：explain plan for后面为要生成执行计划的查询语句</p>
+<h4 id="（2）查看执行计划结果"><a href="#（2）查看执行计划结果" class="headerlink" title="（2）查看执行计划结果"></a>（2）查看执行计划结果</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span>(dbms_xplan.display)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>第一种：index unique  scan</p>
+<p> 索引唯一扫描，当可以优化器发现某个查询条件可以利用到主键、唯一键、具有外键约束的列，或者只是访问其中某行索引所在的数据的时候，优化器会选择这种扫描类型。</p>
+</li>
+<li><p>第二种：index range scan</p>
+<p>索引范围扫描，当优化器发现在UNIQUE列上使用了大于、小于、大于等于、小于等于以及BETWEEN等就会使用范围扫描，在组合列上只使用部分进行查询，导致查询出多行数据。对非唯一的索引列上进行任何活动都会使用index range scan。</p>
+</li>
+<li><p>第三种：index full scan</p>
+<p>全索引扫描，如果要查询的数据可以全部从索引中获取，则使用全索引扫描。</p>
+</li>
+<li><p>第四种：index fast full scan</p>
+<p>索引快速扫描，扫描索引中的全部的数据块，与全索引扫描的方式基本上类似。两者之间的明显的区别是，索引快速扫描对查询的数据不进行排序，数据返回的时候不是排序的。“在这种存取方法中，可以使用多块读功能，也可以使用并行读入，从而得到最大的吞吐量和缩短执行时间”。</p>
+</li>
+</ul>
+<h4 id="（3）注意事项"><a href="#（3）注意事项" class="headerlink" title="（3）注意事项"></a>（3）注意事项</h4><ul>
+<li><p>1.order by、group by使用索引的前提条件:</p>
+<ul>
+<li>order by、group by中所有的列必须包含在相同的索引中并保持在索引中的排列顺序</li>
+<li>order by、group by中所有的列必须定义为非空</li>
+</ul>
+</li>
+<li><p>2.不走索引的几种情况：</p>
+<ul>
+<li>where子句中使用 is null 和 is not null</li>
+<li>where子句中使用函数</li>
+<li>使用like ‘%T’ 进行模糊查询</li>
+<li>where子句中使用不等于操作(包括：&lt;&gt;, !=, not colum &gt;= ?, not colum &lt;= ? ,可以使用or代替)</li>
+<li>比较不匹配数据类型，例如：select * from tablewhere jlbh =1；jlbh为varchar2类型字段</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-视图相关"><a href="#3-视图相关" class="headerlink" title="3.视图相关"></a>3.视图相关</h3><h4 id="（1）查看所有视图"><a href="#（1）查看所有视图" class="headerlink" title="（1）查看所有视图"></a>（1）查看所有视图</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> all_mviews</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-其他问题"><a href="#4-其他问题" class="headerlink" title="4.其他问题"></a>4.其他问题</h3><ul>
+<li><p>count(1)、count(*)和count(列名)的区别</p>
+<p>count(1)和count(*)两者相同，在mysql中不同的优化方式也是相同的，差别不大。但是根据规范，建议使用后者。</p>
+<p>count(列名)这个是查询列名列不为null的总条数。</p>
+</li>
+</ul>
+<h3 id="3-死锁"><a href="#3-死锁" class="headerlink" title="3.死锁"></a>3.死锁</h3><ul>
+<li><p>查看是否有死锁</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> object_id,session_id,locked_mode <span class="keyword">from</span> v$locked_object</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看死锁发生的语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> object_id,session_id,locked_mode <span class="keyword">from</span> v$locked_object</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除死锁</p>
+<p>（1）先杀Oracle的进程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">SYSTEM</span> <span class="keyword">KILL</span> <span class="keyword">SESSION</span> <span class="string">'查出的SID,查出的SERIAL#'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>（2）再杀操作系统进程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">KILL</span> <span class="number">-9</span> 刚才查出的SPID</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" data-id="ck8d4z8kh0004u4wohs6s07na" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-二期数据库相关操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">二期数据库相关操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="西郊二期数据库新增"><a href="#西郊二期数据库新增" class="headerlink" title="西郊二期数据库新增"></a>西郊二期数据库新增</h1><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ol>
+<li><pre><code class="sql"><span class="keyword">create</span> <span class="keyword">index</span> IDX_CREATDATE <span class="keyword">on</span> SELLERSELLMANAGEBILL(CREATE_DATE)
+&lt;!<span class="comment">--￼0--&gt;</span></code></pre>
+</li>
+<li><pre><code class="sql"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> IDX_BUYERTRADEMANAGEBILL <span class="keyword">on</span> BUYERTRADEMANAGEBILL(CREATE_DATE)
+&lt;!<span class="comment">--￼1--&gt;</span></code></pre>
+</li>
+<li></li>
+</ol>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><ol>
+<li><pre><code class="sql"><span class="keyword">CREATE</span> <span class="keyword">MATERIALIZED</span> <span class="keyword">VIEW</span> facilitytrade_view <span class="keyword">REFRESH</span> <span class="keyword">FORCE</span> <span class="keyword">ON</span> <span class="keyword">DEMAND</span> <span class="keyword">START</span> <span class="keyword">WITH</span> <span class="keyword">SYSDATE</span> <span class="keyword">NEXT</span> <span class="keyword">SYSDATE</span> + <span class="number">1</span> <span class="keyword">AS</span> <span class="keyword">SELECT</span>
+B.CODE,
+T.COSTOBJECTNAME,
+T.PRODUCTWEIGHT <span class="keyword">AS</span> PRODUCTWEIGHT,
+( T.MONEYQTY1 + T.MONEYQTY2 ) <span class="keyword">AS</span> MONEYQTY,
+C.NAME,
+E.CORPNAME,
+F.BILLSTATUS,
+H.TRADETIME,
+T.NOTETYPE,
+T.ISTRADEREVERSE,
+B.TRADINGHALLID,
+D.ISOUTTRADE 
+<span class="keyword">FROM</span>
+    COSTITEM T <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> INVENTORYPRODUCT A <span class="keyword">ON</span> T.INVENTORYPRODUCTID = A.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> SELLERTRADEMANAGEBILL D <span class="keyword">ON</span> T.SELLERTRADEMANAGEBILLID = D.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> FACILITYSTALL B <span class="keyword">ON</span> D.FACILITYID = B.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> TRADINGHALL C <span class="keyword">ON</span> b.TRADINGHALLID = C.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> <span class="keyword">MEMBER</span> E <span class="keyword">ON</span> T.COSTOBJECTID = E.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> FACILITYSTALLHIRERECORD F <span class="keyword">ON</span> B.ID = F.FACILITYSTALLID 
+    <span class="keyword">AND</span> T.COSTOBJECTMEMBERACCOUNT = F.HIRERCODE 
+    <span class="keyword">AND</span> F.HIRESTARTTIME &lt; <span class="keyword">SYSDATE</span> 
+    <span class="keyword">AND</span> F.HIREENDTIME &gt;= <span class="keyword">SYSDATE</span> <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> SELLERSELLPRODUCT G <span class="keyword">ON</span> T.SELLERSELLPRODUCTID = G.ID <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> SELLERSELLMANAGEBILL H <span class="keyword">ON</span> G.SELLERSELLMANAGEBILLID = H.ID 
+<span class="keyword">ORDER</span> <span class="keyword">BY</span>
+    b.CODE</code></pre>
+</li>
+<li></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" data-id="ck8d4z8ki0005u4wo3wrj8bp6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Springboot 学习相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/">Springboot 学习相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Springboot个人理解"><a href="#Springboot个人理解" class="headerlink" title="Springboot个人理解"></a>Springboot个人理解</h1><h2 id="注解相关"><a href="#注解相关" class="headerlink" title="注解相关"></a>注解相关</h2><ul>
+<li><p>@SpringBootApplication</p>
+<p>这是一个组合注解，标注在Springboot项目main方法上。</p>
+<p>组合注解，主要由@SpringBootConfiguration，@EnableAutoConfiguration，@ComponentScan等注解组成</p>
+<ul>
+<li><p>@SpringBootConfiguration</p>
+<p>该注解主要表明该类是一个spring boot项目的启动类，也相当于表明该类是一个IOC容器。</p>
+</li>
+<li><p>@EnableAutoConfiguration</p>
+<p>  也是一个组合注解，最关键的是@Import(AutoConfigurationImportSelector.class)</p>
+<p>  该注解主要是通过SpringFactoriesLoder从指定配置文件META-INF/spring.factories文件中加载配置，该文件是典型的javaproperties文件，格式为Key-Value。根据@EnableAutoConfiguration的完整类名，找到相对应的一组配置类，加载到IOC容器中。</p>
+</li>
+<li><p>@ComponentScan</p>
+<p>该注解主要是自动扫描并加载符合条件的组件或者bean定义，并加载到IOC容器中。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="自动配置理解"><a href="#自动配置理解" class="headerlink" title="自动配置理解"></a>自动配置理解</h4><ul>
+<li>spring的自动配置依赖于XXXAutoConfiguration这一系列类，这些类去映射配置文件中的对应属性的值，加载到类中，随后自动配置到IOC容器中，可以配置的属性可以去对应的自动配置类中对应的实体查看。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/" data-id="ck8d4z8ki0006u4woepq98ays" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-其他问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98/">其他问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><h3 id="1-HV主机服务开启关闭方法"><a href="#1-HV主机服务开启关闭方法" class="headerlink" title="1 .HV主机服务开启关闭方法"></a>1 .HV主机服务开启关闭方法</h3><ul>
+<li>快捷键<code>win+x</code>,使用管理员权限打开<code>Windows Powershell</code> </li>
+<li>关闭：<code>bcdedit /set hypervisorlaunchtype off</code> </li>
+<li>开启: <code>bcdedit /set hypervisorlaunchtype auto</code> </li>
+</ul>
+<h3 id="2-idea编译问题"><a href="#2-idea编译问题" class="headerlink" title="2.idea编译问题"></a>2.idea编译问题</h3><p>Java8中增加了通过反射获取方法参数名的功能，并且这些功能在新版的Springboot里边有用到，但是idea比较旧的版本编译时不会使用 javac -parameters 命令来编译。因此在旧版本中需要在 idea中找到File-&gt;Settings-&gt;java Compiler中的Additional command line parameters添加-parameters参数即可 。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98/" data-id="ck8d4z8kj0007u4wodf5c38gm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-集合框架" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">集合框架</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="集合框架"><a href="#集合框架" class="headerlink" title="集合框架"></a>集合框架</h1><h4 id="集合接口"><a href="#集合接口" class="headerlink" title="集合接口"></a>集合接口</h4><ul>
+<li><p>数组和集合的区别</p>
+<p>数组定长，集合变长，可自动扩容。</p>
+<p>数组元素固定，集合元素可以不同。</p>
+</li>
+<li><p>Collection接口和Map接口</p>
+<p>Collection是高度抽象出来的集合，包含了集合的基本特性。</p>
+<p>派生出了 Set  List Queue</p>
+<p>Map派生出了各种Map接口。</p>
+</li>
+</ul>
+<h4 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h4><h5 id="List"><a href="#List" class="headerlink" title="List"></a>List</h5><ul>
+<li><p>ArrayList</p>
+<ul>
+<li>是一个动态数组</li>
+<li>允许任何合法的元素包括null。</li>
+<li>添加元素时会有容量检测，自动扩充。</li>
+<li>再明确的情况下尽量给予初始值。</li>
+<li>擅长随机访问。</li>
+<li>方法： size、isEmpty、get、set、iterator 和 listIterator  </li>
+<li>查找快，增删慢</li>
+</ul>
+</li>
+<li><p>LinkedList</p>
+<pre><code>* 双向链表
+      * 不能随机访问
+* 提供了get，remove，insert方法在LinkedList的首部和尾部。
+   * 非同步的。
+   * 查找慢，增删快</code></pre></li>
+<li><p>Vector </p>
+<ul>
+<li>和ArrayList几乎一样，区别是Vector是线程安全的。</li>
+</ul>
+</li>
+<li><p>Stack</p>
+<ul>
+<li>继承自Vector，实现后进先出的下压栈</li>
+<li>push，pop，peek（得到栈顶元素），empty，search（检测元素在栈中的位置）</li>
+</ul>
+</li>
+</ul>
+<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><p>set是一种不包括重复元素的Collection，允许存在null值但只可以存在一个。</p>
+<ul>
+<li><p>HashSet</p>
+<ul>
+<li>HashSet是由HashMap实现的，key保存hashcode，value保存值。</li>
+<li>使用hash算法存储元素，因此查找和存取的性能不错。</li>
+</ul>
+</li>
+<li><p>LinkedHashSet</p>
+<ul>
+<li>继承自HashSet，基于LinkedHashMap实现的，有序，非同步。</li>
+<li>使用hashcode值来决定元素的存储位置，同时使用链表维护元素的次序。</li>
+</ul>
+</li>
+<li><p>TreeSet</p>
+<ul>
+<li>TreeSet是SortedSet接口的唯一实现类，TreeSet可以确保集合元素处于排序状态。TreeSet支持两种排序方式，自然排序和定制排序，其中自然排序为默认的排序方式。向TreeSet中加入的应该是同一个类的对象。<br> TreeSet判断两个对象不相等的方式是两个对象通过equals方法返回false，或者通过CompareTo方法比较没有返回0。<br>自然排序<br> 自然排序使用要排序元素的CompareTo（Object obj）方法来比较元素之间大小关系，然后将元素按照升序排列。<br> Java提供了一个Comparable接口，该接口里定义了一个compareTo(Object obj)方法，该方法返回一个整数值，实现了该接口的对象就可以比较大小。obj1.compareTo(obj2)方法如果返回0，则说明被比较的两个对象相等，如果返回一个正数，则表明obj1大于obj2，如果是负数，则表明obj1小于obj2。如果我们将两个对象的equals方法总是返回true，则这两个对象的compareTo方法返回应该返回0。<br>定制排序<br> 自然排序是根据集合元素的大小，以升序排列，如果要定制排序，应该使用Comparator接口，实现 int compare(T o1,T o2)方法。 </li>
+</ul>
+</li>
+</ul>
+<p>Map</p>
+<ul>
+<li><p>HashMap</p>
+<p> 以哈希表数据结构实现，查找对象时通过哈希函数计算其位置，它是为快速查询而设计的，其内部定义了一个hash表数组（Entry[] table），元素会通过哈希转换函数将元素的哈希地址转换成数组中存放的索引，如果有冲突，则使用散列链表的形式将所有相同哈希地址的元素串起来，可能通过查看HashMap.Entry的源码它是一个单链表结构。 </p>
+<ul>
+<li><p>HashMap的存取流程</p>
+<p>put：</p>
+<p>1.对key的hashcode()做hash运算，计算出index</p>
+<p>2.如果没有碰撞就放入对应的位置。</p>
+<p>3.如果有碰撞就以链表的形式放入</p>
+<p>4.如果链表长度大于8，就变为红黑树</p>
+<p>5.如果已经存在oldvalue就将其替换</p>
+<p>6.如果链表或者树满了就要进行resize</p>
+<p>get：</p>
+<p>1.使用key的hash定位，链表中的第一个节点，直接命中</p>
+<p>2.如果为树，则进行Key.equals(k),复杂度为logn;</p>
+<p>3.如果为链表，key.equals(k)，复杂度为n</p>
+</li>
+</ul>
+</li>
+<li><p><strong>LinkedHashMap</strong> </p>
+<p>LinkedHashMap是HashMap的一个子类，它保留<strong>插入的顺序</strong>，如果需要输出的顺序和输入时的相同，那么就选用LinkedHashMap。<br>  LinkedHashMap是Map接口的哈希表和链接列表实现，具有可预知的迭代顺序。此实现提供所有可选的映射操作，并<strong>允许使用null值和null键</strong>。此类不保证映射的顺序，特别是它<strong>不保证该顺序恒久不变</strong>。<br>  LinkedHashMap实现与HashMap的不同之处在于，后者维护着一个运行于所有条目的双重链接列表。此链接列表定义了迭代顺序，该迭代顺序可以是<strong>插入顺序或者是访问顺序</strong>。<br>  根据链表中元素的顺序可以分为：按插入顺序的链表，和按访问顺序(调用get方法)的链表。<strong>默认是按插入顺序排序</strong>，如果指定按访问顺序排序，那么调用get方法后，会将这次访问的元素移至链表尾部，不断访问可以形成按访问顺序排序的链表。<br>  注意，此实现<strong>不是同步的</strong>。如果多个线程同时访问链接的哈希映射，而其中至少一个线程从结构上修改了该映射，则它必须保持外部同步。<br>  由于LinkedHashMap需要维护元素的插入顺序，因此性能略低于HashMap的性能，但在迭代访问Map里的全部元素时将有很好的性能，因为它以链表来维护内部顺序。 </p>
+</li>
+<li><p><strong>TreeMap</strong> </p>
+<p>TreeMap 是一个<strong>有序的</strong>key-value集合，<strong>非同步</strong>，<strong>基于红黑树（Red-Black tree）实现</strong>，每一个key-value节点作为红黑树的一个节点。TreeMap存储时会进行排序的，会根据<strong>key</strong>来对key-value键值对进行排序，其中排序方式也是分为两种，一种是<strong>自然排序</strong>，一种是<strong>定制排序</strong>，具体取决于使用的构造方法。</p>
+<p>自然排序：TreeMap中所有的key<strong>必须实现Comparable接口</strong>，并且所有的key都应该是<strong>同一个类的对象</strong>，否则会报ClassCastException异常。</p>
+<p>定制排序：定义TreeMap时，创建一个<strong>comparator对象</strong>，该对象对所有的treeMap中所有的key值进行排序，采用定制排序的时候不需要TreeMap中所有的key必须实现Comparable接口。</p>
+<p>TreeMap判断两个元素相等的标准：两个key通过compareTo()方法返回0，则认为这两个key相等。</p>
+<p>如果使用自定义的类来作为TreeMap中的key值，且想让TreeMap能够良好的工作，则<strong>必须重写自定义类中的equals()方法</strong>，TreeMap中判断相等的标准是：两个key通过equals()方法返回为true，并且通过compareTo()方法比较应该返回为0。</p>
+</li>
+</ul>
+<h5 id="Iterator-与-ListIterator详解"><a href="#Iterator-与-ListIterator详解" class="headerlink" title="Iterator 与 ListIterator详解"></a><strong>Iterator 与 ListIterator详解</strong></h5><ul>
+<li><p>Iterator</p>
+<p>Iterator是一个接口，它是集合的迭代器。集合可以通过Iterator去遍历集合中的元素。Iterator提供的API接口如下：</p>
+<p>boolean hasNext()：判断集合里是否存在下一个元素。如果有，hasNext()方法返回 true。<br>Object next()：返回集合里下一个元素。<br>void remove()：删除集合里上一次next方法返回的元素。</p>
+</li>
+<li><p><strong>ListIterator</strong> </p>
+<p>ListIterator是一个功能更加强大的迭代器, 它继承于Iterator接口,只能用于各种List类型的访问。可以通过调用listIterator()方法产生一个指向List开始处的ListIterator, 还可以调用listIterator(n)方法创建一个一开始就指向列表索引为n的元素处的ListIterator. </p>
+<p>(1)双向移动（向前/向后遍历）.</p>
+<p>(2)产生相对于迭代器在列表中指向的当前位置的前一个和后一个元素的索引.</p>
+<p>(3)可以使用set()方法替换它访问过的最后一个元素.</p>
+<p>(4)可以使用add()方法在next()方法返回的元素之前或previous()方法返回的元素之后插入一个元素.</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" data-id="ck8d4z8kk0008u4woeobzclmj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/%E5%9F%BA%E7%A1%80/">基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="1-多线程"><a href="#1-多线程" class="headerlink" title="1.多线程"></a>1.多线程</h2><ul>
+<li><p>了解线程</p>
+<p>进程:每个进程都有独立的代码和数据空间（进程上下文），进程间的切换会有较大的开销，一个进程包含1-n个线程。进程也是资源分配的最小单位。</p>
+<p>线程：同一类线程共享代码和数据空间。每个线程有独立的运行栈和程序计数器（PC），线程切换开销较小。线程是cpu调度的最小单位。</p>
+</li>
+<li><p>线程和进程一样分为五个阶段：创建，就绪，运行，阻塞，终止。</p>
+</li>
+<li><p>创建线程的方法（很多种，只了解三种）</p>
+<p>1.继承Thread类</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Threadtest1</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Threadtest1</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">5</span>;i++)&#123;</span><br><span class="line">			System.out.println(name+<span class="string">"运行"</span>+i);</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				sleep((<span class="keyword">int</span>) Math.random()*<span class="number">10</span>);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Threadtest1 thread1 = <span class="keyword">new</span> Threadtest1(<span class="string">"A"</span>);</span><br><span class="line">	Threadtest1 thread2 = <span class="keyword">new</span> Threadtest1(<span class="string">"B"</span>);</span><br><span class="line">	thread1.start();</span><br><span class="line">	thread2.start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">B运行0</span><br><span class="line">A运行0</span><br><span class="line">B运行1</span><br><span class="line">A运行1</span><br><span class="line">B运行2</span><br><span class="line">A运行2</span><br><span class="line">A运行3</span><br><span class="line">A运行4</span><br><span class="line">B运行3</span><br><span class="line">B运行4</span><br></pre></td></tr></table></figure>
+
+
+
+<p>​        2.实现Runnable接口，重写run方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Threadtest2</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Threadtest2</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">5</span>;i++)&#123;</span><br><span class="line">			System.out.println(name+<span class="string">"运行"</span>+i);</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				Thread.sleep((<span class="keyword">int</span>) Math.random()*<span class="number">10</span>);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">new</span> Thread(<span class="keyword">new</span> Threadtest2(<span class="string">"A"</span>)).start();</span><br><span class="line">	<span class="keyword">new</span> Thread(<span class="keyword">new</span> Threadtest2(<span class="string">"B"</span>)).start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">A运行<span class="number">0</span></span><br><span class="line">B运行<span class="number">0</span></span><br><span class="line">A运行<span class="number">1</span></span><br><span class="line">A运行<span class="number">2</span></span><br><span class="line">B运行<span class="number">1</span></span><br><span class="line">B运行<span class="number">2</span></span><br><span class="line">B运行<span class="number">3</span></span><br><span class="line">A运行<span class="number">3</span></span><br><span class="line">B运行<span class="number">4</span></span><br><span class="line">A运行<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：Thread 类其实也是实现了Runnable接口的。</p>
+<p>3.两者的区别</p>
+<p>因为Java不能多继承的特性，如果一个类继承Thread类，便不适合资源共享，如果需求是要尽可能达到资源共享，那么推荐去实现Runnable接口。</p>
+<p>实现接口相比继承的优势：</p>
+<p>1）：适合多个相同的代码程序的线程去处理同一个资源。</p>
+<p>2）：可以避免加Java中的单继承的限制。</p>
+<p>3）：增加程序的健壮性，代码可以被多个线程共享，代码和数据独立。</p>
+<p>4）：线程池只能放入实现Runnable或者Callable类的线程，不能直接放入继承Thread的类。</p>
+<p>提示：在Java中，main方法也是一个线程，在Java中所有的线程启动后，什么时候执行，哪个先执行，完全看谁先能得到CPU的资源。</p>
+<p>在Java中，每次程序运行至少启动2个线程。一个是main线程，一个是垃圾收集线程。</p>
+<ul>
+<li>线程状态转换</li>
+</ul>
+<p>1）新建状态（New）:新创建的线程对象。</p>
+<p>2）就绪状态（Runnable）：线程对象创建后，其他线程调用了该对象的start（）方法，该状态的线程位于可运行线程池中，变得可运行，等待获取CPU的使用权。</p>
+<p>3）运行状态（Runing）：就绪状态的线程获取了CPU，执行程序代码，状态变为运行状态。</p>
+<p>4）阻塞状态（Blocked）：阻塞状态是线程因为某种原因放弃CPU的使用权，暂时停止运。只有线程重新进入到就绪状态，才有机会重新运行。一般情况下，阻塞状态有以下几种情况：</p>
+<p>​        (1)等待阻塞：运行的方法执行了wait（）方法，JVM会把该线程放入等待池中。（wait（）会释放持有的锁）。</p>
+<p>​        (2)同步阻塞：运行的线程在获取对象的同步锁时，若该同步锁被别的线程所占用，则JVM把该线程放入锁池中。</p>
+<p>​        (3)其他阻塞：运行的线程执行了sleep()或join()方法，或者发出了I/O请求时，JVM会把线程置为阻塞状态，当sleep()状态超时，join()等待线程终止或者超时，或者I/O处理完毕时，线程就重新转入就绪状态。（sleep()不会释放持有的锁）</p>
+<p>5）死亡状态（Dead）：线程执行完了或者因为异常退出了run()方法，该线程结束生命周期。</p>
+<ul>
+<li>线程调度</li>
+</ul>
+<p>线程的调度</p>
+<p>1）调整线程优先级：Java线程有优先级 ，优先级高的线程会获得较多的运行机会。Java线程的优先级使用整数表示，取值范围时1~10 ,Thread类有以下三个静态常量：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> MAX_PRIORITY</span><br><span class="line">          线程可以具有的最高优先级，取值为<span class="number">10</span>。</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> MIN_PRIORITY</span><br><span class="line">          线程可以具有的最低优先级，取值为<span class="number">1</span>。</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> NORM_PRIORITY</span><br><span class="line">          分配给线程的默认优先级，取值为<span class="number">5</span>。</span><br></pre></td></tr></table></figure>
+
+<p>Thread类使用 setPriority 和getPriority方法来获取或设置优先级。</p>
+<p>每个线程都有默认的优先级，默认是NORM_PRIORITY。</p>
+<p>线程的优先级具有继承性，A继承B，则A和B具有相同的优先级。</p>
+<p>实验发现：线程优先级只能建议执行优先级，并不一定会生效。</p>
+<p>2）线程睡眠：Thread.sleep()，使线程转到阻塞状态，当线程睡眠结束后，就转为就绪状态。</p>
+<p>3）线程等待：Object类的wait()方法，导致当前线程等待，释放锁。直到其他线程执行notify()方法或者notifyAll()方法唤醒这个方法，这两个唤醒方法也是Object类中的方法，行为等价于wait(0);</p>
+<p>4)线程让步：Thread.yieid()方法，暂停当前正在执行的线程对象，把执行机会让给相同或者优先级更高的线程。</p>
+<p>5）线程加入：join()方法，等待其他线程终止。在当前线程中调用另外一个线程的join()方法，则当前线程转为阻塞状态，知道另外一个进程执行结束，当前线程再由阻塞转为就绪状态。‘</p>
+<p>6）线程唤醒：Object类的notify()方法，唤醒在此监视器下等待的单个线程，类似的方法还有notify()方法。</p>
+<ul>
+<li>常用函数说明</li>
+</ul>
+<p>1）sleep()：让线程停止执行一段时间，时间结束后线程变为就绪状态。</p>
+<p>2）join():等待线程结束。使用这个方法的线程通知主线程等待该线程执行完毕后再继续往下执行。为了避免子线程太复杂的情况下，主线程先于子线程结束的情况。</p>
+<p>3）yieid():使当前线程暂停让出资源，给具有相同优先级或者更高优先级的线程，自身线程返回就绪状态。但是实际中有可能不会生效，因为有个能重新被选中执行，因为优先级高的线程也并不一定时先执行。</p>
+<p>4）interrupt()：作用并不是中断一个线程，只是给线程发出一个中断信号，让线程在无限等待中（如死锁）中跳出，结束进程。</p>
+<p>wait()和sleep()的区别：</p>
+<p>共同点：</p>
+<ul>
+<li>他们都可以在多线程环境下，使程序阻塞规定的时间，并返回。</li>
+<li>都可以被interrupt()方法打断，并抛出异常（interruptException）,注意这个异常是从线程内部抛出来的，并且如果线程是正常执行代码都不会抛出该异常，只有在阻塞状态下才会生效。</li>
+</ul>
+<p>不同点：</p>
+<ul>
+<li>所处的类不同。sleep是Thread类，而wait是Object类。</li>
+<li>sleep方法不释放锁。wait方法释放锁。</li>
+<li>wait只能在同步控制方法或者同步块中使用，否则会抛出异常。</li>
+</ul>
+<h2 id="2-线程同步"><a href="#2-线程同步" class="headerlink" title="2.线程同步"></a>2.线程同步</h2><p>1.synchronized关键字的作用域有两种：</p>
+<p>1）某个对象示例内，synchronized aMethed(){},可以防止多个线程同时访问这个对象的synchronized 方法（如果一个对象有多个synchronized方法，只要一个线程访问了其中一个synchronized方法，其他线程就不能访问这个对象的任何一个synchronized方法）。这时，不同对象实例的synchronized方法是不相干扰的。也就是说，其他线程可以访问该类其他对象的方法。可以理解为锁是加在了对象上。</p>
+<p>2）某个类的范围， synchronized static astatic Method(){},它可以这个类的所有实例化对象都生效。</p>
+<p>2.除了在方法前使用，也可以使用在方法中的某个块区，表示只对这个块区的资源进行互斥访问。用法是synchronized(this){/* 区块*/}，他的作用域也是当前对象。</p>
+<p>3.synchronized关键字是不能继承的，也就是说，子类从父类中继承的synchronized方法并不自动带有这个方法，需要去显示的指定。</p>
+<p> synchronized用到不同地方对代码产生的影响 ：</p>
+<p>假设P1，P2为同一个类的不同对象。</p>
+<p>1）把synchronized作为方法的修饰符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Public <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">methodAAA</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//….</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明:这个时候锁定的是调用这个同步方法的对象，也就是说，只有在P1在其他线程中调用这个方法的时候，才会形成互斥，实现同步。而P2可以正常调用这个方法。</p>
+<p>上边示例代码同义代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodAAA</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">synchronized</span> (<span class="keyword">this</span>)      <span class="comment">//  (1)</span></span><br><span class="line">&#123;</span><br><span class="line">       <span class="comment">//…..</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样会比较主观一点，这个this 代表的就是调用这个方法的对象。而锁就是加在这个对象上的。</p>
+<p>2）同步块，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method3</span><span class="params">(SomeObject so)</span></span></span><br><span class="line"><span class="function">              </span>&#123;</span><br><span class="line">                     <span class="keyword">synchronized</span>(so)</span><br><span class="line">&#123;</span><br><span class="line">       <span class="comment">//…..</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，这个so就是锁的对象，谁得到这个锁谁就能运行同步块控制的代码。如果我们有明确的对象作为锁，就可以这样写代码，但是如果我们没有对象却想使一段代码同步时，可以创建一个新的特殊变量来充当锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">byte</span>[] lock = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];  <span class="comment">// 特殊的instance变量</span></span><br><span class="line">    <span class="function">Public <span class="keyword">void</span> <span class="title">methodA</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">       <span class="keyword">synchronized</span>(lock) &#123; <span class="comment">//… &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//…..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>零长度的byte数组对象创建比任何对象都经济—查看编译后的源码，生成零长度的byte[]对象只需要3条操作码，而object需要7条</em></p>
+<p>3.将synchronized作用于static函数，示例代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Class Foo</span><br><span class="line">&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">methodAAA</span><span class="params">()</span>   <span class="comment">// 同步的static 函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//….</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodBBB</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">       <span class="keyword">synchronized</span>(Foo<span class="class">.<span class="keyword">class</span>)   //  <span class="title">class</span> <span class="title">literal</span>(类名称字面常量)</span></span><br><span class="line"><span class="class">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p> 代码中的methodBBB()方法是把class literal作为锁的情况，它和同步的static函数产生的效果是一样的，取得的锁很特别，是当前调用这个方法的对象所属的类（Class，而不再是由这个Class产生的某个具体对象了）。 </p>
+<p>总结：</p>
+<p>1）线程同步的目的是为了防止多个线程访问同一个资源时对资源的破坏。</p>
+<p>2）线程同步方法是通过锁来实现的，每个对象仅有一个锁，线程一旦获取了对象锁，其他访问该对象的线程就无法再访问该对象的其他费同步方法。</p>
+<p>3）对于静态同步方法，锁是针对这个类的，锁对象是这个类的Class对象。静态和非静态方法的锁互不干涉，一个线程获得锁，当在一个同步方法中访问另外对象的同步方法时，会获取两个对象锁。</p>
+<p>4）对于同步，要时刻搞清楚锁是加在那个对象上的。</p>
+<p>5）编写线程安全的类，需要时刻注意对多个线程竞争资源的逻辑和安全做出正确的 判断，对“原子”操作做出分析，并保证原子操作期间别的线程无法访问竞争资源。</p>
+<p>6）当多个线程等待一个对象锁时，没有获取到锁的线程将发生阻塞。</p>
+<p>7）死锁是线程之间相互等待锁造成的。</p>
+<h2 id="2-lambda表达式"><a href="#2-lambda表达式" class="headerlink" title="2.lambda表达式"></a>2.lambda表达式</h2><p>Java8新特性:</p>
+<p>语法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(parameters) -&gt; expression</span><br><span class="line">(parameters) -&gt;&#123; statements; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>重要特性:</p>
+<ul>
+<li>可选声明类型:不需要声明参数类型,编译器可以统一识别参数值.</li>
+<li>可选的参数愿括号:一个参数无需定义圆括号,但多个参数要定义.</li>
+<li>可选的大括号:如果主题包含了一个语句,就不用使用大括号.</li>
+<li>可选的返回关键字: 如果主体只有一个表达式返回值则编译器会自动返回值，大括号需要指定明表达式返回了一个数值 .</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 不需要参数,返回值为 5  </span></span><br><span class="line">() -&gt; <span class="number">5</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 2. 接收一个参数(数字类型),返回其2倍的值  </span></span><br><span class="line">x -&gt; <span class="number">2</span> * x  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 3. 接受2个参数(数字),并返回他们的差值  </span></span><br><span class="line">(x, y) -&gt; x – y  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 4. 接收2个int型整数,返回他们的和  </span></span><br><span class="line">(<span class="keyword">int</span> x, <span class="keyword">int</span> y) -&gt; x + y  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 5. 接受一个 string 对象,并在控制台打印,不返回任何值(看起来像是返回void)  </span></span><br><span class="line">(String s) -&gt; System.out.print(s)</span><br></pre></td></tr></table></figure>
+
+<p>示例2:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8Tester</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">      Java8Tester tester = <span class="keyword">new</span> Java8Tester();</span><br><span class="line">        </span><br><span class="line">      <span class="comment">// 类型声明</span></span><br><span class="line">      MathOperation addition = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; a + b;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">// 不用类型声明</span></span><br><span class="line">      MathOperation subtraction = (a, b) -&gt; a - b;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">// 大括号中的返回语句</span></span><br><span class="line">      MathOperation multiplication = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; &#123; <span class="keyword">return</span> a * b; &#125;;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">// 没有大括号及返回语句</span></span><br><span class="line">      MathOperation division = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; a / b;</span><br><span class="line">        </span><br><span class="line">      System.out.println(<span class="string">"10 + 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, addition));</span><br><span class="line">      System.out.println(<span class="string">"10 - 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, subtraction));</span><br><span class="line">      System.out.println(<span class="string">"10 x 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, multiplication));</span><br><span class="line">      System.out.println(<span class="string">"10 / 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, division));</span><br><span class="line">        </span><br><span class="line">      <span class="comment">// 不用括号</span></span><br><span class="line">      GreetingService greetService1 = message -&gt;</span><br><span class="line">      System.out.println(<span class="string">"Hello "</span> + message);</span><br><span class="line">        </span><br><span class="line">      <span class="comment">// 用括号</span></span><br><span class="line">      GreetingService greetService2 = (message) -&gt;</span><br><span class="line">      System.out.println(<span class="string">"Hello "</span> + message);</span><br><span class="line">        </span><br><span class="line">      greetService1.sayMessage(<span class="string">"Runoob"</span>);</span><br><span class="line">      greetService2.sayMessage(<span class="string">"Google"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">MathOperation</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">operation</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">GreetingService</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">sayMessage</span><span class="params">(String message)</span></span>;</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">operate</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, MathOperation mathOperation)</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> mathOperation.operation(a, b);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Java代码优化的小细节"><a href="#3-Java代码优化的小细节" class="headerlink" title="3.Java代码优化的小细节"></a>3.Java代码优化的小细节</h2><ul>
+<li><p>尽量再合适的场合使用单例</p>
+<p>可以减轻加载的负担,缩短加载的时间,提高加载的效率.</p>
+</li>
+<li><p>尽量避免随意使用static变量</p>
+<p>当某个对象被定义为static变量引用,那么GC通常是不会回收这个对象所占的内存.</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> B b = <span class="keyword">new</span> B();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​                此时静态变量b和class A生命周期同步,如果A类不会卸载,那么b对象会常                驻内存,直到程序终止.</p>
+<ul>
+<li><p>尽量避免过多过常的创建对象</p>
+<p>对于再循环中创建对象,要考虑有没有其他更好的办法.</p>
+</li>
+<li><p>尽量使用final修饰符</p>
+<p>带有final的类是不可派生的，java编译器会寻找机会去内联所有的final方法，这使得代码性能可以得到大的提高。</p>
+</li>
+<li><p>尽量使用局部变量</p>
+<p>调用方法时传递的参数以及在调用中创建的临时变量都存在栈中，速度较快，而其他变量，如静态变量，实例变量等，都在堆中创建，速度较慢。</p>
+</li>
+<li><p>慎用synchronized，减少synchronized方法</p>
+<p>实现同步要很大的系统开销，要避免无谓的同步控制。尽量使用同步块而非同步方法。</p>
+</li>
+<li><p>尽量不要使用finalize方法</p>
+<p>GC的工作量是很大的，尤其是回收Young代内存时。再次使用finalize方法进行资源清理，会增加GC负担。</p>
+</li>
+<li><p>尽量使用基本数据类型代替对象</p>
+</li>
+<li><p>没有同步安全问题的代码尽量使用HashMap，ArrayList</p>
+<p>Hashtable和Vector使用了同步机制，降低了性能。</p>
+</li>
+<li><p>尽量合理的去创建HashMap</p>
+<p>构造方法提供控制大小的参数，尽量去使用，避免自动扩展浪费资源。</p>
+</li>
+<li><p>尽量在finally块中去释放资源。</p>
+</li>
+<li><p>尽量用移位代替*和/</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a * <span class="number">4</span> </span><br><span class="line">a &lt;&lt; <span class="number">2</span></span><br><span class="line">a / <span class="number">4</span></span><br><span class="line">a &gt;&gt; <span class="number">2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>尽量避免使用二维数组，太浪费空间</p>
+</li>
+</ul>
+<h4 id="HashCode的作用"><a href="#HashCode的作用" class="headerlink" title="HashCode的作用"></a>HashCode的作用</h4><p>Java中有一种无序不重复的集合，set。根据它的特性应当每次添加一个新的值时都要和其他的值进行比较，全部不相同的时候才进行添加。这样看似合理，但是如果set集合中的数据多了以后，要比较的次数会直线上升，效率会越来越低。所以Java采用了哈希表的原理。</p>
+<p>应用这种机制，在存储时，会根据对象的物理地址应用特定的算法计算出hash值，然后定位到hash表的这个位置，先判断是否存在对象，不存在则保存这个对象，存在的话则使用equals方法进行比较，相同的话就不保存了，不相同则是出现了冲突，则会在这个hash值的位置产生链表，进行存储。</p>
+<p>根据上边描述，可得equals为true，hashcode一定相同。hashcode相同，equals不一定为true。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/%E5%9F%BA%E7%A1%80/" data-id="ck8d4z8kk0009u4woeqwueyik" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-项目日常问题解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/29/%E9%A1%B9%E7%9B%AE%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="article-date">
+  <time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished">2020-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/%E9%A1%B9%E7%9B%AE%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">项目日常问题解决</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="项目日常问题"><a href="#项目日常问题" class="headerlink" title="项目日常问题"></a>项目日常问题</h1><h2 id="服务器发版问题"><a href="#服务器发版问题" class="headerlink" title="服务器发版问题"></a>服务器发版问题</h2><ul>
+<li><p>服务器启动jar包可以再java -jar命令中添加启动参数防止影响其他服务</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup java -Xms800m -Xmx800m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:MaxNewSize=512m -jar 你的jar包</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看进程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep XXX </span><br><span class="line">//ps -ef|grep java</span><br><span class="line">//ps -ef|grep ssh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看对应的nohup日志</p>
+<p>进入对应的文件夹下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f/xxx/xxx/nohup.out</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>杀进程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">kill</span> <span class="number">-9</span> xxx(进程号)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>命令后加&amp;符号可以使命令在后台执行</p>
+</li>
+<li><p>日志过大时打印在 var/logs/xxx.log</p>
+</li>
+<li><p>查看命令（例子）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f  -n 10000 spring.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除文件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -rf xxx 删除文件夹</span><br><span class="line">rm -f xxx 删除文件</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ul>
+<h2 id="项目问题"><a href="#项目问题" class="headerlink" title="项目问题"></a>项目问题</h2><ul>
+<li><p>chrome在下载文件名中含有英文半角逗号的时候会报错，chrome自身问题，需要处理。</p>
+</li>
+<li><p>在西郊老代码中出现了一种修改的方式，先查出来一条数据包装成一个对象，再修改某个字段的值，随后再save。这种情景在并发下十分危险。</p>
+<p>这种情况下最好是给要修改的数据加上锁，最简单的解决办法是使用update语句先将该条语句修改一个无关紧要的字段，例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> memberaccount <span class="keyword">set</span> deleted = <span class="number">0</span> <span class="keyword">where</span> memberaccount=?</span><br></pre></td></tr></table></figure>
+
+<p>然后再将该条数据查出来进行修改，最后随着事务一起提交，在这期间，该条数据是不可被其他并发进程所修改的。</p>
+</li>
+<li><p>Bigdecimal 的加法运算只用add（）方法不起作用，必须用一个值去接。</p>
+</li>
+<li><p>Bigdecimal比较建议使用compareTo方法，返回0则相等，返回1则不相等。</p>
+</li>
+</ul>
+<h2 id="数据库相关问题"><a href="#数据库相关问题" class="headerlink" title="数据库相关问题"></a>数据库相关问题</h2><ul>
+<li><p>聚集索引和非聚集索引</p>
+<p> 聚集索引：索引树的叶子节点存储的是数据（InnoDB引擎），也就是数据的逻辑地址和物理地址都是连续的，因此查询的速度相对来说会比较快。由于这种特殊的要求，所以一张表只能有一个聚集索引。</p>
+<p> 非聚集索引：索引树的叶子节点存储的是数据的存储地址（ MyISAM ），因此数据的逻辑地址和物理地址一般是不相同的。</p>
+</li>
+</ul>
+<h4 id="服务间调用（feign）"><a href="#服务间调用（feign）" class="headerlink" title="服务间调用（feign）"></a>服务间调用（feign）</h4><p>步骤：</p>
+<p>1.pom文件导入以来</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2.启动函数前加注解</p>
+<p> @EnableFeignClients </p>
+<p>3.调用</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/03/29/%E9%A1%B9%E7%9B%AE%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" data-id="ck8d4z8kl000au4wo5e351cuw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/03/29/MySQL/">MySQL</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Redis/">Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/">MD文档编写帮助</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">Oracle数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/29/%E4%BA%8C%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">二期数据库相关操作</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
