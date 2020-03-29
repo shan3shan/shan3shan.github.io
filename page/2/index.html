@@ -152,19 +152,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-集合框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-项目日常问题解决" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">集合框架</a>
+      <a class="article-title" href="/2020/03/29/%E9%A1%B9%E7%9B%AE%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">项目日常问题解决</a>
     </h1>
   
 
         
-        <a href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" class="archive-article-date">
+        <a href="/2020/03/29/%E9%A1%B9%E7%9B%AE%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="archive-article-date">
   	<time datetime="2020-03-29T14:24:19.843Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
 </a>
         
@@ -172,111 +172,63 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="集合框架"><a href="#集合框架" class="headerlink" title="集合框架"></a>集合框架</h1><h4 id="集合接口"><a href="#集合接口" class="headerlink" title="集合接口"></a>集合接口</h4><ul>
-<li><p>数组和集合的区别</p>
-<p>数组定长，集合变长，可自动扩容。</p>
-<p>数组元素固定，集合元素可以不同。</p>
+        <h1 id="项目日常问题"><a href="#项目日常问题" class="headerlink" title="项目日常问题"></a>项目日常问题</h1><h2 id="服务器发版问题"><a href="#服务器发版问题" class="headerlink" title="服务器发版问题"></a>服务器发版问题</h2><ul>
+<li><p>服务器启动jar包可以再java -jar命令中添加启动参数防止影响其他服务</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup java -Xms800m -Xmx800m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:MaxNewSize=512m -jar 你的jar包</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Collection接口和Map接口</p>
-<p>Collection是高度抽象出来的集合，包含了集合的基本特性。</p>
-<p>派生出了 Set  List Queue</p>
-<p>Map派生出了各种Map接口。</p>
+<li><p>查看进程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep XXX </span><br><span class="line">//ps -ef|grep java</span><br><span class="line">//ps -ef|grep ssh</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<h4 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h4><h5 id="List"><a href="#List" class="headerlink" title="List"></a>List</h5><ul>
-<li><p>ArrayList</p>
-<ul>
-<li>是一个动态数组</li>
-<li>允许任何合法的元素包括null。</li>
-<li>添加元素时会有容量检测，自动扩充。</li>
-<li>再明确的情况下尽量给予初始值。</li>
-<li>擅长随机访问。</li>
-<li>方法： size、isEmpty、get、set、iterator 和 listIterator  </li>
-<li>查找快，增删慢</li>
-</ul>
+<li><p>查看对应的nohup日志</p>
+<p>进入对应的文件夹下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f/xxx/xxx/nohup.out</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>LinkedList</p>
-<pre><code>* 双向链表
-      * 不能随机访问
-* 提供了get，remove，insert方法在LinkedList的首部和尾部。
-   * 非同步的。
-   * 查找慢，增删快</code></pre></li>
-<li><p>Vector </p>
-<ul>
-<li>和ArrayList几乎一样，区别是Vector是线程安全的。</li>
-</ul>
+<li><p>杀进程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">kill</span> <span class="number">-9</span> xxx(进程号)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Stack</p>
-<ul>
-<li>继承自Vector，实现后进先出的下压栈</li>
-<li>push，pop，peek（得到栈顶元素），empty，search（检测元素在栈中的位置）</li>
-</ul>
+<li><p>命令后加&amp;符号可以使命令在后台执行</p>
+</li>
+<li><p>日志过大时打印在 var/logs/xxx.log</p>
+</li>
+<li><p>查看命令（例子）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f  -n 10000 spring.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除文件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -rf xxx 删除文件夹</span><br><span class="line">rm -f xxx 删除文件</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 </li>
 </ul>
-<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><p>set是一种不包括重复元素的Collection，允许存在null值但只可以存在一个。</p>
-<ul>
-<li><p>HashSet</p>
-<ul>
-<li>HashSet是由HashMap实现的，key保存hashcode，value保存值。</li>
-<li>使用hash算法存储元素，因此查找和存取的性能不错。</li>
-</ul>
+<h2 id="项目问题"><a href="#项目问题" class="headerlink" title="项目问题"></a>项目问题</h2><ul>
+<li><p>chrome在下载文件名中含有英文半角逗号的时候会报错，chrome自身问题，需要处理。</p>
 </li>
-<li><p>LinkedHashSet</p>
-<ul>
-<li>继承自HashSet，基于LinkedHashMap实现的，有序，非同步。</li>
-<li>使用hashcode值来决定元素的存储位置，同时使用链表维护元素的次序。</li>
-</ul>
+<li><p>在西郊老代码中出现了一种修改的方式，先查出来一条数据包装成一个对象，再修改某个字段的值，随后再save。这种情景在并发下十分危险。</p>
+<p>这种情况下最好是给要修改的数据加上锁，最简单的解决办法是使用update语句先将该条语句修改一个无关紧要的字段，例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> memberaccount <span class="keyword">set</span> deleted = <span class="number">0</span> <span class="keyword">where</span> memberaccount=?</span><br></pre></td></tr></table></figure>
+
+<p>然后再将该条数据查出来进行修改，最后随着事务一起提交，在这期间，该条数据是不可被其他并发进程所修改的。</p>
 </li>
-<li><p>TreeSet</p>
-<ul>
-<li>TreeSet是SortedSet接口的唯一实现类，TreeSet可以确保集合元素处于排序状态。TreeSet支持两种排序方式，自然排序和定制排序，其中自然排序为默认的排序方式。向TreeSet中加入的应该是同一个类的对象。<br> TreeSet判断两个对象不相等的方式是两个对象通过equals方法返回false，或者通过CompareTo方法比较没有返回0。<br>自然排序<br> 自然排序使用要排序元素的CompareTo（Object obj）方法来比较元素之间大小关系，然后将元素按照升序排列。<br> Java提供了一个Comparable接口，该接口里定义了一个compareTo(Object obj)方法，该方法返回一个整数值，实现了该接口的对象就可以比较大小。obj1.compareTo(obj2)方法如果返回0，则说明被比较的两个对象相等，如果返回一个正数，则表明obj1大于obj2，如果是负数，则表明obj1小于obj2。如果我们将两个对象的equals方法总是返回true，则这两个对象的compareTo方法返回应该返回0。<br>定制排序<br> 自然排序是根据集合元素的大小，以升序排列，如果要定制排序，应该使用Comparator接口，实现 int compare(T o1,T o2)方法。 </li>
-</ul>
+<li><p>Bigdecimal 的加法运算只用add（）方法不起作用，必须用一个值去接。</p>
+</li>
+<li><p>Bigdecimal比较建议使用compareTo方法，返回0则相等，返回1则不相等。</p>
 </li>
 </ul>
-<p>Map</p>
-<ul>
-<li><p>HashMap</p>
-<p> 以哈希表数据结构实现，查找对象时通过哈希函数计算其位置，它是为快速查询而设计的，其内部定义了一个hash表数组（Entry[] table），元素会通过哈希转换函数将元素的哈希地址转换成数组中存放的索引，如果有冲突，则使用散列链表的形式将所有相同哈希地址的元素串起来，可能通过查看HashMap.Entry的源码它是一个单链表结构。 </p>
-<ul>
-<li><p>HashMap的存取流程</p>
-<p>put：</p>
-<p>1.对key的hashcode()做hash运算，计算出index</p>
-<p>2.如果没有碰撞就放入对应的位置。</p>
-<p>3.如果有碰撞就以链表的形式放入</p>
-<p>4.如果链表长度大于8，就变为红黑树</p>
-<p>5.如果已经存在oldvalue就将其替换</p>
-<p>6.如果链表或者树满了就要进行resize</p>
-<p>get：</p>
-<p>1.使用key的hash定位，链表中的第一个节点，直接命中</p>
-<p>2.如果为树，则进行Key.equals(k),复杂度为logn;</p>
-<p>3.如果为链表，key.equals(k)，复杂度为n</p>
+<h2 id="数据库相关问题"><a href="#数据库相关问题" class="headerlink" title="数据库相关问题"></a>数据库相关问题</h2><ul>
+<li><p>聚集索引和非聚集索引</p>
+<p> 聚集索引：索引树的叶子节点存储的是数据（InnoDB引擎），也就是数据的逻辑地址和物理地址都是连续的，因此查询的速度相对来说会比较快。由于这种特殊的要求，所以一张表只能有一个聚集索引。</p>
+<p> 非聚集索引：索引树的叶子节点存储的是数据的存储地址（ MyISAM ），因此数据的逻辑地址和物理地址一般是不相同的。</p>
 </li>
 </ul>
-</li>
-<li><p><strong>LinkedHashMap</strong> </p>
-<p>LinkedHashMap是HashMap的一个子类，它保留<strong>插入的顺序</strong>，如果需要输出的顺序和输入时的相同，那么就选用LinkedHashMap。<br>  LinkedHashMap是Map接口的哈希表和链接列表实现，具有可预知的迭代顺序。此实现提供所有可选的映射操作，并<strong>允许使用null值和null键</strong>。此类不保证映射的顺序，特别是它<strong>不保证该顺序恒久不变</strong>。<br>  LinkedHashMap实现与HashMap的不同之处在于，后者维护着一个运行于所有条目的双重链接列表。此链接列表定义了迭代顺序，该迭代顺序可以是<strong>插入顺序或者是访问顺序</strong>。<br>  根据链表中元素的顺序可以分为：按插入顺序的链表，和按访问顺序(调用get方法)的链表。<strong>默认是按插入顺序排序</strong>，如果指定按访问顺序排序，那么调用get方法后，会将这次访问的元素移至链表尾部，不断访问可以形成按访问顺序排序的链表。<br>  注意，此实现<strong>不是同步的</strong>。如果多个线程同时访问链接的哈希映射，而其中至少一个线程从结构上修改了该映射，则它必须保持外部同步。<br>  由于LinkedHashMap需要维护元素的插入顺序，因此性能略低于HashMap的性能，但在迭代访问Map里的全部元素时将有很好的性能，因为它以链表来维护内部顺序。 </p>
-</li>
-<li><p><strong>TreeMap</strong> </p>
-<p>TreeMap 是一个<strong>有序的</strong>key-value集合，<strong>非同步</strong>，<strong>基于红黑树（Red-Black tree）实现</strong>，每一个key-value节点作为红黑树的一个节点。TreeMap存储时会进行排序的，会根据<strong>key</strong>来对key-value键值对进行排序，其中排序方式也是分为两种，一种是<strong>自然排序</strong>，一种是<strong>定制排序</strong>，具体取决于使用的构造方法。</p>
-<p>自然排序：TreeMap中所有的key<strong>必须实现Comparable接口</strong>，并且所有的key都应该是<strong>同一个类的对象</strong>，否则会报ClassCastException异常。</p>
-<p>定制排序：定义TreeMap时，创建一个<strong>comparator对象</strong>，该对象对所有的treeMap中所有的key值进行排序，采用定制排序的时候不需要TreeMap中所有的key必须实现Comparable接口。</p>
-<p>TreeMap判断两个元素相等的标准：两个key通过compareTo()方法返回0，则认为这两个key相等。</p>
-<p>如果使用自定义的类来作为TreeMap中的key值，且想让TreeMap能够良好的工作，则<strong>必须重写自定义类中的equals()方法</strong>，TreeMap中判断相等的标准是：两个key通过equals()方法返回为true，并且通过compareTo()方法比较应该返回为0。</p>
-</li>
-</ul>
-<h5 id="Iterator-与-ListIterator详解"><a href="#Iterator-与-ListIterator详解" class="headerlink" title="Iterator 与 ListIterator详解"></a><strong>Iterator 与 ListIterator详解</strong></h5><ul>
-<li><p>Iterator</p>
-<p>Iterator是一个接口，它是集合的迭代器。集合可以通过Iterator去遍历集合中的元素。Iterator提供的API接口如下：</p>
-<p>boolean hasNext()：判断集合里是否存在下一个元素。如果有，hasNext()方法返回 true。<br>Object next()：返回集合里下一个元素。<br>void remove()：删除集合里上一次next方法返回的元素。</p>
-</li>
-<li><p><strong>ListIterator</strong> </p>
-<p>ListIterator是一个功能更加强大的迭代器, 它继承于Iterator接口,只能用于各种List类型的访问。可以通过调用listIterator()方法产生一个指向List开始处的ListIterator, 还可以调用listIterator(n)方法创建一个一开始就指向列表索引为n的元素处的ListIterator. </p>
-<p>(1)双向移动（向前/向后遍历）.</p>
-<p>(2)产生相对于迭代器在列表中指向的当前位置的前一个和后一个元素的索引.</p>
-<p>(3)可以使用set()方法替换它访问过的最后一个元素.</p>
-<p>(4)可以使用add()方法在next()方法返回的元素之前或previous()方法返回的元素之后插入一个元素.</p>
-</li>
-</ul>
+<h4 id="服务间调用（feign）"><a href="#服务间调用（feign）" class="headerlink" title="服务间调用（feign）"></a>服务间调用（feign）</h4><p>步骤：</p>
+<p>1.pom文件导入以来</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2.启动函数前加注解</p>
+<p> @EnableFeignClients </p>
+<p>3.调用</p>
 
       
 
@@ -289,7 +241,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/03/29/%E9%A1%B9%E7%9B%AE%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">展开全文 >></a>
         </p>
       
 
@@ -342,13 +294,13 @@
         <h1 id="Jmeter并发测试"><a href="#Jmeter并发测试" class="headerlink" title="Jmeter并发测试"></a>Jmeter并发测试</h1><ul>
 <li>本次测试是针对与一个交易提交的接口的并发检测</li>
 </ul>
-<h4 id="1-下载安装Jmeter"><a href="#1-下载安装Jmeter" class="headerlink" title="1.下载安装Jmeter"></a>1.下载安装Jmeter</h4><h4 id="2-添加线程组"><a href="#2-添加线程组" class="headerlink" title="2.添加线程组"></a>2.添加线程组</h4><p><img src="images%5Ctu1.png" alt="图1"></p>
-<p><img src="images%5Ctu2.png" alt="图2"></p>
-<h4 id="3-添加HTTP请求"><a href="#3-添加HTTP请求" class="headerlink" title="3.添加HTTP请求"></a>3.添加HTTP请求</h4><p><img src="images%5Ctu3.png" alt="图三"></p>
-<p><img src="images%5Ctu4.png" alt="图4"></p>
-<h4 id="4-CSV数据文件设置"><a href="#4-CSV数据文件设置" class="headerlink" title="4.CSV数据文件设置"></a>4.CSV数据文件设置</h4><p><img src="images%5Ctu5.png" alt="图5"></p>
-<h4 id="5-设置请求头"><a href="#5-设置请求头" class="headerlink" title="5.设置请求头"></a>5.设置请求头</h4><p><img src="images%5Ctu6.png" alt="图6"></p>
-<h4 id="6-CSV数据格式（json格式）"><a href="#6-CSV数据格式（json格式）" class="headerlink" title="6.CSV数据格式（json格式）"></a>6.CSV数据格式（json格式）</h4><p><img src="images%5Ctu7.png" alt="图7"></p>
+<h4 id="1-下载安装Jmeter"><a href="#1-下载安装Jmeter" class="headerlink" title="1.下载安装Jmeter"></a>1.下载安装Jmeter</h4><h4 id="2-添加线程组"><a href="#2-添加线程组" class="headerlink" title="2.添加线程组"></a>2.添加线程组</h4><p><img src="/images/tu1.png" alt="图1"></p>
+<p><img src="/images/tu2.png" alt="图2"></p>
+<h4 id="3-添加HTTP请求"><a href="#3-添加HTTP请求" class="headerlink" title="3.添加HTTP请求"></a>3.添加HTTP请求</h4><p><img src="/images/tu3.png" alt="图三"></p>
+<p><img src="/images/tu4.png" alt="图4"></p>
+<h4 id="4-CSV数据文件设置"><a href="#4-CSV数据文件设置" class="headerlink" title="4.CSV数据文件设置"></a>4.CSV数据文件设置</h4><p><img src="/images/tu5.png" alt="图5"></p>
+<h4 id="5-设置请求头"><a href="#5-设置请求头" class="headerlink" title="5.设置请求头"></a>5.设置请求头</h4><p><img src="/images/tu6.png" alt="图6"></p>
+<h4 id="6-CSV数据格式（json格式）"><a href="#6-CSV数据格式（json格式）" class="headerlink" title="6.CSV数据格式（json格式）"></a>6.CSV数据格式（json格式）</h4><p><img src="/images/tu7.png" alt="图7"></p>
 <h4 id="7-添加察看结果树"><a href="#7-添加察看结果树" class="headerlink" title="7.添加察看结果树"></a>7.添加察看结果树</h4>
       
 
