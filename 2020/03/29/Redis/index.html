@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Redis简介Redis是一个高性能的Key-Value数据库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="http://yoursite.com/2020/03/29/Redis/index.html">
+<meta property="og:site_name" content="尽力而为">
+<meta property="og:description" content="Redis简介Redis是一个高性能的Key-Value数据库。">
+<meta property="og:image" content="http://yoursite.com/2020/03/29/Redis/D:%5CMD%E7%AC%94%E8%AE%B0%5Cimages%5Ctu8.png">
+<meta property="article:published_time" content="2020-03-29T14:24:19.843Z">
+<meta property="article:modified_time" content="2020-03-29T16:20:33.315Z">
+<meta property="article:author" content="闪闪">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/29/Redis/D:%5CMD%E7%AC%94%E8%AE%B0%5Cimages%5Ctu8.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/29/Redis/"/>
+
+
+
+
+
+  <title>Redis | 尽力而为</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">尽力而为</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闪闪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尽力而为">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T22:24:19+08:00">
+                2020-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Redis是一个高性能的Key-Value数据库。</p>
+ <a id="more"></a> 
+
+<p>个人理解：对我我们使用者来说，就是可以把一部分常用的数据从硬盘转到内存中，从而提高读写速度。（缓存）</p>
+<p>特点：</p>
+<ul>
+<li>支持数据的持久化。</li>
+<li>支持多种数据结构的储存。</li>
+<li>支持数据备份。</li>
+</ul>
+<p>优势：</p>
+<ul>
+<li>性能极高。</li>
+<li>原子性操作。</li>
+<li>丰富的特征。</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>下载压缩包，解压到文件夹，在文件夹下打开cmd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server.exe redis.windows.conf</span><br></pre></td></tr></table></figure>
+
+<p>启动，如果要方便，可以配置环境变量，可以省略掉redis.windows.conf</p>
+<p>接下来启动另外一个cmd窗口，注意原来的不要关闭</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli.exe -h <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span> -p <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+
+<p>一个测试用例：</p>
+<p>设置值：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> XXX(键) xxx(值)</span><br></pre></td></tr></table></figure>
+
+<p>取值：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get xxx(键)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Config-配置"><a href="#Config-配置" class="headerlink" title="Config 配置"></a>Config 配置</h3><p>Redis Config命令格式如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; CONFIG GET xxx（配置名）</span><br></pre></td></tr></table></figure>
+
+<p>获取所有配置使用 config get *</p>
+<p>通过config set 来设置参数</p>
+<p>例:</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; CONFIG <span class="built_in">SET</span> xxx(配置名) xxx(设置)</span><br></pre></td></tr></table></figure>
+
+<h4 id="String"><a href="#String" class="headerlink" title="String"></a>String</h4><ul>
+<li>String是Redis最基础的数据类型</li>
+<li>是二进制安全的，一个key对应一个value</li>
+<li>最大可以储存512m，可以包含任何数据，比如jpg图片或者序列化对象。</li>
+</ul>
+<p>命令：</p>
+<ul>
+<li>GET                 获取存储在给定键中的值</li>
+<li>SET                  设置存储在给定键中的值</li>
+<li>DEL                  删除存储在给定键中的值</li>
+</ul>
+<p>Hash（哈希）</p>
+<ul>
+<li>hash是一个键值对集合</li>
+<li>hash是以一个String类型的field和value的映射表，hash特别适合用于存储对象。</li>
+<li>每个hash可以存储40多亿个键值对</li>
+</ul>
+<p>命令:</p>
+<ul>
+<li>HSET            在散列里关联起给定的键值对</li>
+<li>HGET            获取指定散列键的值</li>
+<li>HGETALL     获取散列包含的所有键值对</li>
+<li>HDEL             如果给定键值对存在于散列中，则将其删除</li>
+</ul>
+<p>例：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hmset person name "leiguodong" age "<span class="number">23</span>"</span><br><span class="line">OK</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hget person name</span><br><span class="line">"leiguodong"</span><br></pre></td></tr></table></figure>
+
+<h4 id="List（列表）"><a href="#List（列表）" class="headerlink" title="List（列表）"></a>List（列表）</h4><ul>
+<li>列表是最简单的字符串列表，按照插入顺序排序，你可以添加一个元素到列表的头部（左边）或者尾部（右边）。</li>
+<li>每个列表可以储存40多亿个元素</li>
+</ul>
+<p>命令：</p>
+<ul>
+<li>LPUSH/RPUSH             将给定值推入列表的左侧或者右侧</li>
+<li>LPOP/RPOP                   从列表左侧/右侧弹出一个值，并返回</li>
+<li>LRANGE                         获取在给定范围的所有值（0  -1 为所有值）</li>
+<li>LINDEX                           获取指定位置的单个元素</li>
+</ul>
+<p>例：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; lpush string1 hello</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; lpush string1 word</span><br><span class="line">(integer) <span class="number">2</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; LRANGE string1 <span class="number">0</span> <span class="number">3</span></span><br><span class="line"><span class="number">1</span>) "word"</span><br><span class="line"><span class="number">2</span>) "hello"</span><br></pre></td></tr></table></figure>
+
+<h4 id="Set-集合"><a href="#Set-集合" class="headerlink" title="Set(集合)"></a>Set(集合)</h4><ul>
+<li>set是String类型的无序集合</li>
+<li>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O（1）</li>
+<li>添加一个String元素到key对应的set集合中，成功返回1，如果已经存在返回0</li>
+<li>每个集合可以存40多亿个成员</li>
+</ul>
+<p>命令：</p>
+<ul>
+<li>SADD             将给定元素添加到集合</li>
+<li>SMEMBERS          返回集合中所有元素</li>
+<li>SISMEMBER         检查元素是否在集合中</li>
+<li>SREM             如果给定 元素在集合中，则将其移除</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sadd sett hello</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sadd sett hello</span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sadd sett word</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; smembers sett</span><br><span class="line"><span class="number">1</span>) "word"</span><br><span class="line"><span class="number">2</span>) "hello"</span><br></pre></td></tr></table></figure>
+
+<h4 id="zset-有序集合"><a href="#zset-有序集合" class="headerlink" title="zset(有序集合)"></a>zset(有序集合)</h4><ul>
+<li>String类型元素集合。</li>
+<li>每个元素都对应一个double类型的权重值，通过权重值排序。</li>
+<li>元素不可以重复，但是权重值可以重复。</li>
+</ul>
+<p>命令</p>
+<ul>
+<li>ZADD            将一个带有分值的成员添加到有序集合</li>
+<li>ZRANGE       根据元素所处的位置，从有序集合中获取多个元素</li>
+<li>ZRANGEBYSCORE       获取有序集合中给定分值的所有元素</li>
+<li>ZREM             如果给定成员存在于有序集合，则移除这个元素</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">0</span> hello</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">1</span> hello</span><br><span class="line">(integer) <span class="number">0</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">0</span> word</span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; zadd seet <span class="number">1</span> !</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; ZRANGEBYSCORE seet <span class="number">0</span> <span class="number">3</span></span><br><span class="line"><span class="number">1</span>) "word"</span><br><span class="line"><span class="number">2</span>) "!"</span><br><span class="line"><span class="number">3</span>) "hello"</span><br></pre></td></tr></table></figure>
+
+<p>​                </p>
+<h4 id="特殊操作"><a href="#特殊操作" class="headerlink" title="特殊操作"></a>特殊操作</h4><ul>
+<li><p>排序</p>
+<p>SORT 默认为根据升序排序</p>
+</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; rpush sortin <span class="number">23</span> <span class="number">15</span> <span class="number">110</span> <span class="number">7</span></span><br><span class="line">(integer) <span class="number">4</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin  //默认排序</span><br><span class="line"><span class="number">1</span>) "<span class="number">7</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">15</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">23</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">110</span>"</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin alpha //根据字母表顺序排序</span><br><span class="line"><span class="number">1</span>) "<span class="number">110</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">15</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">23</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">7</span>"</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">7</span> field <span class="number">5</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">15</span> field <span class="number">1</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">23</span> field <span class="number">9</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; hset d-<span class="number">110</span> field <span class="number">3</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin by d-*-&gt;field//将散列的域用作权重，对列表进行排序</span><br><span class="line"><span class="number">1</span>) "<span class="number">15</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">110</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">7</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">23</span>"</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt; sort sortin by d-*-&gt;field get d-*-&gt;field</span><br><span class="line">//获取外部数据，并将他们用作命令的返回值</span><br><span class="line"><span class="number">1</span>) "<span class="number">1</span>"</span><br><span class="line"><span class="number">2</span>) "<span class="number">3</span>"</span><br><span class="line"><span class="number">3</span>) "<span class="number">5</span>"</span><br><span class="line"><span class="number">4</span>) "<span class="number">9</span>"</span><br><span class="line"><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">6379</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>基本redis 的事务</li>
+</ul>
+<p>Redis 的事务需要用到MULTI和EXEC关键字命令，这种事务可以让一个客户端在不被其他客户端打断的情况下执行 多哥命令。和关系数据库那种可以在执行过程中回滚的事务不同，在Redis里，别MULTI命令和EXEC命令包围的所有命令会一个接着一个的执行。直到所有命令都执行完成。当一个事务执行完毕之后，Redis才会处理其他客户端的命令。·</p>
+<ul>
+<li>键的过期时间</li>
+</ul>
+<p>PERSIST  key  移除键的过期时间</p>
+<p>TTL  key  看给定键离过期还有多久</p>
+<p>EXPIRE key seconds   让给定键在指定的秒数后过期</p>
+<p>EXPOREAT key timestamp  将给定键的过期时间设置为时间戳</p>
+<p>PTTL  key  查看给定键距离过期时间还有多少毫秒‘</p>
+<p>PEXPIRE  key milliseconds  让给定键在指定的毫秒数后过期</p>
+<p>PEXPIREAT key timestamp-milliseconds  将一个毫秒级精度的时间戳设置为给定键的过期时间</p>
+<h4 id="持久化选项"><a href="#持久化选项" class="headerlink" title="持久化选项"></a>持久化选项</h4><p>Redis提供了两种持久化方法来将数据存储到硬盘中</p>
+<ul>
+<li>快照</li>
+<li>只追加文件AOF</li>
+</ul>
+<p><img src="/2020/03/29/Redis/D:%5CMD%E7%AC%94%E8%AE%B0%5Cimages%5Ctu8.png" alt="image-20200227164051152"></p>
+<p>以上是一些对持久化操作的设置</p>
+<p>快照：个人理解就是对Redis数据进行了复制并存在本地或者指定的其他地方。快照的内容和快照开始的那一刻redis内存中的数据相同。</p>
+<p>创建快照的方法:</p>
+<ul>
+<li>客户端向Redis发送BGSAVE命令来创建快照。（Windows不支持BGSAVE命令）Redis会调用fork来创建一个子进程，然后子进程负责将快照写入硬盘，而父进程则继续处理请求。’</li>
+<li>客户端还可以向Redis发送SAVE命令来创建快照，接到SAVE命令的Redis服务器在快照创建完毕之前将不在相应其他任何命令。因此SAVE命令不常用，只会在内存不足以运行 BGSAVE命令的情况下，又或者及时等待持久化完毕也无所谓的情况下，才会使用这个命令。</li>
+<li>如果用户设置了save配置选项，比如save   60  10000，那么从Redis最近一次创建框招之后开始算起，当“60秒内有10000次写入”这个条件被满足时，Redis就会自动触发BGSAVE命令，如果用户设置了多个save配置选项，那么当任意一个条件满足时，都会触发一次BGSAVE</li>
+<li>当一个Redis服务器连接另外一个Redis服务器，并向对方发送SYNC命令来开始一次复制操作时，如果主服务器目前没有在执行BGSAVE操作，或者主服务器并非刚刚执行完BGSAVE操作，那么主服务器就会执行BGSAVE命令。</li>
+</ul>
+<p>只使用快照持久化来保存数据时，如果系统真的发生崩溃，用户将丢失最近一次生成快照后更改的所有数据，所以是由适用场景的。</p>
+<p>AOF持久化：AOF持久化会将被执行的写命令写到AOF文件的末尾，以此来记录数据发生的变化。因此，Redis只要从头到尾重新执行一次AOF文件包含的所有写命令，就可以恢复AOF文件所记录的数据集。AOF持久化可以通过设置appendonly yes配置选项来打开。appendfsync配置选项对AOF文件同步频率的影响。</p>
+<ul>
+<li>always   每个写命令都要同步写入硬盘，会严重降低速度</li>
+<li>everysec 每秒执行一次同步，显示地将多个写命令同步到硬盘</li>
+<li>no 让操作系统决定应该何时来进行同步</li>
+</ul>
+<p>如果用户使用appendfsync always选项的话，那么每个redis写命令都会被写入硬盘，从而将发生系统崩溃时数据丢失减少到最少。不过遗憾的是这种同步策略需要对硬盘进行大量的写入，因此redis处理命令的速度会受到硬盘性能的限制。普通硬盘每秒只能处理大约200个写操作，而固态硬盘每秒也只能写入处理几万个命令。但是固态硬盘用户也要谨慎使用，因为appendfsync always会让redis每次只写入一个命令，可能会引起严重的写入放大问题，会严重 降低硬盘寿命。</p>
+<p>一般推荐使用everysec，no一般不用，因为首先对数据的保护不够，其次很容易影响redis的性能。</p>
+<ul>
+<li>重写/压缩AOF文件</li>
+</ul>
+<p>BGREWRITAOF  类似BGSAVE，创建子进程对AOF文件进行重写。</p>
+<p>auto-aof-rewrite-percentage 和 auto-aof-rewrite-min-size  类似save命令可以根据参数使bgrewriteaof自动操作</p>
+<p>auto-aof-rewrite-percentage 100 AOF文件超过上次重写之后大了100%后执行重写操作</p>
+<p>auto-aof-rewrite-min-size 64MB  AOF文件超过64MB时进行重回写操作</p>
+<h4 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h4><p>复制可以让其他服务器拥有一个不断地更新的数据副本，从而使得拥有数据副本的服务器可以用于处理客户端发送的读请求。</p>
+<p>如果一个redis服务器启动时包含配置文件slaveof host port ，那么该服务器是host port运行的服务器的从服务器。</p>
+<p>正在运行的服务器可以发送salveof no one来终止从服务器的的复制操作。也可以发送slaveof host port 命令来让服务器开始复制一个新的主服务器。</p>
+<ul>
+<li><p>复制的启动过程（主从）</p>
+<p>第一步：</p>
+<ul>
+<li>等待命令</li>
+<li>联接主服务器，发送sync命令</li>
+</ul>
+<p>第二步：</p>
+<ul>
+<li>开始执行bgsave，并使用缓冲区记录下bgsave之后执行的所有写命令。</li>
+<li>根据配置选项来决定是继续使用现有的数据来处理客户端的请求命令还是返回错误。</li>
+</ul>
+<p>第三步：</p>
+<ul>
+<li>bgsave执行完毕，向从服务器发送快照文件，并在发送期间继续使用缓冲区记录被执行的写命令。</li>
+<li>丢弃所有旧数据，开始载入主服务器发送来的快照文件。</li>
+</ul>
+<p>第四步：</p>
+<ul>
+<li>快照文件发送完毕，开始向从服务器发送储存在缓冲区里面的写命令 。</li>
+<li>完成对快照文件的操作解释，像往常一样开始接受命令请求。</li>
+</ul>
+<p>第五步：</p>
+<ul>
+<li>缓冲区存储的写命令发送完毕；从现在开始，每执行一个写命令，就向从服务器发送相同的写命令。</li>
+<li>执行从服务器发来的所有存储在缓冲区里面的写命令，并从现在开始，接受并执行主服务器传来的每个写命令。</li>
+</ul>
+<h4 id="主从链"><a href="#主从链" class="headerlink" title="主从链"></a>主从链</h4><p>当读的命令明显高于写的命令时，并且请求的数量远远超出一台redis服务器可以处理的范围，用户就需要添加新的从服务器来处理请求。随着负载的不断上升 ，主服务器可能会无法快速的更新所有的从服务器，或者因为重新连接和重新同步从服务器而导致系统超载。为了缓解这个问题，用户可以创建一个由redis主从节点组成的中间层来分担主服务器的复制工作。</p>
+<h4 id="处理系统故障"><a href="#处理系统故障" class="headerlink" title="处理系统故障"></a>处理系统故障</h4><p>验证快照文件和AOF文件</p>
+<p>redis提供了两个命令行程序redis-check-aof 和redis-check-dump</p>
+<h4 id="更换故障主服务器"><a href="#更换故障主服务器" class="headerlink" title="更换故障主服务器"></a>更换故障主服务器</h4><p>假设A，B两台机器都运行这redis，其中机器A为主服务器，B为从服务器。现在因为A不能工作，要将C替换为主服务器。</p>
+<p>首先向机器B发送一个save命令，让他创建一个新的快照文件，接着将这个快照文件发送给C，并在机器C上面启动redis，最后，让机器B成为C的从服务器。</p>
+<h4 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h4><p>Redis的事务和传统数据库的事务并不相同。在关系数据库中，用户首先向数据库服务器发送begin，然后执行各个相互一致的写操作和都操作，最后，用户可以选择发送commit来确认之前所做的修改，或者发送rollbacj来放弃那些修改。</p>
+<p>redis的事务以特殊命令multi为开始，之后跟着用户传入 的多个命令，最后以exec为结束。但是由于这种简单的事务在exec命令被调用之前不会执行任何实际操作，所以用户将没办法根据读取到的数据来做决定。</p>
+<h4 id="非事务型流水线"><a href="#非事务型流水线" class="headerlink" title="非事务型流水线"></a>非事务型流水线</h4><p>被multi和exec包裹的命令在执行时不会被其他客户端打扰，但是性能相比不被包裹的命令（非事务型流水线）更好。</p>
+<p>可以在不使用事务的情况下，提升redis提升性能。</p>
+<h4 id="性能方面注意事项"><a href="#性能方面注意事项" class="headerlink" title="性能方面注意事项"></a>性能方面注意事项</h4><p>性能调优首先要知道各种命令在计算机中能跑多快</p>
+<p>redis-benchmark的运行结果会返回一些常用的eredis命令在1秒可以执行的次数。</p>
+<p>常见问题可能原因：</p>
+<p>性能只有redis-benchmark的50 - 60%：这是不使用流水线时的预期性能。</p>
+<p>性能只有redis-benchmark的25-30%：对于每个命令或者命令组都创建了新连接。</p>
+<p>返回：cannot assign requested address：同上</p>
+</li>
+</ul>
+<h3 id="Redis的锁"><a href="#Redis的锁" class="headerlink" title="Redis的锁"></a>Redis的锁</h3><h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><p>使用watch，multi，exec组成事务，完成乐观锁。</p>
+<p>在被锁数据发生改变时，watch会有反馈，因而由multi和exec包裹起来的事务会重新执行。</p>
+<h4 id="使用redis构建锁"><a href="#使用redis构建锁" class="headerlink" title="使用redis构建锁"></a>使用redis构建锁</h4><p>setnx命令：在键不存在的时候为键设置值（返回1，否则返回0），而锁要做的是将一个随机生成的128位的UUID设置位键的值，并使用这个值来防止锁被其他进程获得（一般通过返回值来确定是否加锁，根据返回值判断是否执行操作来实现锁的功能。）</p>
+<p>加锁步骤：</p>
+<p>1.生成uuid</p>
+<p>2.使用setnx尝试获取锁，根据返回值判断，一般要加上尝试时间。</p>
+<p>3.返回获取结果</p>
+<p>释放锁：在这里释放锁就是清空setnx赋的值，一般来说要进行锁的校验（使用watch）。</p>
+<p>释放锁步骤：</p>
+<p>1.检查进程是否仍然持有锁。</p>
+<p>2.释放锁（清空锁的值）</p>
+<p>3.如果由其他客户端修改了锁（当前客户端不持有锁），重试</p>
+<p>4.返回解锁结果</p>
+<h4 id="细粒度锁"><a href="#细粒度锁" class="headerlink" title="细粒度锁"></a>细粒度锁</h4><p>加锁的时候可以尽量减少锁的范围，可以提高效率。</p>
+<h4 id="计数信号量（实现的一种锁）"><a href="#计数信号量（实现的一种锁）" class="headerlink" title="计数信号量（实现的一种锁）"></a>计数信号量（实现的一种锁）</h4><p>就是限制最多由多少个进程可以同时访问一个资源。</p>
+<p>构建基本的技术信号量（一般有两种方法）：</p>
+<p>一种是使用expire</p>
+<p>一种是使用有序集合</p>
+<p>使用有序集合：</p>
+<p>为每个尝试获取信号量的进程生成一个唯一标识，并将这个标识符用作有序集合的成员，而成员对应的分值则是尝试获取信号量的时间戳。</p>
+<p>程序在获取信号量后，会检查自己在有序集合里边的排名，如果低于可获取的信号量的总数，则表明获取到信号。反之，则表示未能获取到信号量，必须从有序集合中移除自己的标识符。并且为了处理过期信号量，程序会在加入新的请求之前先清理过期的信号标识符。</p>
+<p>步骤：</p>
+<p>1.随机生成128为随机表示符。</p>
+<p>2.清理过期的信号量持有者。</p>
+<p>3.尝试获取信号量。</p>
+<p>4.检查是否成功获取了信号量。</p>
+<p>5.获取信号量失败，删除之前所添加的标识符。</p>
+<p>存在问题：假设有系统A和B，如果A系统的时间要比B系统的时间快10ms，那么当A取得一个信号量时，B只需要在10ms获取到信号量，就能在A系统不知情的情况下偷走信号量。由此可见是不公平的信号量。</p>
+<h4 id="公平信号量"><a href="#公平信号量" class="headerlink" title="公平信号量"></a>公平信号量</h4><p>为了避免系统时间对信号量获取产生的影响，我们需要给信号量实现增加一个计数器以及一个有序集合。首先，计数器能通过持续的执行自增操作，常见出一种类似计时器的机制，确保最先对计数器执行自增操作的客户端能获取到信号量。为了满足最先对计数器进行自增的客户端能过去信号量，程序会将计数器生成的值作为分值，储存到信号量拥有者的有序集合中。然后通过检车客户端生成的标识符在有序集合中的排名来判断客户端是否取得了信号量。</p>
+<p>公平信号量和之前介绍的基本信号量一样，都是通过从系统时间有序集合里面移除过期元素来清理过期信号量的，另外，公平信号量实现还会通过zinterstore命令以及该命令的weights参数，将信号量的超时时间传递给新的信号量拥有者有序集合。</p>
+<p>步骤：</p>
+<p>1.生成随机128位随机标识符。</p>
+<p>2.删除超时信号量。</p>
+<p>3.对计数器执行自增操作，并获取计数器在执行自增操作之后的值。</p>
+<p>4.尝试获取信号量。</p>
+<p>5.通过检查排名来判断客户端是否取得了信号量。</p>
+<p>6.客户端未能取得信号量，清理无用数据。</p>
+<p>首先清除已超时的信号量，接着更新信号量拥有者有序集合并获取计数器生成新的ID值，之后，函数会将客户端的当前时间戳添加到过期时间有序集合里面，并将计数器生成的ID值添加到信号量拥有者的有序集合里面，这样就可以检查标识符在有序集合里面的排名是否足够低了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/" rel="next" title="Springboot 学习相关">
+                <i class="fa fa-chevron-left"></i> Springboot 学习相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/29/%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98/" rel="prev" title="其他问题">
+                其他问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="闪闪" />
+          <p class="site-author-name" itemprop="name">闪闪</p>
+           
+              <p class="site-description motion-element" itemprop="description">为所欲为</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.0.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Config-配置"><span class="nav-number">1.0.3.</span> <span class="nav-text">Config 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#String"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#List（列表）"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">List（列表）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set-集合"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">Set(集合)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zset-有序集合"><span class="nav-number">1.0.3.4.</span> <span class="nav-text">zset(有序集合)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特殊操作"><span class="nav-number">1.0.3.5.</span> <span class="nav-text">特殊操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久化选项"><span class="nav-number">1.0.3.6.</span> <span class="nav-text">持久化选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制"><span class="nav-number">1.0.3.7.</span> <span class="nav-text">复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主从链"><span class="nav-number">1.0.3.8.</span> <span class="nav-text">主从链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理系统故障"><span class="nav-number">1.0.3.9.</span> <span class="nav-text">处理系统故障</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更换故障主服务器"><span class="nav-number">1.0.3.10.</span> <span class="nav-text">更换故障主服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis事务"><span class="nav-number">1.0.3.11.</span> <span class="nav-text">Redis事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非事务型流水线"><span class="nav-number">1.0.3.12.</span> <span class="nav-text">非事务型流水线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能方面注意事项"><span class="nav-number">1.0.3.13.</span> <span class="nav-text">性能方面注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis的锁"><span class="nav-number">1.0.4.</span> <span class="nav-text">Redis的锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#watch"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">watch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用redis构建锁"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">使用redis构建锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#细粒度锁"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">细粒度锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计数信号量（实现的一种锁）"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">计数信号量（实现的一种锁）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#公平信号量"><span class="nav-number">1.0.4.5.</span> <span class="nav-text">公平信号量</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">闪闪</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
