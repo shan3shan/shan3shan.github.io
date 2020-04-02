@@ -94,14 +94,14 @@
 
 
 
-<meta name="description" content="笔记langObject clone()    创建并返回此对象的一个 副本 123x.clone() !&#x3D; xx.clone().getClass() &#x3D;&#x3D; x.getClass()&#x2F;&#x2F;大多数情况是这样x.clone().equals(x)&#x3D;&#x3D; true&#x2F;&#x2F;大多数情况是这样    ​            2.notify()    通知线程">
+<meta name="description" content="笔记langObject clone()    创建并返回此对象的一个 副本，浅拷贝  123x.clone() !&#x3D; xx.clone().getClass() &#x3D;&#x3D; x.getClass()&#x2F;&#x2F;大多数情况是这样x.clone().equals(x)&#x3D;&#x3D; true&#x2F;&#x2F;大多数情况是这样   getClass() 返回类对象，native方法，不是由Java实现的 hashCode() 返回一个ha">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java源码阅读记录">
 <meta property="og:url" content="http://yoursite.com/2020/03/31/Java%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="为所欲为">
-<meta property="og:description" content="笔记langObject clone()    创建并返回此对象的一个 副本 123x.clone() !&#x3D; xx.clone().getClass() &#x3D;&#x3D; x.getClass()&#x2F;&#x2F;大多数情况是这样x.clone().equals(x)&#x3D;&#x3D; true&#x2F;&#x2F;大多数情况是这样    ​            2.notify()    通知线程">
+<meta property="og:description" content="笔记langObject clone()    创建并返回此对象的一个 副本，浅拷贝  123x.clone() !&#x3D; xx.clone().getClass() &#x3D;&#x3D; x.getClass()&#x2F;&#x2F;大多数情况是这样x.clone().equals(x)&#x3D;&#x3D; true&#x2F;&#x2F;大多数情况是这样   getClass() 返回类对象，native方法，不是由Java实现的 hashCode() 返回一个ha">
 <meta property="article:published_time" content="2020-03-31T08:02:58.988Z">
-<meta property="article:modified_time" content="2020-03-31T09:48:55.482Z">
+<meta property="article:modified_time" content="2020-04-02T09:45:55.359Z">
 <meta property="article:author" content="闪闪">
 <meta name="twitter:card" content="summary">
 
@@ -328,13 +328,35 @@
       
 
       
-        <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><h2 id="lang"><a href="#lang" class="headerlink" title="lang"></a>lang</h2><h3 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h3><ol>
-<li><p>clone()    创建并返回此对象的一个 副本</p>
+        <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><h2 id="lang"><a href="#lang" class="headerlink" title="lang"></a>lang</h2><h3 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h3><ul>
+<li>clone()    创建并返回此对象的一个 副本，浅拷贝</li>
+</ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x.clone() != x</span><br><span class="line">x.clone().getClass() == x.getClass()//大多数情况是这样</span><br><span class="line">x.clone().equals(x)== true//大多数情况是这样</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>getClass() 返回类对象，native方法，不是由Java实现的</li>
+<li>hashCode() 返回一个hash值，native方法</li>
+<li>equals() </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>notify()   final native  通知线程  Wakes up a single thread that is waiting on this object’s  monitor.</li>
+<li>toString()</li>
+<li>notifyAll()  final native       Wakes up all threads that are waiting on this object’s monitor.</li>
+<li>wait 无参，一个参数，两个参数</li>
+<li>finalize()</li>
+</ul>
+<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>final 类型</p>
+<ul>
+<li><pre><code class="java"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];
+<span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(String original)</span> </span>{
+        <span class="keyword">this</span>.value = original.value;
+        <span class="keyword">this</span>.hash = original.hash;
+    }</code></pre>
 </li>
-</ol>
-<p>​            2.notify()    通知线程</p>
+<li></li>
+</ul>
 
       
     </div>
@@ -487,7 +509,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">1.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lang"><span class="nav-number">1.1.</span> <span class="nav-text">lang</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object"><span class="nav-number">1.1.1.</span> <span class="nav-text">Object</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">1.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lang"><span class="nav-number">1.1.</span> <span class="nav-text">lang</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object"><span class="nav-number">1.1.1.</span> <span class="nav-text">Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-number">1.1.2.</span> <span class="nav-text">String</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
