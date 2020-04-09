@@ -331,8 +331,7 @@
 
       
         
-          <h1 id="JVM学习"><a href="#JVM学习" class="headerlink" title="JVM学习"></a>JVM学习</h1><p>类加载</p>
-<p>在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。</p>
+          <h1 id="JVM学习"><a href="#JVM学习" class="headerlink" title="JVM学习"></a>JVM学习</h1><h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><p>在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/04/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/#more" rel="contents">
@@ -476,15 +475,44 @@
 <li>wait 无参，一个参数，两个参数</li>
 <li>finalize()</li>
 </ul>
-<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>final 类型</p>
+<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>final  class</p>
 <ul>
-<li><pre><code class="java"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];
-<span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(String original)</span> </span>{
-        <span class="keyword">this</span>.value = original.value;
-        <span class="keyword">this</span>.hash = original.hash;
-    }</code></pre>
+<li><pre><code class="sql">public String(StringBuffer buffer) {
+       synchronized(buffer) {
+           this.value = Arrays.copyOf(buffer.getValue(), buffer.length());
+       }
+   }
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*   &#96;&#96;&#96;java</span><br><span class="line">  public String(StringBuilder builder) &#123;</span><br><span class="line">          this.value &#x3D; Arrays.copyOf(builder.getValue(), builder.length());</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></code></pre>
 </li>
-<li></li>
+<li><p>重写了equals方法</p>
+</li>
+<li><p>重写了hashcode方法</p>
+</li>
+</ul>
+<h3 id="AbstractStringBuilder"><a href="#AbstractStringBuilder" class="headerlink" title="AbstractStringBuilder"></a>AbstractStringBuilder</h3><ul>
+<li>implements Appendable</li>
+<li>抽象类</li>
+<li>一个可变长的字符串</li>
+<li>如果容量不够，双倍扩容。</li>
+<li>可以insert，delete CharAtIndex</li>
+</ul>
+<h3 id="StringBuffer"><a href="#StringBuffer" class="headerlink" title="StringBuffer"></a>StringBuffer</h3><ul>
+<li>extends AbstractStringBuilder  </li>
+<li>implements Serializable，CharSequence</li>
+<li>默认初始化16字符</li>
+<li>方法是synchronized,线程安全</li>
+</ul>
+<h3 id="StringBuilder"><a href="#StringBuilder" class="headerlink" title="StringBuilder"></a>StringBuilder</h3><ul>
+<li>extends AbstractStringBuilder</li>
+<li>implements Serializable，CharSequence</li>
+<li>非线程安全</li>
+</ul>
+<hr>
+<h2 id="util"><a href="#util" class="headerlink" title="util"></a>util</h2><h3 id="AbstractList"><a href="#AbstractList" class="headerlink" title="AbstractList"></a>AbstractList</h3><ul>
+<li>抽象方法</li>
+<li>extends AbstractCollection</li>
+<li>implents List</li>
+<li>iterator  listIterator 实现都是在操作</li>
 </ul>
 
           
@@ -779,7 +807,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Redis/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -798,7 +826,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/29/Redis/" itemprop="url">Redis</a></h1>
+                <a class="post-title-link" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url">Oracle数据库</a></h1>
         
 
         <div class="post-meta">
@@ -849,10 +877,10 @@
 
       
         
-          <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Redis是一个高性能的Key-Value数据库。</p>
+          <h1 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h1>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/03/29/Redis/#more" rel="contents">
+            <a class="btn" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1031,7 +1059,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -1050,7 +1078,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/" itemprop="url">Springboot 学习相关</a></h1>
+                <a class="post-title-link" href="/2020/03/29/Redis/" itemprop="url">Redis</a></h1>
         
 
         <div class="post-meta">
@@ -1101,134 +1129,10 @@
 
       
         
-          <h1 id="Springboot个人理解"><a href="#Springboot个人理解" class="headerlink" title="Springboot个人理解"></a>Springboot个人理解</h1>
+          <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Redis是一个高性能的Key-Value数据库。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闪闪">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="为所欲为">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url">Oracle数据库</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T22:24:19+08:00">
-                2020-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h1>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/#more" rel="contents">
+            <a class="btn" href="/2020/03/29/Redis/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1404,7 +1308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -1423,7 +1327,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/29/%E5%9F%BA%E7%A1%80/" itemprop="url">基础</a></h1>
+                <a class="post-title-link" href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/" itemprop="url">Springboot 学习相关</a></h1>
         
 
         <div class="post-meta">
@@ -1474,14 +1378,151 @@
 
       
         
-          <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1>
+          <h1 id="Springboot个人理解"><a href="#Springboot个人理解" class="headerlink" title="Springboot个人理解"></a>Springboot个人理解</h1>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/03/29/%E5%9F%BA%E7%A1%80/#more" rel="contents">
+            <a class="btn" href="/2020/03/29/Springboot%20%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闪闪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="为所欲为">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/29/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2hexo/" itemprop="url">搭建个人博客hexo</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T22:24:19+08:00">
+                2020-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h1><p>1.安装node.js</p>
+<p>2.(npm 安装cnpm)</p>
+<p>3.使用cnpm/npm 安装hexo 博客框架 ： cnpm install -g hexo-cli</p>
+<p>4.新建文件夹（放置博客内容文件）</p>
+<p>5.在文件夹下  hexo init</p>
+<p>6.启动hexo：  hexo s</p>
+<ul>
+<li><h3 id="建立新博客-hexo-new-“My-New-Post”"><a href="#建立新博客-hexo-new-“My-New-Post”" class="headerlink" title="建立新博客   $ hexo new “My New Post”"></a>建立新博客   $ hexo new “My New Post”</h3></li>
+<li><h3 id="运行服务器-hexo-server"><a href="#运行服务器-hexo-server" class="headerlink" title="运行服务器   $ hexo server"></a>运行服务器   $ hexo server</h3></li>
+<li><h3 id="生成静态文件-hexo-generate"><a href="#生成静态文件-hexo-generate" class="headerlink" title="生成静态文件  $ hexo generate"></a>生成静态文件  $ hexo generate</h3></li>
+<li><h3 id="部署到远程站点-hexo-deploy"><a href="#部署到远程站点-hexo-deploy" class="headerlink" title="部署到远程站点   $ hexo deploy"></a>部署到远程站点   $ hexo deploy</h3></li>
+</ul>
+<p>7.部署到github 上，new repository，命名必须是xxx.github.io</p>
+<p>8.在文件夹下安装插件 cnpm install –save hexo-deployer-git</p>
+<p>9.修改配置文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">'git'</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">'https://github.com/shan3shan/shan3shan.github.io.git'</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">'master'</span></span><br></pre></td></tr></table></figure>
+
+<p>10.hexo d</p>
+
+          
         
       
     </div>

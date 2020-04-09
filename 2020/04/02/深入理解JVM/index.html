@@ -94,16 +94,16 @@
 
 
 
-<meta name="description" content="JVM学习类加载 在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。">
+<meta name="description" content="JVM学习类加载在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解JVM">
 <meta property="og:url" content="http://yoursite.com/2020/04/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/index.html">
 <meta property="og:site_name" content="为所欲为">
-<meta property="og:description" content="JVM学习类加载 在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。">
+<meta property="og:description" content="JVM学习类加载在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。">
 <meta property="og:image" content="http://yoursite.com/images/tu10.png">
 <meta property="og:image" content="http://yoursite.com/images/tu11.png">
 <meta property="article:published_time" content="2020-04-01T16:26:24.191Z">
-<meta property="article:modified_time" content="2020-04-03T16:24:26.675Z">
+<meta property="article:modified_time" content="2020-04-09T15:12:00.301Z">
 <meta property="article:author" content="闪闪">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/tu10.png">
@@ -331,8 +331,7 @@
       
 
       
-        <h1 id="JVM学习"><a href="#JVM学习" class="headerlink" title="JVM学习"></a>JVM学习</h1><p>类加载</p>
-<p>在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。</p>
+        <h1 id="JVM学习"><a href="#JVM学习" class="headerlink" title="JVM学习"></a>JVM学习</h1><h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><p>在Java中，类型的加载（常见的将类信息从磁盘加载到内存上），连接（类的连接关系），初始化（静态变量的赋值）过程都是在程序运行期间完成的。</p>
 <a id="more"></a> 
 
 <p>类加载器（加载类的工具）</p>
@@ -616,8 +615,84 @@
 </ul>
 <hr>
 <p>扩展类加载器所加载的类必须被打成jar包。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest22</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"MyTest22 initializer"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(MyTest22<span class="class">.<span class="keyword">class</span>.<span class="title">getClassLoader</span>())</span>;</span><br><span class="line">        System.out.println(MyTest1<span class="class">.<span class="keyword">class</span>.<span class="title">getClassLoader</span>())</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\jvm_lecture\out\production\classes&gt;java -Djava.ext.dirs=./ com.xuexi.jvm.classLoader.MyTest22</span><br><span class="line">MyTest22 initializer</span><br><span class="line">sun.misc.Launcher$AppClassLoader@<span class="number">1</span>d16e93</span><br><span class="line">sun.misc.Launcher$AppClassLoader@<span class="number">1</span>d16e93</span><br><span class="line"></span><br><span class="line">将类打成jar包形式结果会不一样，会有扩展类加载器加载。</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest22</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"MyTest22 initializer"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(MyTest22<span class="class">.<span class="keyword">class</span>.<span class="title">getClassLoader</span>())</span>;</span><br><span class="line">        System.out.println(MyTest1<span class="class">.<span class="keyword">class</span>.<span class="title">getClassLoader</span>())</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E:\jvm_lecture\out\production\classes&gt;java -Djava.ext.dirs=./ com.xuexi.jvm.classLoader.MyTest22</span><br><span class="line">MyTest22 initializer</span><br><span class="line">sun.misc.Launcher$AppClassLoader@<span class="number">1</span>d16e93</span><br><span class="line">sun.misc.Launcher$AppClassLoader@<span class="number">1</span>d16e93</span><br><span class="line"></span><br><span class="line">将类打成jar包形式结果会不一样，会由扩展类加载器加载。</span><br></pre></td></tr></table></figure>
 
+<hr>
+<p>2020.4.6</p>
+<p>ClassLoader类源码分析：</p>
+<p>文档：</p>
+<p>getSystemClassLoader():返回系统类加载器，创建系统类加载器，并将其设置为调用该方法的线程上下文类加载器。</p>
+<p>Class.forName()方法分析</p>
+<ul>
+<li>三个参数。name (类名)  initlalize（是否初始化）  CalssLoader（所使用的加载器）</li>
+<li>exanple：Class.forName(“FOO”) = Class.forName(“FOO”,true,this.getClass.getClassLoader())</li>
+<li>返回一个Class对象</li>
+</ul>
+<hr>
+<p>2020.4.9</p>
+<p>ConTextClassLoader  线程上下文类加载器</p>
+<p>认识：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest24</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getContextClassLoader());</span><br><span class="line">        System.out.println(Thread<span class="class">.<span class="keyword">class</span>.<span class="title">getClassLoader</span>())</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sun.misc.Launcher$AppClassLoader<span class="meta">@b</span>4aac2   <span class="comment">//系统类加载器</span></span><br><span class="line"><span class="keyword">null</span>  <span class="comment">//根类加载器</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>当前类加载器（Current Classloader）,每个类都会尝试用自己的类加载器（加载自身）去加载他所用到的其他类，如果ClassX引用了ClassY,那么ClassX的加载器就会去加载ClassY（前提是ClassX未被加载）</p>
+</li>
+<li><p>线程上下文类加载器 ContextClassLoader</p>
+<ul>
+<li><p>Thread中的getContextClassLoader（）于setContextClassLoader（ClassLoader cl）分别用来获取和设置上下文类加载器。</p>
+</li>
+<li><p>如果没有设置的话，线程将继承其父线程的上下文类加载器。Java应用运行时的初始线程的上下文类加载器时系统类加载器。</p>
+<p>作用：</p>
+</li>
+<li><p>父ClassLoader可以使用当前线程Thread.currentThread().getContextLoader()所指定的classloader加载的类。这就改变了了父ClassLoader不能使用子ClassLoader或是其他没有直接父子关系的ClassLoader加载的类，即改变了双亲委托模型。</p>
+</li>
+<li><p>在双亲委托模型来说，类加载时由下至上的，但是对于SPI来说，有些接口是Java核心库提供的，而Java核心库是由启动类加载器来加载器的，而这些接口的实现是来源于不同的Jar包（厂商提供），这就无法满足。而通过给当前线程设置上下文类加载器，就可以设置上下文类加载器来实现对于接口实现类的加载。</p>
+</li>
+<li><p>一般使用模式：</p>
+<ul>
+<li><p>获取：ClassLoader classLoader = Thread.currentThread().getContextClassLoader();</p>
+</li>
+<li><p>使用：try{</p>
+<p>Thread.currentThread().setContextClassLoader(目标类加载器)</p>
+<p>}</p>
+</li>
+<li><p>还原：finally{</p>
+<p>Thread.currentThread().setContextClassLoader(classLoader )</p>
+<p>}</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<hr>
+<hr>
+<h2 id="内存划分"><a href="#内存划分" class="headerlink" title="内存划分"></a>内存划分</h2><p>虚拟机栈：Stack Frame 栈帧，线程私有。</p>
+<ul>
+<li>局部变量表<ul>
+<li>原生类型：值</li>
+<li>引用类型：引用</li>
+</ul>
+</li>
+</ul>
+<p>程序计数器：用来标识程序执行行号，线程私有。</p>
+<p>本地方法栈：主要处理本地方法 native</p>
+<p>堆（Heap）：JVM管理的最大的一块内存空间。线程共享。分代收集算法。</p>
+<ul>
+<li>新生代<ul>
+<li>Eden空间</li>
+<li>From Survivor 与 To Survivor 空间</li>
+</ul>
+</li>
+<li>老年代</li>
+</ul>
+<p>方法区（Methed Area）： 存储元信息（Class类对象和一些常量信息）。1.8开始，废弃永久代，使用元空间（meta space）</p>
+<ul>
+<li>运行时常量池</li>
+</ul>
+<p>直接内存：（堆外内存）不由JVM管理，由操作系统管理，是JVM所申请的，与Java NIO密切相关。</p>
+<hr>
 
       
     </div>
@@ -766,7 +841,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM学习"><span class="nav-number">1.</span> <span class="nav-text">JVM学习</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM学习"><span class="nav-number">1.</span> <span class="nav-text">JVM学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载"><span class="nav-number">1.1.</span> <span class="nav-text">类加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存划分"><span class="nav-number">1.2.</span> <span class="nav-text">内存划分</span></a></li></ol></li></ol></div>
             
 
           </div>
