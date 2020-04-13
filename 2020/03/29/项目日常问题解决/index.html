@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="为所欲为">
 <meta property="og:description" content="项目日常问题">
 <meta property="article:published_time" content="2020-03-29T14:24:19.843Z">
-<meta property="article:modified_time" content="2020-03-29T16:20:49.366Z">
+<meta property="article:modified_time" content="2020-04-13T09:26:25.025Z">
 <meta property="article:author" content="闪闪">
 <meta name="twitter:card" content="summary">
 
@@ -387,7 +387,32 @@
 <p>2.启动函数前加注解</p>
 <p> @EnableFeignClients </p>
 <p>3.调用</p>
+<p>2020.4.13</p>
+<h4 id="在foreach中使用add-remove-方法出错"><a href="#在foreach中使用add-remove-方法出错" class="headerlink" title="在foreach中使用add/remove 方法出错"></a>在foreach中使用add/remove 方法出错</h4><p>在阿里开发手册上有一个强制规定，不要再foreach循环里进行元素的add/remove操作，remove元素要使用Iterator 方式，如果并发操作，要对Iterator对象加锁。</p>
+<p>原因：我们在使用foreach的时候，其实时使用itertor进行遍历的，在生成itertor的时候，会保存一个expectedModCount参数，这个表示List中修改元素的次数。如果在遍历过程中删除元素，List中的modCount就会变化，如果这个modCount和expectModCount不一致，就会抛出异常。</p>
+<p>通过阅读源码，确定modCount这个值是在创建一个list的时候初始化的值，初始值是0，每次list发生改变都会自增。expectModCount则是在初始化一个迭代器Itr时候定义的值，和modCount相等。我们知道foreach是通过迭代器实现的，所以会初始化一个迭代器，在遍历时如果有添加或者删除，list的modCount就会发生改变，此时就不再和expectModCount相等了，因此会出现ConcurrentModifcationException。此处是java的fail-fast（快速失败）机制。</p>
+<p>另附：用上方法删除倒数第二个方法不会出错。原因：我们通过对程序打断点，我们发现产生异常的位置是在next（）方法中，而在Itr方法中，只有haNext（）方法返回true时候才会进入next方法。在Itr中，有两个属性，cursor（当前位置–光标），lastRet最后一个元素下标，在删除倒数第二个元素后，cursor就会指向最后一个元素，此时lastRet就与cursor相等了，不会进入next方法，就不会报错了，但是最关键的问题是，此时list根本没有被遍历完。最后一个元素没有遍历。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.add(<span class="string">"A"</span>);</span><br><span class="line">        list.add(<span class="string">"B"</span>);</span><br><span class="line">        list.add(<span class="string">"C"</span>);</span><br><span class="line">        list.add(<span class="string">"D"</span>);</span><br><span class="line">        list.add(<span class="string">"E"</span>);</span><br><span class="line">        list.add(<span class="string">"F"</span>);</span><br><span class="line">        list.add(<span class="string">"G"</span>);</span><br><span class="line">        <span class="keyword">for</span> (String item:list) &#123;</span><br><span class="line">            System.out.println(item);</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">"F"</span>.equals(item))&#123;</span><br><span class="line">                list.remove(item);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(list.toArray().toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">A</span><br><span class="line">B</span><br><span class="line">C</span><br><span class="line">D</span><br><span class="line">E</span><br><span class="line">F</span><br><span class="line">[Ljava.lang.Object;@<span class="number">154617</span>c</span><br></pre></td></tr></table></figure>
 
+
+
+<p>在项目中使用List进行对比去重的时候在foreach中使用了remove方法。导致程序报错。最后改为在删除时先在遍历时将要删除的元素放入一个新的集合中，最后调用removeAll方法进行删除。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新建List用来存放需要删除的对象</span></span><br><span class="line">            List&lt;SellertradeproductApp&gt; delete = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">for</span> (SellertradeproductApp item:copyProductList) &#123;</span><br><span class="line">                <span class="keyword">for</span> (AppAccountRecord record:appAccount.getAppAccountRecordList()) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(item.getProductname() != <span class="keyword">null</span> &amp;&amp; item.getProductcategoryid() != <span class="keyword">null</span>)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(item.getProductname().equals(record.getProductname()) &amp;&amp;</span><br><span class="line">                        item.getProductcategoryid().equals(record.getProductcategoryid()))&#123;</span><br><span class="line">                            delete.add(item);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            copyProductList.removeAll(delete);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>方法二：</p>
+<pre><code>// 迭代器循环遍历
+List&lt;String&gt; stringListFor = getStringList();
+System.out.println(&quot;删之前：&quot;+stringListFor);
+
+Iterator&lt;String&gt; iterator = stringListFor.iterator();
+
+while (iterator.hasNext()){
+    if(iterator.next().equals(&quot;chengxi&quot;)){
+        iterator.remove();
+    }
+}</code></pre>
       
     </div>
     
@@ -411,8 +436,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/29/%E5%9F%BA%E7%A1%80/" rel="next" title="基础">
-                <i class="fa fa-chevron-left"></i> 基础
+              <a href="/2020/03/29/Jmeter%E5%B9%B6%E5%8F%91%E6%B5%8B%E8%AF%95/" rel="next" title="Jmeter并发测试">
+                <i class="fa fa-chevron-left"></i> Jmeter并发测试
               </a>
             
           </div>
@@ -421,8 +446,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/29/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2hexo/" rel="prev" title="搭建个人博客hexo">
-                搭建个人博客hexo <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" rel="prev" title="集合框架">
+                集合框架 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -539,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目日常问题"><span class="nav-number">1.</span> <span class="nav-text">项目日常问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器发版问题"><span class="nav-number">1.1.</span> <span class="nav-text">服务器发版问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目问题"><span class="nav-number">1.2.</span> <span class="nav-text">项目问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库相关问题"><span class="nav-number">1.3.</span> <span class="nav-text">数据库相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#服务间调用（feign）"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">服务间调用（feign）</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目日常问题"><span class="nav-number">1.</span> <span class="nav-text">项目日常问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器发版问题"><span class="nav-number">1.1.</span> <span class="nav-text">服务器发版问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目问题"><span class="nav-number">1.2.</span> <span class="nav-text">项目问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库相关问题"><span class="nav-number">1.3.</span> <span class="nav-text">数据库相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#服务间调用（feign）"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">服务间调用（feign）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在foreach中使用add-remove-方法出错"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">在foreach中使用add&#x2F;remove 方法出错</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
