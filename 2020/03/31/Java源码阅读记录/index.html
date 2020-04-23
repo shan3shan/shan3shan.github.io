@@ -100,10 +100,12 @@
 <meta property="og:url" content="http://yoursite.com/2020/03/31/Java%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="为所欲为">
 <meta property="og:description" content="笔记">
+<meta property="og:image" content="http://yoursite.com/images/tu16.png">
 <meta property="article:published_time" content="2020-03-31T08:02:58.988Z">
-<meta property="article:modified_time" content="2020-04-14T09:00:52.969Z">
+<meta property="article:modified_time" content="2020-04-23T05:43:06.302Z">
 <meta property="article:author" content="闪闪">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/tu16.png">
 
 
 
@@ -360,8 +362,13 @@
 </li>
 <li><p>重写了equals方法</p>
 </li>
-<li><p>重写了hashcode方法</p>
-</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object anObject)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == anObject) &#123;<span class="comment">//是否同一引用</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (anObject <span class="keyword">instanceof</span> String) &#123;<span class="comment">//是不是String的对象</span></span><br><span class="line">            String anotherString = (String)anObject;</span><br><span class="line">            <span class="keyword">int</span> n = value.length;</span><br><span class="line">            <span class="keyword">if</span> (n == anotherString.value.length) &#123;</span><br><span class="line">                <span class="keyword">char</span> v1[] = value;</span><br><span class="line">                <span class="keyword">char</span> v2[] = anotherString.value;</span><br><span class="line">                <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">while</span> (n-- != <span class="number">0</span>) &#123;<span class="comment">//逐个字符比较</span></span><br><span class="line">                    <span class="keyword">if</span> (v1[i] != v2[i])</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>重写了hashcode方法</li>
 </ul>
 <h3 id="AbstractStringBuilder"><a href="#AbstractStringBuilder" class="headerlink" title="AbstractStringBuilder"></a>AbstractStringBuilder</h3><ul>
 <li>implements Appendable</li>
@@ -383,11 +390,102 @@
 </ul>
 <hr>
 <h2 id="util"><a href="#util" class="headerlink" title="util"></a>util</h2><h3 id="AbstractList"><a href="#AbstractList" class="headerlink" title="AbstractList"></a>AbstractList</h3><ul>
-<li>抽象方法</li>
-<li>extends AbstractCollection</li>
-<li>implents List</li>
-<li>iterator  listIterator 实现都是在操作</li>
+<li><p>抽象类； </p>
+</li>
+<li><p>extends AbstractCollection</p>
+</li>
+<li><p>implents List</p>
+</li>
+<li><p>iterator  listIterator 实现都是在操作</p>
+</li>
+<li><p>私有内部类 Itr implements Inreator</p>
+<ul>
+<li>expextedModCount 配合 AbstractList  类的成员变量modCount 为快速失败fail-fast机制提供支持</li>
 </ul>
+</li>
+<li><p>ListItr 仿照next曾加了previous（之前的）</p>
+</li>
+</ul>
+<h3 id="AbstractMap"><a href="#AbstractMap" class="headerlink" title="AbstractMap"></a>AbstractMap</h3><ul>
+<li>put方法需要去实现</li>
+<li>ketSet（）和values（）方法，通过Entry的itertor实现</li>
+</ul>
+<h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><ul>
+<li>数组实现</li>
+<li>扩容规则：int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</li>
+<li>扩容时机：add前进行检查，不够时扩容。、</li>
+<li>fastRemove()相较remove()减少了删除范围的检测以及删除后的返回值。</li>
+<li>有内部类Itr实现迭代器接口，Itr和ArrayList都有自己的remove和add方法，混用可能回触发fail-fast机制（常见的再foreach中删除增加元素），导致接口报错。</li>
+</ul>
+<h3 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h3><ul>
+<li>双向链表实现</li>
+<li>非线程安全</li>
+<li>可以在定义创建时设置为同步的：List list = Collections.synchronizedList(new LinkedList(…))</li>
+<li>提供listIterator</li>
+<li>提供spliterator（并行遍历迭代器）</li>
+</ul>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><ul>
+<li>允许空值空键</li>
+<li>和Hash Table类似除了它线程不安全以及支持空值</li>
+<li>要保证迭代能力，就要尽量保证负载因子不要太高（初始容量设置太大）.</li>
+<li>有两个影响性能的原因：负载因子（load factor）和初始容量（initial capacity）<ul>
+<li>initial capacity：is the number of buckets in the hash table, and the initial capacity is simply the capacity at the time the hash table is created.</li>
+<li>load factor：is a measure of how full the hash table is allowed to get before its capacity is automatically increased.</li>
+<li>当容量大于这两项的乘积时，进行rehash。</li>
+<li>默认的负载因子 0.75，初始容量1&lt;&lt;4，最大容量1&lt;&lt;30.</li>
+<li>可以在创建时提供参数设置初始容量和负载因子。</li>
+</ul>
+</li>
+<li>迭代使用Iterator，有fail-fast机制。</li>
+<li>resize方法：oldcap左移一位。二倍。</li>
+</ul>
+<h3 id="HashTable"><a href="#HashTable" class="headerlink" title="HashTable"></a>HashTable</h3><ul>
+<li>键值不能为空。</li>
+<li>作为键的对象必须实现hashcode()和equals()方法。</li>
+<li>负载因子0.75，默认大小11.</li>
+<li>若使用Enumration 枚举，没有快速失败机制。</li>
+<li>是同步的，关键方法都使用synchhronized</li>
+<li>提供的Enumerator实现了Enumeration和Iterator接口，因此存在快速失败机制。</li>
+</ul>
+<h3 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h3><ul>
+<li>由HashMap实现，有key存储元素。</li>
+<li>可以传空值。</li>
+</ul>
+<h3 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h3><ul>
+<li>增加一个双向链表来保证顺序。</li>
+</ul>
+<hr>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><ul>
+<li><p>1.7使用分段锁，1.8使用CAS和 synchronized </p>
+</li>
+<li><p>先了解两个概念：</p>
+<ul>
+<li><p>volatile：可见性，修饰变量可以保证变量在被修改时能第一时间更新到内存上，从而保证所有线程都能获取到最新的值。 synchronized 和lock也能保证可见性。</p>
+</li>
+<li><p>CAS：Compare And Swap 比较并交换。 </p>
+<ul>
+<li><p>是一种无锁算法，一般有三个操作数，内存值，旧的预期值，要改的新值。</p>
+</li>
+<li><p>仅当内存值和旧的预期值相同时，才将内存值改为 新值。</p>
+</li>
+<li><p>do{</p>
+<p>备份旧数据；</p>
+<p>基于旧数据构造新数据；</p>
+<p>}while(!CAS( 内存地址，备份的旧数据，新数据 ))</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Node&lt;k,v&gt;,TreeNode&lt;k,v&gt;都使用了volatile修饰，确保看到的是最新的值。</p>
+</li>
+<li></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> V <span class="title">putVal</span><span class="params">(K key, V value, <span class="keyword">boolean</span> onlyIfAbsent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (key == <span class="keyword">null</span> || value == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();  <span class="comment">//键值都不能为空</span></span><br><span class="line">        <span class="keyword">int</span> hash = spread(key.hashCode());</span><br><span class="line">        <span class="keyword">int</span> binCount = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Node&lt;K,V&gt;[] tab = table;;) &#123;</span><br><span class="line">            Node&lt;K,V&gt; f; <span class="keyword">int</span> n, i, fh;</span><br><span class="line">            <span class="keyword">if</span> (tab == <span class="keyword">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">                tab = initTable();</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ((f = tabAt(tab, i = (n - <span class="number">1</span>) &amp; hash)) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (casTabAt(tab, i, <span class="keyword">null</span>,</span><br><span class="line">                             <span class="keyword">new</span> Node&lt;K,V&gt;(hash, key, value, <span class="keyword">null</span>)))</span><br><span class="line">                    <span class="keyword">break</span>;                   <span class="comment">// no lock when adding to empty bin</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ((fh = f.hash) == MOVED)</span><br><span class="line">                tab = helpTransfer(tab, f);     <span class="comment">//扩容</span></span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                V oldVal = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">synchronized</span> (f) &#123;             <span class="comment">//加锁</span></span><br><span class="line">                    <span class="keyword">if</span> (tabAt(tab, i) == f) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (fh &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            binCount = <span class="number">1</span>;</span><br><span class="line">                            <span class="keyword">for</span> (Node&lt;K,V&gt; e = f;; ++binCount) &#123;</span><br><span class="line">                                K ek;</span><br><span class="line">                                <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                                    ((ek = e.key) == key ||</span><br><span class="line">                                     (ek != <span class="keyword">null</span> &amp;&amp; key.equals(ek)))) &#123;</span><br><span class="line">                                    oldVal = e.val;</span><br><span class="line">                                    <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                                        e.val = value;</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                                Node&lt;K,V&gt; pred = e;</span><br><span class="line">                                <span class="keyword">if</span> ((e = e.next) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                                    pred.next = <span class="keyword">new</span> Node&lt;K,V&gt;(hash, key,</span><br><span class="line">                                                              value, <span class="keyword">null</span>);</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">if</span> (f <span class="keyword">instanceof</span> TreeBin) &#123;</span><br><span class="line">                            Node&lt;K,V&gt; p;</span><br><span class="line">                            binCount = <span class="number">2</span>;</span><br><span class="line">                            <span class="keyword">if</span> ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key,</span><br><span class="line">                                                           value)) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                                oldVal = p.val;</span><br><span class="line">                                <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                                    p.val = value;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (binCount != <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD)</span><br><span class="line">                        treeifyBin(tab, i);</span><br><span class="line">                    <span class="keyword">if</span> (oldVal != <span class="keyword">null</span>)</span><br><span class="line">                        <span class="keyword">return</span> oldVal;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        addCount(<span class="number">1L</span>, binCount);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/images/tu16.png" alt="tu16"></p>
 
       
     </div>
@@ -540,7 +638,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">1.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lang"><span class="nav-number">1.1.</span> <span class="nav-text">lang</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object"><span class="nav-number">1.1.1.</span> <span class="nav-text">Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-number">1.1.2.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AbstractStringBuilder"><span class="nav-number">1.1.3.</span> <span class="nav-text">AbstractStringBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuffer"><span class="nav-number">1.1.4.</span> <span class="nav-text">StringBuffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuilder"><span class="nav-number">1.1.5.</span> <span class="nav-text">StringBuilder</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#util"><span class="nav-number">1.2.</span> <span class="nav-text">util</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AbstractList"><span class="nav-number">1.2.1.</span> <span class="nav-text">AbstractList</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">1.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lang"><span class="nav-number">1.1.</span> <span class="nav-text">lang</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object"><span class="nav-number">1.1.1.</span> <span class="nav-text">Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-number">1.1.2.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AbstractStringBuilder"><span class="nav-number">1.1.3.</span> <span class="nav-text">AbstractStringBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuffer"><span class="nav-number">1.1.4.</span> <span class="nav-text">StringBuffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuilder"><span class="nav-number">1.1.5.</span> <span class="nav-text">StringBuilder</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#util"><span class="nav-number">1.2.</span> <span class="nav-text">util</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AbstractList"><span class="nav-number">1.2.1.</span> <span class="nav-text">AbstractList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AbstractMap"><span class="nav-number">1.2.2.</span> <span class="nav-text">AbstractMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList"><span class="nav-number">1.2.3.</span> <span class="nav-text">ArrayList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedList"><span class="nav-number">1.2.4.</span> <span class="nav-text">LinkedList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap"><span class="nav-number">1.2.5.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashTable"><span class="nav-number">1.2.6.</span> <span class="nav-text">HashTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashSet"><span class="nav-number">1.2.7.</span> <span class="nav-text">HashSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedHashMap"><span class="nav-number">1.2.8.</span> <span class="nav-text">LinkedHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap"><span class="nav-number">1.2.9.</span> <span class="nav-text">ConcurrentHashMap</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
