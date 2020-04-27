@@ -94,24 +94,21 @@
 
 
 
-<meta name="description" content="Jmeter并发测试 本次测试是针对与一个交易提交的接口的并发检测">
+<meta name="description" content="第一章 减少上下文切换的方法：  无锁并发编程：多线程竞争锁的时候，会引起上下文切换，因此可以将数据的ID值按Hash算法分段取模，使用不同的线程去处理不同段的数据。 CAS算法：也避免了使用锁。 使用最少的线程：避免创建不必要的线程。 协程：在单线程里实现多任务的调度。   避免死锁的常见办法：  避免一个线程同时获取多个锁。 避免一个线程在锁内同时占用多个资源。尽量保证一个锁只占用一个资源。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jmeter并发测试">
-<meta property="og:url" content="http://yoursite.com/2020/03/29/Jmeter%E5%B9%B6%E5%8F%91%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:title" content="Java并发编程的艺术读书记录">
+<meta property="og:url" content="http://yoursite.com/2020/04/24/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="为所欲为">
-<meta property="og:description" content="Jmeter并发测试 本次测试是针对与一个交易提交的接口的并发检测">
-<meta property="og:image" content="http://yoursite.com/images/tu1.png">
-<meta property="og:image" content="http://yoursite.com/images/tu2.png">
-<meta property="og:image" content="http://yoursite.com/images/tu3.png">
-<meta property="og:image" content="http://yoursite.com/images/tu4.png">
-<meta property="og:image" content="http://yoursite.com/images/tu5.png">
-<meta property="og:image" content="http://yoursite.com/images/tu6.png">
-<meta property="og:image" content="http://yoursite.com/images/tu7.png">
-<meta property="article:published_time" content="2020-03-29T14:24:19.828Z">
-<meta property="article:modified_time" content="2020-03-29T16:20:12.423Z">
+<meta property="og:description" content="第一章 减少上下文切换的方法：  无锁并发编程：多线程竞争锁的时候，会引起上下文切换，因此可以将数据的ID值按Hash算法分段取模，使用不同的线程去处理不同段的数据。 CAS算法：也避免了使用锁。 使用最少的线程：避免创建不必要的线程。 协程：在单线程里实现多任务的调度。   避免死锁的常见办法：  避免一个线程同时获取多个锁。 避免一个线程在锁内同时占用多个资源。尽量保证一个锁只占用一个资源。">
+<meta property="og:image" content="http://yoursite.com/images/tu17.png">
+<meta property="og:image" content="http://yoursite.com/images/tu18.png">
+<meta property="og:image" content="http://yoursite.com/images/tu19.png">
+<meta property="og:image" content="http://yoursite.com/images/tu20.png">
+<meta property="article:published_time" content="2020-04-24T02:27:12.657Z">
+<meta property="article:modified_time" content="2020-04-27T03:22:45.450Z">
 <meta property="article:author" content="闪闪">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/tu1.png">
+<meta name="twitter:image" content="http://yoursite.com/images/tu17.png">
 
 
 
@@ -140,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/03/29/Jmeter并发测试/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/04/24/Java并发编程的艺术读书记录/"/>
 
 
 
 
 
-  <title>Jmeter并发测试 | 为所欲为</title>
+  <title>Java并发编程的艺术读书记录 | 为所欲为</title>
   
 
 
@@ -269,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Jmeter%E5%B9%B6%E5%8F%91%E6%B5%8B%E8%AF%95/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/24/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -286,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Jmeter并发测试</h1>
+          <h1 class="post-title" itemprop="name headline">Java并发编程的艺术读书记录</h1>
         
 
         <div class="post-meta">
@@ -298,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T22:24:19+08:00">
-                2020-03-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-24T10:27:12+08:00">
+                2020-04-24
               </time>
             
 
@@ -336,20 +333,80 @@
       
 
       
-        <h1 id="Jmeter并发测试"><a href="#Jmeter并发测试" class="headerlink" title="Jmeter并发测试"></a>Jmeter并发测试</h1><ul>
-<li><p>本次测试是针对与一个交易提交的接口的并发检测</p>
-<a id="more"></a> 
-
-</li>
+        <h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><hr>
+<p>减少上下文切换的方法：</p>
+<ul>
+<li>无锁并发编程：多线程竞争锁的时候，会引起上下文切换，因此可以将数据的ID值按Hash算法分段取模，使用不同的线程去处理不同段的数据。</li>
+<li>CAS算法：也避免了使用锁。</li>
+<li>使用最少的线程：避免创建不必要的线程。</li>
+<li>协程：在单线程里实现多任务的调度。</li>
 </ul>
-<h4 id="1-下载安装Jmeter"><a href="#1-下载安装Jmeter" class="headerlink" title="1.下载安装Jmeter"></a>1.下载安装Jmeter</h4><h4 id="2-添加线程组"><a href="#2-添加线程组" class="headerlink" title="2.添加线程组"></a>2.添加线程组</h4><p><img src="/images/tu1.png" alt="图1"></p>
-<p><img src="/images/tu2.png" alt="图2"></p>
-<h4 id="3-添加HTTP请求"><a href="#3-添加HTTP请求" class="headerlink" title="3.添加HTTP请求"></a>3.添加HTTP请求</h4><p><img src="/images/tu3.png" alt="图三"></p>
-<p><img src="/images/tu4.png" alt="图4"></p>
-<h4 id="4-CSV数据文件设置"><a href="#4-CSV数据文件设置" class="headerlink" title="4.CSV数据文件设置"></a>4.CSV数据文件设置</h4><p><img src="/images/tu5.png" alt="图5"></p>
-<h4 id="5-设置请求头"><a href="#5-设置请求头" class="headerlink" title="5.设置请求头"></a>5.设置请求头</h4><p><img src="/images/tu6.png" alt="图6"></p>
-<h4 id="6-CSV数据格式（json格式）"><a href="#6-CSV数据格式（json格式）" class="headerlink" title="6.CSV数据格式（json格式）"></a>6.CSV数据格式（json格式）</h4><p><img src="/images/tu7.png" alt="图7"></p>
-<h4 id="7-添加察看结果树"><a href="#7-添加察看结果树" class="headerlink" title="7.添加察看结果树"></a>7.添加察看结果树</h4>
+<hr>
+<p>避免死锁的常见办法：</p>
+<ul>
+<li>避免一个线程同时获取多个锁。</li>
+<li>避免一个线程在锁内同时占用多个资源。尽量保证一个锁只占用一个资源。</li>
+<li>尝试使用定时锁，使用lock.tryLock(timeout) 来替代使用内部锁机制。</li>
+<li>对于数据库锁，加锁和解锁必须在一个数据库连接里，否则会出现解锁失败。</li>
+</ul>
+<hr>
+<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><hr>
+<h4 id="volatile的定义和实现原理"><a href="#volatile的定义和实现原理" class="headerlink" title="volatile的定义和实现原理"></a>volatile的定义和实现原理</h4><p>定义：</p>
+<ul>
+<li>Java语言允许线程访问共享变量，为了确保共享变量能准确和一致的被更行，线程应该确保通过排他锁获取这个变量。</li>
+<li>Java中一个字段被声明为volatile，其内存模型保证所有线程看到的这个变量的值是一致的。</li>
+</ul>
+<hr>
+<p>cpu术语的了解：</p>
+<ul>
+<li>内存屏障：是一组处理器指令，用于实现对内存操作的顺序限制。</li>
+<li>缓冲行：缓存中可以分配的最小存储单位，处理器填写缓存线时会加载整个缓存线，需要使用多个主内存读周期</li>
+<li>原子操作：不可中断的一个或者一系列操作</li>
+<li>缓存行填充：…</li>
+</ul>
+<hr>
+<p>实现原理：反编译发现，加上了lock前缀，会发生两件事：</p>
+<ul>
+<li>Lock前缀指令会引起处理器缓存回写到内存中</li>
+<li>一个处理器的缓存回写到内存中会导致其他处理器的缓存无效：缓存无效以后，再此访问就会进行缓存行填充，因此获取到的值时一定的。</li>
+</ul>
+<hr>
+<p>volatile的优化（了解）</p>
+<p>在缓存行为64字节宽的处理器中，将volatile变量追加到64字节可以提高效率</p>
+<hr>
+<h4 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h4><p>实现：</p>
+<p>被锁的对象会对应一个monitor对象，基于monitorenter和monitorexit指令来进入和退出锁。</p>
+<p>对象头：</p>
+<p>synchornized用的锁时存在对象头中的。</p>
+<p><img src="/images/tu17.png" alt="tu17"></p>
+<p><img src="/images/tu18.png" alt="tu18"></p>
+<p><img src="/images/tu19.png" alt="tu19"></p>
+<p>偏向锁：</p>
+<ul>
+<li>在大多数情况下，不会存在多线程同时竞争锁的情况，而是由一个线程重复获得锁，因此为了减少获得锁的代价，引入了偏向锁的概念。</li>
+<li>当一个线程访问同步块并获得锁的时候，会在对象头和栈帧的锁记录里边存缩锁记录的线程ID，以后该线程进入和退出同步块时不需要进行使用CAS进行加锁和解锁，只需要测试一下对象头的MarkWord中是否存储着该线程的ID。</li>
+<li>如果测试成功，则获取锁。如果未成功，则去判断该对象的锁的标记位是否为偏向锁，如果没有设置，则使用CAS竞争锁，如果进行了设置，则尝试使用CAS将该对象的对象头的偏向锁指向该线程。</li>
+<li>可以通过JVM参数关闭偏向锁：-XX:UseBiasedLocking=false，那么程序默认会进入轻量级锁状态。</li>
+</ul>
+<p>轻量级锁：</p>
+<ul>
+<li>线程在执行同步块之前，JVM会在当前线程的栈帧中存储锁记录的空间，并将对象头中的Mark Word 复制到锁记录中，官方称为Displaced Mark Word 。然后线程尝试使用CAS将对象头的Mark Word替换为指向锁记录的指针，如果成功，获得锁，如果不成功，则通过自旋来获取锁。</li>
+<li>轻量级锁解锁的时候，会使用原子的CAS操作将Displaced Mark Word替换回对象头，如果成功，就表示没有竞争发生，如果失败，就导致锁膨胀为重量级锁。</li>
+</ul>
+<p><img src="/images/tu20.png" alt="tu20"></p>
+<hr>
+<h4 id="原子操作的实现原理"><a href="#原子操作的实现原理" class="headerlink" title="原子操作的实现原理"></a>原子操作的实现原理</h4><p>Java原子操作的实现：</p>
+<p>通过锁和循环CAS的方法来实现原子操作。</p>
+<p>JVM中的CAS操作正是利用了处理器提供的CMPXCHG指令实现的。自旋CAS实现的基本 思路就是循环进行CAS操作直到成功为止。</p>
+<p>CAS实现原子操作的三大问题：</p>
+<ul>
+<li>ABA问题：从1.5开始，JDK的Atomic 包中提供了一个AtomicStampedReference来解决ABA问题（增加了一个stamp和expectStamp的校验），解决方法是先使用compareAndSet方法检查当前引用是否等于预期引用，并且检查stamp和expectSatmp是否相等，如果全部相等 ，才以原子的方式将该引用和标志的值设置为给定的更新值。</li>
+<li>循环时间长开销大：</li>
+<li>只能保证一个共享变量的原子操作：对于多个变量同时操作时，循环CAS就无法保证原子操作，这个时候就要用到锁。还有一种办法就是将两个变量合并为一个变量进行原子操作，这种情况根据需求而定。另外在1.5以后，java推出了AtomicReference类来帮助实现对象的原子性，因此我们可以将多个变量封装为一个对象进行原子操作。</li>
+</ul>
+<p>使用锁机制实现原子操作：</p>
+<p>锁机制保证了只有获得锁的线程才能够操作锁定的内存区域。JVM内部实现了很多中锁的机制，有偏向锁，轻量级锁，互斥锁。除了偏向锁，其他的锁都使用了循环CAS的方法实现，当一个线程想进入锁时使用循环CAS，退出时也使用循环CAS。</p>
+
       
     </div>
     
@@ -373,15 +430,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/04/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/" rel="next" title="深入理解JVM">
+                <i class="fa fa-chevron-left"></i> 深入理解JVM
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/29/%E5%9F%BA%E7%A1%80/" rel="prev" title="基础">
-                基础 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -497,7 +554,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Jmeter并发测试"><span class="nav-number">1.</span> <span class="nav-text">Jmeter并发测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-下载安装Jmeter"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1.下载安装Jmeter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-添加线程组"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2.添加线程组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-添加HTTP请求"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3.添加HTTP请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-CSV数据文件设置"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4.CSV数据文件设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-设置请求头"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5.设置请求头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-CSV数据格式（json格式）"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6.CSV数据格式（json格式）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-添加察看结果树"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7.添加察看结果树</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章"><span class="nav-number">1.</span> <span class="nav-text">第一章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章"><span class="nav-number">2.</span> <span class="nav-text">第二章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile的定义和实现原理"><span class="nav-number">2.0.1.</span> <span class="nav-text">volatile的定义和实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized"><span class="nav-number">2.0.2.</span> <span class="nav-text">synchronized</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原子操作的实现原理"><span class="nav-number">2.0.3.</span> <span class="nav-text">原子操作的实现原理</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
