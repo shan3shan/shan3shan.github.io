@@ -261,6 +261,410 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E7%AE%97%E6%B3%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闪闪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="为所欲为">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/17/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E7%AE%97%E6%B3%95%E9%A2%98/" itemprop="url">每天一个算法题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-17T19:36:53+08:00">
+                2020-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="2020-5-18"><a href="#2020-5-18" class="headerlink" title="2020.5.18"></a>2020.5.18</h2><p>在歌曲列表中，第 i 首歌曲的持续时间为 time[i] 秒。</p>
+<p>返回其总持续时间（以秒为单位）可被 60 整除的歌曲对的数量。形式上，我们希望索引的数字 i 和 j 满足  i &lt; j 且有 (time[i] + time[j]) % 60 == 0。</p>
+<p> 示例 1：</p>
+<p>输入：[30,20,150,100,40]<br>输出：3<br>解释：这三对的总持续时间可被 60 整数：<br>(time[0] = 30, time[2] = 150): 总持续时间 180<br>(time[1] = 20, time[3] = 100): 总持续时间 120<br>(time[1] = 20, time[4] = 40): 总持续时间 60<br>示例 2：</p>
+<p>输入：[60,60,60]<br>输出：3<br>解释：所有三对的总持续时间都是 120，可以被 60 整数。</p>
+<hr>
+<p>解1：类似冒泡</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">numPairsDivisibleBy60</span><span class="params">(<span class="keyword">int</span>[] time)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; time.length - <span class="number">1</span> ;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; time.length;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>((time[i] + time[j] != <span class="number">0</span>) &amp;&amp; (time[i] + time[j]) % <span class="number">60</span> == <span class="number">0</span>)&#123;</span><br><span class="line">                    result ++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>超出时长限制。时间复杂度为O（n²）</p>
+<hr>
+<p>解2：针对余数的个数进行处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">numPairsDivisibleBy60</span><span class="params">(<span class="keyword">int</span>[] time)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//定义一个长度为60的余数数组</span></span><br><span class="line">        <span class="keyword">int</span>[] vnum = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">60</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; time.length ;i++)&#123;</span><br><span class="line">            vnum[time[i]%<span class="number">60</span>] ++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//余数为0处理</span></span><br><span class="line">        result += (vnum[<span class="number">0</span>] * (vnum[<span class="number">0</span>]-<span class="number">1</span>))/<span class="number">2</span>;</span><br><span class="line">        <span class="comment">//余数为30处理</span></span><br><span class="line">        result += (vnum[<span class="number">30</span>] * (vnum[<span class="number">30</span>]-<span class="number">1</span>))/<span class="number">2</span>;</span><br><span class="line">        <span class="comment">//其他余数处理</span></span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">59</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; j)&#123;</span><br><span class="line">            result += vnum[i++] * vnum[j--];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2020-05-18"><a href="#2020-05-18" class="headerlink" title="2020.05.18"></a>2020.05.18</h2><p>传送带上的包裹必须在 D 天内从一个港口运送到另一个港口。</p>
+<p>传送带上的第 i 个包裹的重量为 weights[i]。每一天，我们都会按给出重量的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。</p>
+<p>返回能在 D 天内将传送带上的所有包裹送达的船的最低运载能力。</p>
+<p>示例 1：</p>
+<p>输入：weights = [1,2,3,4,5,6,7,8,9,10], D = 5<br>输出：15<br>解释：<br>船舶最低载重 15 就能够在 5 天内送达所有包裹，如下所示：<br>第 1 天：1, 2, 3, 4, 5<br>第 2 天：6, 7<br>第 3 天：8<br>第 4 天：9<br>第 5 天：10</p>
+<p>请注意，货物必须按照给定的顺序装运，因此使用载重能力为 14 的船舶并将包装分成 (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) 是不允许的。<br>示例 2：</p>
+<p>输入：weights = [3,2,2,4,1,4], D = 3<br>输出：6<br>解释：<br>船舶最低载重 6 就能够在 3 天内送达所有包裹，如下所示：<br>第 1 天：3, 2<br>第 2 天：2, 4<br>第 3 天：1, 4<br>示例 3：</p>
+<p>输入：weights = [1,2,3,1,1], D = 4<br>输出：3<br>解释：<br>第 1 天：1<br>第 2 天：2<br>第 3 天：3<br>第 4 天：1, 1</p>
+<p><strong>提示：</strong></p>
+<ol>
+<li><code>1 &lt;= D &lt;= weights.length &lt;= 50000</code></li>
+<li><code>1 &lt;= weights[i] &lt;= 500</code></li>
+</ol>
+<hr>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/12/%E9%9A%8F%E7%9C%8B%E9%9A%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闪闪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="为所欲为">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/12/%E9%9A%8F%E7%9C%8B%E9%9A%8F%E8%AE%B0/" itemprop="url">随看随记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-12T09:43:30+08:00">
+                2020-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><hr>
+<h3 id="一个静态代理例子"><a href="#一个静态代理例子" class="headerlink" title="一个静态代理例子"></a>一个静态代理例子</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Flyable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bird</span> <span class="keyword">implements</span> <span class="title">Flyable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bird is Flying...."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="keyword">new</span> Random().nextInt(<span class="number">1000</span>));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BirdTimeProxy</span> <span class="keyword">implements</span> <span class="title">Flyable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Flyable flyable;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BirdTimeProxy</span><span class="params">(Flyable flyable)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.flyable = flyable;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        flyable.fly();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"Fly time  "</span>+ (end - start));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BirdLogProxy</span> <span class="keyword">implements</span> <span class="title">Flyable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Flyable flyable;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BirdLogProxy</span><span class="params">(Flyable flyable)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.flyable = flyable;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bird fly start...."</span>);</span><br><span class="line"></span><br><span class="line">        flyable.fly();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"Bird fly end...."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Bird bird = <span class="keyword">new</span> Bird();</span><br><span class="line"></span><br><span class="line">        BirdTimeProxy p1 = <span class="keyword">new</span> BirdTimeProxy(bird);</span><br><span class="line">        BirdLogProxy p2 = <span class="keyword">new</span> BirdLogProxy(p1);</span><br><span class="line"></span><br><span class="line">        p2.fly();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果:</p>
+<p>Bird fly start….<br>Bird is Flying….<br>Fly time  574<br>Bird fly end….</p>
+<p>分别打印出了飞行的时间，和飞行日志。继承同样可以实现，但是继承不能根据需求调换打印的先后顺序。</p>
+<p>存在的问题：</p>
+<ul>
+<li>如果同时代理多个类，依然会导致类无限制扩展</li>
+<li>如果类中有多个方法，同样的逻辑代码要写很多次</li>
+</ul>
+<p>是否可以使用同一个类来代理任意对象，以获取时间为例，是否可以使用一个类来计算任意对象的任一方法的执行时间呢。甚至进一步我们可以自己指定代理的逻辑，比如获取执行时间和打印日志。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/SpringClound/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闪闪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="为所欲为">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/11/SpringClound/" itemprop="url">SpringClound</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T22:41:51+08:00">
+                2020-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="SpringClound学习"><a href="#SpringClound学习" class="headerlink" title="SpringClound学习"></a>SpringClound学习</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/24/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -757,7 +1161,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -776,7 +1180,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/29/MD%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E5%B8%AE%E5%8A%A9/" itemprop="url">MD文档编写帮助</a></h1>
+                <a class="post-title-link" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url">Oracle数据库</a></h1>
         
 
         <div class="post-meta">
@@ -827,142 +1231,14 @@
 
       
         
-          
-            <h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1><p>菜鸟教程 &lt; <a href="https://www.runoob.com/markdown/md-paragraph.html" target="_blank" rel="noopener">https://www.runoob.com/markdown/md-paragraph.html</a> &gt;</p>
-<p><a href="https://www.runoob.com/markdown/md-paragraph.html" target="_blank" rel="noopener">菜鸟教程</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/MySQL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闪闪">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="为所欲为">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/29/MySQL/" itemprop="url">MySQL</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T22:24:19+08:00">
-                2020-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>除MySQL自带的客户端工具外，我们还可以使用第三方客户端工具。这里介绍一下如何解决当用Navicat Premium连接MySQL数据库时报的2059错误，如下图所示：</p>
-<p>这个错误出现的原因是在mysql8之前的版本中加密规则为mysql_native_password，而在mysql8以后的加密规则为caching_sha2_password。为解决这个问题，可以将MySQL用户登录的加密规则修改为mysql_native_password：</p>
-<p>成功连接MySQL数据库服务器后，依次输入如下语句：</p>
-<p>对于用户root：</p>
-<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;# 设置密码永不过期&#96; &#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER;&#96; &#96;# 修改加密规则，并设置新的用户密码&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; &#96; &#96;#刷新权限&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;;&#96;</span><br></pre></td></tr></table></figure>
-
-<p>对于新创建的用户yahui：</p>
-<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER; # @后的%表示任何主机&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; # @后的%表示任何主机&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;; #刷新权限&#96;</span><br></pre></td></tr></table></figure>
-
-<hr>
-
-          
+          <h1 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h1>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1133,7 +1409,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/MySQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -1152,131 +1428,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url">Oracle数据库</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T22:24:19+08:00">
-                2020-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h1>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/29/Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闪闪">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="为所欲为">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/29/%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98/" itemprop="url">其他问题</a></h1>
+                <a class="post-title-link" href="/2020/03/29/MySQL/" itemprop="url">MySQL</a></h1>
         
 
         <div class="post-meta">
@@ -1328,138 +1480,20 @@
       
         
           
-            <h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><h3 id="1-HV主机服务开启关闭方法"><a href="#1-HV主机服务开启关闭方法" class="headerlink" title="1 .HV主机服务开启关闭方法"></a>1 .HV主机服务开启关闭方法</h3><ul>
-<li>快捷键<code>win+x</code>,使用管理员权限打开<code>Windows Powershell</code> </li>
-<li>关闭：<code>bcdedit /set hypervisorlaunchtype off</code> </li>
-<li>开启: <code>bcdedit /set hypervisorlaunchtype auto</code> </li>
-</ul>
-<h3 id="2-idea编译问题"><a href="#2-idea编译问题" class="headerlink" title="2.idea编译问题"></a>2.idea编译问题</h3><p>Java8中增加了通过反射获取方法参数名的功能，并且这些功能在新版的Springboot里边有用到，但是idea比较旧的版本编译时不会使用 javac -parameters 命令来编译。因此在旧版本中需要在 idea中找到File-&gt;Settings-&gt;java Compiler中的Additional command line parameters添加-parameters参数即可 。</p>
+            <p>除MySQL自带的客户端工具外，我们还可以使用第三方客户端工具。这里介绍一下如何解决当用Navicat Premium连接MySQL数据库时报的2059错误，如下图所示：</p>
+<p>这个错误出现的原因是在mysql8之前的版本中加密规则为mysql_native_password，而在mysql8以后的加密规则为caching_sha2_password。为解决这个问题，可以将MySQL用户登录的加密规则修改为mysql_native_password：</p>
+<p>成功连接MySQL数据库服务器后，依次输入如下语句：</p>
+<p>对于用户root：</p>
+<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;# 设置密码永不过期&#96; &#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER;&#96; &#96;# 修改加密规则，并设置新的用户密码&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; &#96; &#96;#刷新权限&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;;&#96;</span><br></pre></td></tr></table></figure>
+
+<p>对于新创建的用户yahui：</p>
+<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER; # @后的%表示任何主机&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; # @后的%表示任何主机&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;; #刷新权限&#96;</span><br></pre></td></tr></table></figure>
+
+<hr>
 
           
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闪闪">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="为所欲为">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/29/%E5%9F%BA%E7%A1%80/" itemprop="url">基础</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T22:24:19+08:00">
-                2020-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/29/%E5%9F%BA%E7%A1%80/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1543,7 +1577,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

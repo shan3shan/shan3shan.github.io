@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="为所欲为">
 <meta property="og:description" content="Springboot个人理解">
 <meta property="article:published_time" content="2020-03-29T14:24:19.843Z">
-<meta property="article:modified_time" content="2020-03-29T16:22:43.634Z">
+<meta property="article:modified_time" content="2020-05-17T11:36:49.980Z">
 <meta property="article:author" content="闪闪">
 <meta name="twitter:card" content="summary">
 
@@ -351,7 +351,162 @@
 <h4 id="自动配置理解"><a href="#自动配置理解" class="headerlink" title="自动配置理解"></a>自动配置理解</h4><ul>
 <li>spring的自动配置依赖于XXXAutoConfiguration这一系列类，这些类去映射配置文件中的对应属性的值，加载到类中，随后自动配置到IOC容器中，可以配置的属性可以去对应的自动配置类中对应的实体查看。</li>
 </ul>
-
+<hr>
+<p>spring-boot-starter:spring-boot场景启动器，帮助我们导入模块需要的依赖的组件。</p>
+<hr>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><ul>
+<li><p>application.properties</p>
+</li>
+<li><p>application.yml</p>
+<ul>
+<li><p>k:空格v</p>
+</li>
+<li><p>空格来区分层级关系</p>
+</li>
+<li><p>“”不会转译特殊字符，‘’不会</p>
+</li>
+<li><p>对象的写法</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">friends：</span></span><br><span class="line"></span><br><span class="line"><span class="string">​</span>         <span class="string">name：123</span></span><br><span class="line"></span><br><span class="line"><span class="string">​</span>		 <span class="string">age：20</span></span><br><span class="line"></span><br><span class="line"><span class="attr">friends:</span> <span class="string">&#123;name:</span> <span class="number">123</span><span class="string">,age:</span> <span class="number">20</span><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组写法</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">friends:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">zhangsan</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">lisi</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">wangwu</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">friends:</span> <span class="string">[zhangsan,lisi,wangwu]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li></li>
+</ul>
+</li>
+<li><p>作用：修改SpringBoot自动配置的默认值</p>
+</li>
+<li><p>@ConfigurationPropertirs(prefix=””)和@Value(“”)的区别</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>@ConfigurationPropertirs</th>
+<th>@Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能</td>
+<td>批量注入配置</td>
+<td>一个</td>
+</tr>
+<tr>
+<td>松散绑定</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>SPEL</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>JSR303数据校验</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>复杂类型封装</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>配置文件数据校验 @Validated</p>
+</li>
+<li><p>@PropertySource（value={……}） 加载指定的配置文件</p>
+</li>
+<li><p>@ImportResource（locations={……}）  导入Spring的配置文件，让配置文件里边的内容生效。标注在配置类上。</p>
+<p>Springboot推荐的添加组件的方式：</p>
+<ul>
+<li>完成配置类（@Configuration相当于配置文件）<ul>
+<li>@Bean 相当于<Bean>标签</Bean></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h3><h5 id="1-多profile文件"><a href="#1-多profile文件" class="headerlink" title="1.多profile文件"></a>1.多profile文件</h5><ul>
+<li>application-{profile}.properties/yml</li>
+<li>默认使用application.properties</li>
+</ul>
+<h5 id="2-yml支持多文档块方式"><a href="#2-yml支持多文档块方式" class="headerlink" title="2.yml支持多文档块方式"></a>2.yml支持多文档块方式</h5><ul>
+<li><p>— 隔离文档块</p>
+</li>
+<li><p>spring :</p>
+<p>​     profiles: dev</p>
+</li>
+<li><p>激活 active：dev</p>
+</li>
+</ul>
+<h5 id="3-激活指定profile"><a href="#3-激活指定profile" class="headerlink" title="3.激活指定profile"></a>3.激活指定profile</h5><ul>
+<li>在配置文件中指定 spring.profiles.active=dev</li>
+<li>命令行激活：–spring.profiles.active=dev</li>
+<li>虚拟机参数：-Dspring.profiles.active=dev</li>
+</ul>
+<hr>
+<h4 id="配置文件记载位置"><a href="#配置文件记载位置" class="headerlink" title="配置文件记载位置"></a>配置文件记载位置</h4><h5 id="1-优先级"><a href="#1-优先级" class="headerlink" title="1.优先级"></a>1.优先级</h5><ul>
+<li>file:./config/</li>
+<li>file:./</li>
+<li>classpath:/config/</li>
+<li>classpath:/</li>
+<li>由高到低，上边会覆盖下边的。互补配置。</li>
+<li>可以通过spring.config.location来改变默认的配置文件位置，命令行参数，互补配置，优先级最高.</li>
+</ul>
+<h5 id="2-外部配置加载顺序-高-gt-低"><a href="#2-外部配置加载顺序-高-gt-低" class="headerlink" title="2.外部配置加载顺序(高-&gt;低)"></a>2.外部配置加载顺序(高-&gt;低)</h5><ul>
+<li>命令行参数直接指定</li>
+<li>jar包外部的带profile的(application-{profile}.properties)</li>
+<li>jar包内部的带profile的</li>
+<li>jar包外部的不带profile的</li>
+<li>jar包内部的带profile的</li>
+<li>很多种,可以参考官方文档</li>
+</ul>
+<hr>
+<h4 id="自动配置"><a href="#自动配置" class="headerlink" title="自动配置"></a>自动配置</h4><h5 id="1-自动配置原理"><a href="#1-自动配置原理" class="headerlink" title="1.自动配置原理"></a>1.自动配置原理</h5><ul>
+<li><p>启动时加载主配置类，开启了自动配置@EnableAutoConfiguration</p>
+</li>
+<li><p>@EnableAutoConfiguration作用：</p>
+<ul>
+<li><p>利用EnableAutoConfigurationImportSelector给容器中导入一些组件</p>
+</li>
+<li><p>selectImports方法中获取要加载的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoConfigurationEntry autoConfigurationEntry &#x3D; getAutoConfigurationEntry(annotationMetadata);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用SpringFactories.loadFactoryNames()扫描</p>
+</li>
+<li><p>把扫描到的文件的内容包装成properties对象</p>
+</li>
+<li><p>从properties中获取到EnableAutoConfiguration.calss类对应的值，然后添加在容器中</p>
+</li>
+</ul>
+</li>
+<li><p>每一个自动配置类开始自动配置</p>
+</li>
+<li><p>所有在配置文件中能配置的属性都是在XXXProperties类中封装着，可以进行查看。</p>
+</li>
+</ul>
+<h5 id="2-要点"><a href="#2-要点" class="headerlink" title="2. 要点"></a>2. 要点</h5><ul>
+<li><p>SpringBoot启动会加载大量的自动配置类</p>
+</li>
+<li><p>我们看需要的功能有没有SpringBoot默认写好的自动配置类</p>
+</li>
+<li><p>再来看这个自动配置类中到底配置了哪些组件，有的就不需要再来配置</p>
+</li>
+<li><p>给容器中自动配置类添加组件的时候，会从properties类中获取某些属性，我们就可以在配置文件中指定这些属性的值。</p>
+</li>
+<li><p>xxxAutoConfiguration：自动配置类，给容器中添加组件。</p>
+<p>xxxProperties：封装配置文件中相关的属性。</p>
+</li>
+<li><p>ConditionalXXX进行判断，自动配置类只有在一定情况下才能生效。</p>
+</li>
+<li><p>可以启用debug=true让控制台打印自动配置类报告。</p>
+</li>
+</ul>
+<hr>
+<h4 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h4>
       
     </div>
     
@@ -375,8 +530,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/29/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" rel="next" title="集合框架">
-                <i class="fa fa-chevron-left"></i> 集合框架
+              <a href="/2020/03/29/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2hexo/" rel="next" title="搭建个人博客hexo">
+                <i class="fa fa-chevron-left"></i> 搭建个人博客hexo
               </a>
             
           </div>
@@ -385,8 +540,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/29/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2hexo/" rel="prev" title="搭建个人博客hexo">
-                搭建个人博客hexo <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/29/%E5%9F%BA%E7%A1%80/" rel="prev" title="基础">
+                基础 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -464,7 +619,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -503,7 +658,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Springboot个人理解"><span class="nav-number">1.</span> <span class="nav-text">Springboot个人理解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注解相关"><span class="nav-number">1.1.</span> <span class="nav-text">注解相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自动配置理解"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">自动配置理解</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Springboot个人理解"><span class="nav-number">1.</span> <span class="nav-text">Springboot个人理解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注解相关"><span class="nav-number">1.1.</span> <span class="nav-text">注解相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自动配置理解"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">自动配置理解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Profile"><span class="nav-number">1.1.2.</span> <span class="nav-text">Profile</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-多profile文件"><span class="nav-number">1.1.2.0.1.</span> <span class="nav-text">1.多profile文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-yml支持多文档块方式"><span class="nav-number">1.1.2.0.2.</span> <span class="nav-text">2.yml支持多文档块方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-激活指定profile"><span class="nav-number">1.1.2.0.3.</span> <span class="nav-text">3.激活指定profile</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件记载位置"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">配置文件记载位置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-优先级"><span class="nav-number">1.1.2.1.1.</span> <span class="nav-text">1.优先级</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-外部配置加载顺序-高-gt-低"><span class="nav-number">1.1.2.1.2.</span> <span class="nav-text">2.外部配置加载顺序(高-&gt;低)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动配置"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">自动配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-自动配置原理"><span class="nav-number">1.1.2.2.1.</span> <span class="nav-text">1.自动配置原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-要点"><span class="nav-number">1.1.2.2.2.</span> <span class="nav-text">2. 要点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">日志</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

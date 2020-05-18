@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://yoursite.com/images/tu19.png">
 <meta property="og:image" content="http://yoursite.com/images/tu20.png">
 <meta property="article:published_time" content="2020-04-24T02:27:12.657Z">
-<meta property="article:modified_time" content="2020-04-27T03:26:11.186Z">
+<meta property="article:modified_time" content="2020-05-11T07:40:07.986Z">
 <meta property="article:author" content="闪闪">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/tu17.png">
@@ -408,6 +408,166 @@
 </ul>
 <p>使用锁机制实现原子操作：</p>
 <p>锁机制保证了只有获得锁的线程才能够操作锁定的内存区域。JVM内部实现了很多中锁的机制，有偏向锁，轻量级锁，互斥锁。除了偏向锁，其他的锁都使用了循环CAS的方法实现，当一个线程想进入锁时使用循环CAS，退出时也使用循环CAS。</p>
+<hr>
+<h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2><hr>
+<h4 id="并发编程模型的两个关键性问题"><a href="#并发编程模型的两个关键性问题" class="headerlink" title="并发编程模型的两个关键性问题"></a>并发编程模型的两个关键性问题</h4><p>在并发编程中，需要处理两个关键的问题：线程之间如何通信以及线程之间如果同步。</p>
+<p>通信是指线程通过何种机制来交换信息。在命令式编程中，线程之间的通信机制主要有两种：共享内存和消息传递。</p>
+<p>Java中采用的是共享内存模型，Java线程之间的通信总是隐式的进行，整个通信过程对程序员完全透明。</p>
+<p>JMM通过控制主内存与每个线程的本地内存之间的交互，来为Java程序员提供<br>内存可见性保证。</p>
+<p>有点难懂，暂时跳过.。</p>
+<hr>
+<h2 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h2><hr>
+<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><ul>
+<li><p>线程优先级</p>
+<ul>
+<li>setPriority(int)，默认5，1~10，不一定生效</li>
+<li>频繁阻塞线程（休眠或者I/O操作）建议设置高优先级</li>
+<li>偏重计算（需要占用过多CPU时间）建议低优先级</li>
+</ul>
+</li>
+<li><p>线程状态</p>
+<ul>
+<li>NEW   初始状态</li>
+<li>RUNNABLE  运行状态</li>
+<li>BLOCKED   阻塞状态</li>
+<li>WAITING    等待状态</li>
+<li>TIME_WAITING  超时等待状态   不同于WAITING,可以再自定时间返回</li>
+<li>TERMINATED   终止状态</li>
+</ul>
+</li>
+<li><p>线程创建之后，调用start()方法开始运行。当线程执行wait()方法之<br>后，线程进入等待状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状<br>态，而超时等待状态相当于在等待状态的基础上增加了超时限制，也就是超时时间到达时将<br>会返回到运行状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到阻塞 状态。线程在执行Runnable的run()方法之后将会进入到终止状态。</p>
+</li>
+<li><p>　Java将操作系统中的运行和就绪两个状态合并称为运行状态。阻塞状态是线程 阻塞在进入synchronized关键字修饰的方法或代码块（获取锁）时的状态，但是阻塞在 java.concurrent包中Lock接口的线程状态却是等待状态，因为java.concurrent包中Lock接口对于 阻塞的实现均使用了LockSupport类中的相关方法。</p>
+</li>
+<li><p>Daemon线程</p>
+<ul>
+<li><p>Daemon线程是一种支持型线程，因为它主要被用作程序中后台调度以及支持性工作。这 意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出。可以通过调 用Thread.setDaemon(true)将线程设置为Daemon线程。</p>
+</li>
+<li><p>Daemon属性需要在启动线程之前设置，不能在启动线程之后设置。</p>
+</li>
+<li><p>在构建Daemon线程时，不能依靠finally块中的内容来确保执行关闭或清理资源<br>的逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Daemon</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread t = <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">100000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"finlly run"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        t.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">        t.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行结果为空</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>启动和终止线程</p>
+<ul>
+<li>构造线程</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ThreadGroup g, Runnable target, String name, <span class="keyword">long</span> stackSize, AccessControlContext acc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (name == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"name cannot be null"</span>);</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">// 当前线程就是该线程的父线程                                                        </span></span><br><span class="line">        Thread parent = currentThread();      </span><br><span class="line">        <span class="keyword">this</span>.group = g;</span><br><span class="line">        <span class="comment">// 将daemon、priority属性设置为父线程的对应属性 </span></span><br><span class="line">        <span class="keyword">this</span>.daemon = parent.isDaemon();</span><br><span class="line">        <span class="keyword">this</span>.priority = parent.getPriority();</span><br><span class="line">        <span class="keyword">this</span>.name = name.toCharArray();</span><br><span class="line">        <span class="keyword">this</span>.target = target;</span><br><span class="line">        setPriority(priority);</span><br><span class="line">        <span class="comment">// 将父线程的InheritableThreadLocal复制过来</span></span><br><span class="line">        <span class="keyword">if</span> (parent.inheritableThreadLocals != <span class="keyword">null</span>) <span class="keyword">this</span>.inheritableThreadLocals=ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);</span><br><span class="line">        <span class="comment">// 分配一个线程ID</span></span><br><span class="line">        tid = nextThreadID(); &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>管道输入输出流</p>
+<ul>
+<li><p>主要用于线程之间的数据传输，传输介质是内存。</p>
+</li>
+<li><p>主要包括以下四种实现：PipedOutputStream、PipedInputStream、 PipedReader和PipedWriter，前两种面向字节，而后两种面向字符。</p>
+</li>
+<li><pre><code class="java"><span class="comment">/**</span>
+<span class="comment"> * <span class="doctag">@className</span>: Piped</span>
+<span class="comment"> * <span class="doctag">@description</span>: PipedInAndOut</span>
+<span class="comment"> * <span class="doctag">@author</span>: LGD</span>
+<span class="comment"> * <span class="doctag">@create</span>: 2020-05-08 09:54</span>
+<span class="comment"> **/</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Piped</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>{
+        PipedWriter out = <span class="keyword">new</span> PipedWriter();
+        PipedReader in = <span class="keyword">new</span> PipedReader();
+        out.connect(in);
+        Thread printThread = <span class="keyword">new</span> Thread(()-&gt; {
+            <span class="keyword">int</span> receive = <span class="number">0</span>;
+            <span class="keyword">try</span>{
+                <span class="keyword">while</span>((receive = in.read()) != -<span class="number">1</span>){
+                    System.out.print((<span class="keyword">char</span>) receive);
+                }
+            }<span class="keyword">catch</span> (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        printThread.start();
+        <span class="keyword">int</span> receive = <span class="number">0</span>;
+        <span class="keyword">try</span>{
+            <span class="keyword">while</span>((receive = System.in.read()) != -<span class="number">1</span>){
+                out.write(receive);
+            }
+        }
+        <span class="keyword">finally</span>{
+            out.close();
+        }
+    }
+}
+&lt;!--￼<span class="number">2</span>--&gt;</code></pre>
+</li>
+<li><p>每个线程终止的前提是前驱线程的终止，每个线程 等待前驱线程终止后，才从join方法中返回，这里涉及了等待/通知机制。</p>
+<p>源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加锁当前线程</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">join</span><span class="params">(<span class="keyword">long</span> millis)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> base = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">long</span> now = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (millis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"timeout value is negative"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (millis == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//条件不满足，继续等待</span></span><br><span class="line">            <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">                wait(<span class="number">0</span>);</span><br><span class="line">            &#125;<span class="comment">//条件不满足，返回</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">                <span class="keyword">long</span> delay = millis - now;</span><br><span class="line">                <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                wait(delay);</span><br><span class="line">                now = System.currentTimeMillis() - base;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>ThreadLoacl的使用</p>
+<ul>
+<li><p>ThreadLocal，即线程变量，是一个以ThreadLoacl对象为键，任意对象为值的存储结构。这个结构被附带在线程上，也就是说一个线程可以根据一个ThreadLoacl对象查询到绑定在这个线程上的值。</p>
+</li>
+<li><pre><code class="java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Profiler</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;Long&gt; TIME_THREADLOCAL = <span class="keyword">new</span> ThreadLocal&lt;Long&gt;();
+    <span class="function"><span class="keyword">protected</span> Long <span class="title">initialValue</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> System.currentTimeMillis();
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">begin</span><span class="params">()</span></span>{
+        TIME_THREADLOCAL.set(System.currentTimeMillis());
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> <span class="title">end</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> System.currentTimeMillis() - TIME_THREADLOCAL.get();
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>{
+        Profiler.begin();
+        TimeUnit.SECONDS.sleep(<span class="number">1</span>);
+        System.out.println(<span class="string">"Cost:"</span>+Profiler.end()+<span class="string">"mills"</span>);
+    }
+}</code></pre>
+</li>
+<li><p>可以被复用在方法调用耗时功能上，方法的入口前执行begin方法，结束后调用end方法。</p>
+</li>
+<li><p>每个Thread维护着一个ThreadLoaclMap的引用</p>
+</li>
+<li><p>ThreadLocalMap时ThreadLoacl的内部类</p>
+</li>
+<li><p>ThreadLocal创建的副本是存储在自己的ThradeLoaclMap中的</p>
+</li>
+<li><p>ThreadLocalMap的键值为ThreadLocal对象，并且可以有多个，因此保存在map中</p>
+</li>
+<li><p>在进行get之前，必须先进行set，否则会空指针，也可以初始化一个，但是必须重写initialValue（）方法。</p>
+</li>
+<li><p>ThreadLoacl本身并不存储值，他只是作为一个key来从ThreadLoaclMap中获取值。</p>
+</li>
+<li><p>内存泄露问题：ThreadLocal为弱引用，为null时会被清理，而value还在，因此会导致内存泄露。处理办法是ThreadLocal使用完毕后将其remove掉。</p>
+</li>
+</ul>
+</li>
+<li><p>超时等待模式</p>
+</li>
+<li><p>使用场景：调用一个方法时等待一段时间，一段时间后，如果能得到结果，就将结果返回，否则直接返回默认结果。</p>
+</li>
+<li><p>实现了简单的线程池。</p>
+</li>
+</ul>
+<h2 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h2><hr>
+<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><ul>
+<li>java SE5 以后出现的，提供了与synchronized关键字类似的同步功能，只不过需要显式的获取和释放锁。</li>
+<li>尽量在finally块中释放锁，目的是在获取到锁以后保证会被释放掉。</li>
+<li>不要将获取锁卸载try块中，防止获取锁时发生了异常抛出的同时，也会导致锁无故释放。</li>
+</ul>
+<p>区别于synchronized 的几个重要特性：</p>
+<ul>
+<li>尝试非阻塞的获取锁：当前线程尝试获取锁，如果这一刻锁没有被其他线程获取到，则成功获取锁。</li>
+<li>能被中断的获取锁：与synchronized不同的是，获取到锁的线程能够响应中断，当获取到锁的进程被中断时，中断异常会被抛出，同时锁会被释放。</li>
+<li>超时获取锁：在指定的截止时间之前获取锁，如果截止时间之前仍然无法获取锁，则返回。</li>
+</ul>
+<hr>
+<h3 id="队列同步器"><a href="#队列同步器" class="headerlink" title="队列同步器"></a>队列同步器</h3><p>​            队列同步器AbstractQueuedSynchronized,是用来构建锁或者其他同步组件的基础框架。它使用了一个int成员变量表示同步状态，通过内置的FIFO队列来完成资源获取线程的排队工作。</p>
+<p>​            </p>
 
       
     </div>
@@ -441,6 +601,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/11/SpringClound/" rel="prev" title="SpringClound">
+                SpringClound <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -517,7 +681,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -556,7 +720,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并发编程的艺术读书记录"><span class="nav-number">1.</span> <span class="nav-text">并发编程的艺术读书记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章"><span class="nav-number">1.1.</span> <span class="nav-text">第一章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章"><span class="nav-number">1.2.</span> <span class="nav-text">第二章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile的定义和实现原理"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">volatile的定义和实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">synchronized</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原子操作的实现原理"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">原子操作的实现原理</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并发编程的艺术读书记录"><span class="nav-number">1.</span> <span class="nav-text">并发编程的艺术读书记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章"><span class="nav-number">1.1.</span> <span class="nav-text">第一章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章"><span class="nav-number">1.2.</span> <span class="nav-text">第二章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile的定义和实现原理"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">volatile的定义和实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">synchronized</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原子操作的实现原理"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">原子操作的实现原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章"><span class="nav-number">1.3.</span> <span class="nav-text">第三章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#并发编程模型的两个关键性问题"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">并发编程模型的两个关键性问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章"><span class="nav-number">1.4.</span> <span class="nav-text">第四章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">线程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章"><span class="nav-number">1.5.</span> <span class="nav-text">第五章</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lock"><span class="nav-number">1.5.1.</span> <span class="nav-text">Lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列同步器"><span class="nav-number">1.5.2.</span> <span class="nav-text">队列同步器</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
