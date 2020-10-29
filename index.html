@@ -261,7 +261,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E7%AE%97%E6%B3%95%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/%E7%AE%97%E6%B3%95%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -280,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/17/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E7%AE%97%E6%B3%95%E9%A2%98/" itemprop="url">每天一个算法题</a></h1>
+                <a class="post-title-link" href="/2020/05/17/%E7%AE%97%E6%B3%95%E9%A2%98/" itemprop="url">算法题</a></h1>
         
 
         <div class="post-meta">
@@ -334,7 +334,7 @@
           <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/05/17/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E7%AE%97%E6%B3%95%E9%A2%98/#more" rel="contents">
+            <a class="btn" href="/2020/05/17/%E7%AE%97%E6%B3%95%E9%A2%98/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1378,7 +1378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/MySQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闪闪">
@@ -1397,7 +1397,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/29/%E5%9F%BA%E7%A1%80/" itemprop="url">基础</a></h1>
+                <a class="post-title-link" href="/2020/03/29/MySQL/" itemprop="url">MySQL</a></h1>
         
 
         <div class="post-meta">
@@ -1448,14 +1448,28 @@
 
       
         
-          <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/03/29/%E5%9F%BA%E7%A1%80/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>除MySQL自带的客户端工具外，我们还可以使用第三方客户端工具。这里介绍一下如何解决当用Navicat Premium连接MySQL数据库时报的2059错误，如下图所示：</p>
+<p>这个错误出现的原因是在mysql8之前的版本中加密规则为mysql_native_password，而在mysql8以后的加密规则为caching_sha2_password。为解决这个问题，可以将MySQL用户登录的加密规则修改为mysql_native_password：</p>
+<p>成功连接MySQL数据库服务器后，依次输入如下语句：</p>
+<p>对于用户root：</p>
+<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;# 设置密码永不过期&#96; &#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER;&#96; &#96;# 修改加密规则，并设置新的用户密码&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;root&#39;&#96;&#96;@&#96;&#96;&#39;localhost&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; &#96; &#96;#刷新权限&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;;&#96;</span><br></pre></td></tr></table></figure>
+
+<p>对于新创建的用户yahui：</p>
+<p><a href="https://www.jb51.net/article/167782.htm#" target="_blank" rel="noopener">?</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;BY&#96; &#96;&#39;password&#39;&#96; &#96;PASSWORD&#96; &#96;EXPIRE NEVER; # @后的%表示任何主机&#96;&#96;ALTER&#96; &#96;USER&#96; &#96;&#39;yahui&#39;&#96;&#96;@&#96;&#96;&#39;%&#39;&#96; &#96;IDENTIFIED &#96;&#96;WITH&#96; &#96;mysql_native_password &#96;&#96;BY&#96; &#96;&#39;新密码&#39;&#96;&#96;; # @后的%表示任何主机&#96;&#96;FLUSH &#96;&#96;PRIVILEGES&#96;&#96;; #刷新权限&#96;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="查看并处理死锁"><a href="#查看并处理死锁" class="headerlink" title="查看并处理死锁"></a>查看并处理死锁</h2><p>1.查看下在锁的事务 </p>
+<p>SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX;</p>
+<p>2：查看当前锁定的事务</p>
+<p>SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCKS;</p>
+<p>3：查看当前等锁的事务<br>SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCK_WAITS;</p>
+<p>4.杀死进程id（就是上面命令的trx_mysql_thread_id列）</p>
+<p>kill 线程ID</p>
+
+          
         
       
     </div>
